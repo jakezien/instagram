@@ -89,7 +89,7 @@
       "error",
       {
         "trailingComma": "none",
-        "singleQuote": true,
+        // "singleQuote": true,
         "printWidth": 100
       }
     ],
@@ -104,7 +104,7 @@
     ]
   },
   "plugins": [
-    "prettier",
+    // "prettier",
     "react",
     "react-hooks"
   ]

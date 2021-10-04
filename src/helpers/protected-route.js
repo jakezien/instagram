@@ -1,7 +1,7 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Route, Redirect } from 'react-router-dom';
-import * as ROUTES from '../constants/routes';
+import React from "react";
+import PropTypes from "prop-types";
+import { Route, Redirect } from "react-router-dom";
+import * as ROUTES from "../constants/routes";
 
 export default function ProtectedRoute({ user, children, ...rest }) {
   return (
@@ -17,7 +17,7 @@ export default function ProtectedRoute({ user, children, ...rest }) {
             <Redirect
               to={{
                 pathname: ROUTES.LOGIN,
-                state: { from: location }
+                state: { from: location },
               }}
             />
           );
@@ -31,5 +31,5 @@ export default function ProtectedRoute({ user, children, ...rest }) {
 
 ProtectedRoute.propTypes = {
   user: PropTypes.object,
-  children: PropTypes.object.isRequired
+  children: PropTypes.object.isRequired,
 };

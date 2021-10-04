@@ -1,11 +1,16 @@
-import { useState, useContext } from 'react';
-import PropTypes from 'prop-types';
-import FirebaseContext from '../../context/firebase';
-import UserContext from '../../context/user';
+import { useState, useContext } from "react";
+import PropTypes from "prop-types";
+import FirebaseContext from "../../context/firebase";
+import UserContext from "../../context/user";
 
-export default function Actions({ docId, totalLikes, likedPhoto, handleFocus }) {
+export default function Actions({
+  docId,
+  totalLikes,
+  likedPhoto,
+  handleFocus,
+}) {
   const {
-    user: { uid: userId }
+    user: { uid: userId },
   } = useContext(UserContext);
   const [toggleLiked, setToggleLiked] = useState(likedPhoto);
   const [likes, setLikes] = useState(totalLikes);
@@ -16,10 +21,12 @@ export default function Actions({ docId, totalLikes, likedPhoto, handleFocus }) 
 
     await firebase
       .firestore()
-      .collection('photos')
+      .collection("photos")
       .doc(docId)
       .update({
-        likes: toggleLiked ? FieldValue.arrayRemove(userId) : FieldValue.arrayUnion(userId)
+        likes: toggleLiked
+          ? FieldValue.arrayRemove(userId)
+          : FieldValue.arrayUnion(userId),
       });
 
     setLikes((likes) => (toggleLiked ? likes - 1 : likes + 1));
@@ -32,7 +39,7 @@ export default function Actions({ docId, totalLikes, likedPhoto, handleFocus }) 
           <svg
             onClick={handleToggleLiked}
             onKeyDown={(event) => {
-              if (event.key === 'Enter') {
+              if (event.key === "Enter") {
                 handleToggleLiked();
               }
             }}
@@ -42,7 +49,7 @@ export default function Actions({ docId, totalLikes, likedPhoto, handleFocus }) 
             stroke="currentColor"
             tabIndex={0}
             className={`w-8 mr-4 select-none cursor-pointer focus:outline-none ${
-              toggleLiked ? 'fill-red text-red-primary' : 'text-black-light'
+              toggleLiked ? "fill-red text-red-primary" : "text-black-light"
             }`}
           >
             <path
@@ -55,7 +62,7 @@ export default function Actions({ docId, totalLikes, likedPhoto, handleFocus }) 
           <svg
             onClick={handleFocus}
             onKeyDown={(event) => {
-              if (event.key === 'Enter') {
+              if (event.key === "Enter") {
                 handleFocus();
               }
             }}
@@ -76,7 +83,9 @@ export default function Actions({ docId, totalLikes, likedPhoto, handleFocus }) 
         </div>
       </div>
       <div className="p-4 py-0">
-        <p className="font-bold">{likes === 1 ? `${likes} like` : `${likes} likes`}</p>
+        <p className="font-bold">
+          {likes === 1 ? `${likes} like` : `${likes} likes`}
+        </p>
       </div>
     </>
   );
@@ -86,5 +95,5 @@ Actions.propTypes = {
   docId: PropTypes.string.isRequired,
   totalLikes: PropTypes.number.isRequired,
   likedPhoto: PropTypes.bool.isRequired,
-  handleFocus: PropTypes.func.isRequired
+  handleFocus: PropTypes.func.isRequired,
 };

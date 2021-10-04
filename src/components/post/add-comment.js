@@ -1,27 +1,32 @@
-import { useState, useContext } from 'react';
-import PropTypes from 'prop-types';
-import FirebaseContext from '../../context/firebase';
-import UserContext from '../../context/user';
+import { useState, useContext } from "react";
+import PropTypes from "prop-types";
+import FirebaseContext from "../../context/firebase";
+import UserContext from "../../context/user";
 
-export default function AddComment({ docId, comments, setComments, commentInput }) {
-  const [comment, setComment] = useState('');
+export default function AddComment({
+  docId,
+  comments,
+  setComments,
+  commentInput,
+}) {
+  const [comment, setComment] = useState("");
   const { firebase, FieldValue } = useContext(FirebaseContext);
   const {
-    user: { displayName }
+    user: { displayName },
   } = useContext(UserContext);
 
   const handleSubmitComment = (event) => {
     event.preventDefault();
 
     setComments([...comments, { displayName, comment }]);
-    setComment('');
+    setComment("");
 
     return firebase
       .firestore()
-      .collection('photos')
+      .collection("photos")
       .doc(docId)
       .update({
-        comments: FieldValue.arrayUnion({ displayName, comment })
+        comments: FieldValue.arrayUnion({ displayName, comment }),
       });
   };
 
@@ -31,7 +36,9 @@ export default function AddComment({ docId, comments, setComments, commentInput 
         className="flex justify-between pl-0 pr-5"
         method="POST"
         onSubmit={(event) =>
-          comment.length >= 1 ? handleSubmitComment(event) : event.preventDefault()
+          comment.length >= 1
+            ? handleSubmitComment(event)
+            : event.preventDefault()
         }
       >
         <input
@@ -46,7 +53,9 @@ export default function AddComment({ docId, comments, setComments, commentInput 
           ref={commentInput}
         />
         <button
-          className={`text-sm font-bold text-blue-medium ${!comment && 'opacity-25'}`}
+          className={`text-sm font-bold text-blue-medium ${
+            !comment && "opacity-25"
+          }`}
           type="button"
           disabled={comment.length < 1}
           onClick={handleSubmitComment}
@@ -62,5 +71,5 @@ AddComment.propTypes = {
   docId: PropTypes.string.isRequired,
   comments: PropTypes.array.isRequired,
   setComments: PropTypes.func.isRequired,
-  commentInput: PropTypes.object
+  commentInput: PropTypes.object,
 };

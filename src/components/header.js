@@ -1,10 +1,10 @@
-import { useContext } from 'react';
-import { Link, useHistory } from 'react-router-dom';
-import FirebaseContext from '../context/firebase';
-import UserContext from '../context/user';
-import * as ROUTES from '../constants/routes';
-import { DEFAULT_IMAGE_PATH } from '../constants/paths';
-import useUser from '../hooks/use-user';
+import { useContext } from "react";
+import { Link, useHistory } from "react-router-dom";
+import FirebaseContext from "../context/firebase";
+import UserContext from "../context/user";
+import * as ROUTES from "../constants/routes";
+import { DEFAULT_IMAGE_PATH } from "../constants/paths";
+import useUser from "../hooks/use-user";
 
 export default function Header() {
   const { user: loggedInUser } = useContext(UserContext);
@@ -19,7 +19,11 @@ export default function Header() {
           <div className="text-gray-700 text-center flex items-center align-items cursor-pointer">
             <h1 className="flex justify-center w-full">
               <Link to={ROUTES.DASHBOARD} aria-label="Instagram logo">
-                <img src="/images/logo.png" alt="Instagram" className="mt-2 w-6/12" />
+                <img
+                  src="/images/logo.png"
+                  alt="Instagram"
+                  className="mt-2 w-6/12"
+                />
               </Link>
             </h1>
           </div>
@@ -51,7 +55,7 @@ export default function Header() {
                     history.push(ROUTES.LOGIN);
                   }}
                   onKeyDown={(event) => {
-                    if (event.key === 'Enter') {
+                    if (event.key === "Enter") {
                       firebase.auth().signOut();
                       history.push(ROUTES.LOGIN);
                     }
@@ -97,7 +101,7 @@ export default function Header() {
                     Log In
                   </button>
                 </Link>
-                <Link to={ROUTES.SIGN_UP}>
+                <Link to={ROUTES.SIGN_IN}>
                   <button
                     type="button"
                     className="font-bold text-sm rounded text-blue-medium w-20 h-8"

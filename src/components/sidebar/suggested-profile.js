@@ -1,19 +1,19 @@
-import { useState, useContext } from 'react';
-import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { useState, useContext } from "react";
+import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 import {
   updateLoggedInUserFollowing,
   updateFollowedUserFollowers,
-  getUserByUserId
-} from '../../services/firebase';
-import LoggedInUserContext from '../../context/logged-in-user';
+  getUserByUserId,
+} from "../../services/firebase";
+import LoggedInUserContext from "../../context/logged-in-user";
 
 export default function SuggestedProfile({
   profileDocId,
   username,
   profileId,
   userId,
-  loggedInUserDocId
+  loggedInUserDocId,
 }) {
   const [followed, setFollowed] = useState(false);
   const { setActiveUser } = useContext(LoggedInUserContext);
@@ -57,5 +57,5 @@ SuggestedProfile.propTypes = {
   username: PropTypes.string.isRequired,
   profileId: PropTypes.string.isRequired,
   userId: PropTypes.string.isRequired,
-  loggedInUserDocId: PropTypes.string.isRequired
+  loggedInUserDocId: PropTypes.string.isRequired,
 };

@@ -1,15 +1,15 @@
-import { useEffect } from 'react';
-import PropTypes from 'prop-types';
-import Header from '../components/header';
-import Timeline from '../components/timeline';
-import Sidebar from '../components/sidebar';
-import useUser from '../hooks/use-user';
-import LoggedInUserContext from '../context/logged-in-user';
+import { useEffect } from "react";
+import PropTypes from "prop-types";
+import Header from "../components/header";
+import Timeline from "../components/timeline";
+import Sidebar from "../components/sidebar";
+import useUser from "../hooks/use-user";
+import LoggedInUserContext from "../context/logged-in-user";
 
 export default function Dashboard({ user: loggedInUser }) {
   const { user, setActiveUser } = useUser(loggedInUser.uid);
   useEffect(() => {
-    document.title = 'Instagram';
+    document.title = "Instagram";
   }, []);
 
   return (
@@ -26,5 +26,5 @@ export default function Dashboard({ user: loggedInUser }) {
 }
 
 Dashboard.propTypes = {
-  user: PropTypes.object.isRequired
+  user: PropTypes.object.isRequired,
 };
