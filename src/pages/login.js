@@ -30,7 +30,7 @@ export default function Login() {
     event.preventDefault();
 
     var actionCodeSettings = {
-      url: 'https://localhost:3000/sign-in',
+      url: 'http://localhost:3000/login',
       // This must be true.
       handleCodeInApp: true
     };
@@ -38,7 +38,7 @@ export default function Login() {
     try {
       await firebase.auth().sendSignInLinkToEmail(emailAddress, actionCodeSettings)
       window.localStorage.setItem('emailForSignIn', emailAddress);
-      // history.push(ROUTES.DASHBOARD);
+      history.push(ROUTES.DASHBOARD);
     } catch (error) {
       setEmailAddress("");
       setPassword("");
@@ -55,32 +55,46 @@ export default function Login() {
       // Get the email if available. This should be available if the user completes
       // the flow on the same device where they started it.
       var email = window.localStorage.getItem('emailForSignIn');
+      console.log('completeSignIn', email, window.location.href )
       if (!email) {
         // User opened the link on a different device. To prevent session fixation
         // attacks, ask the user to provide the associated email again. For example:
         email = window.prompt('Please provide your email for confirmation');
       }
       // The client SDK will parse the code from the link for you.
-      firebase.auth().signInWithEmailLink(email, window.location.href)
-        .then((result) => {
-          // Clear email from storage.
-          window.localStorage.removeItem('emailForSignIn');
-          // You can access the new user via result.user
-          // Additional user info profile not available via:
-          // result.additionalUserInfo.profile == null
-          // You can check if the user is new or existing:
-          // result.additionalUserInfo.isNewUser
-        })
-        .catch((error) => {
-          // Some error occurred, you can inspect the code: error.code
-          // Common errors could be invalid email and invalid or expired OTPs.
-        });
+      if (email) {
+        firebase.auth().signInWithEmailLink(email, window.location.href)
+          .then((result) => {
+            // Clear email from storage.
+            window.localStorage.removeItem('emailForSignIn');
+            console.log('SIGNIN RESULT!!!', result.user)
+            if (result.user) {
+              console.log('USER!!', result.user)
+              history.push("/?signin");
+            }
+            // You can access the new user via result.user
+            // Additional user info profile not available via:
+            // result.additionalUserInfo.profile == null
+            // You can check if the user is new or existing:
+            // result.additionalUserInfo.isNewUser
+          })
+          .catch((error) => {
+            setEmailAddress("");
+            setPassword("");
+            setError(error.message);
+            // Some error occurred, you can inspect the code: error.code
+            // Common errors could be invalid email and invalid or expired OTPs.
+          });
+      }
     }
   }
 
   useEffect(() => {
     document.title = "Login - Instagram";
+    completeSignIn()
   }, []);
+
+  
 
   return (
     <div className="container flex mx-auto max-w-screen-md items-center h-screen">
