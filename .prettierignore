@@ -1,0 +1,6 @@
+# Ignore artifacts:
+**public/**
+**node_modules/**
+
+# just make it compile:
+**src/components/**

@@ -67,20 +67,17 @@ export default function Login() {
           .then((result) => {
             // Clear email from storage.
             window.localStorage.removeItem('emailForSignIn');
-            console.log('SIGNIN RESULT!!!', result.user)
-            if (result.user) {
-              console.log('USER!!', result.user)
-              history.push("/?signin");
-            }
             // You can access the new user via result.user
             // Additional user info profile not available via:
             // result.additionalUserInfo.profile == null
             // You can check if the user is new or existing:
             // result.additionalUserInfo.isNewUser
+            if (result.user) {
+              history.push('/');
+            }
           })
           .catch((error) => {
             setEmailAddress("");
-            setPassword("");
             setError(error.message);
             // Some error occurred, you can inspect the code: error.code
             // Common errors could be invalid email and invalid or expired OTPs.
