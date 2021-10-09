@@ -13,7 +13,6 @@ export default function AddComment({
 }) {
   const { user: loggedInUser } = useContext(UserContext);
   const { user } = useUser(loggedInUser?.uid);
-  console.log(user)
   let displayName = user?.username
 
   const [comment, setComment] = useState("");

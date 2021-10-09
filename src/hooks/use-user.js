@@ -4,6 +4,7 @@ import { JAKE_USERNAME } from "../constants/jake"
 
 export default function useUser(userId) {
   const [activeUser, setActiveUser] = useState();
+  const [jake, setJake] = useState();
 
   useEffect(() => {
     async function getUserObjByUserId(userId) {
@@ -12,18 +13,17 @@ export default function useUser(userId) {
     }
 
     async function getUserObjForJake() {
-      const [user] = await getUserByUsername(JAKE_USERNAME)
-      setActiveUser (user || {})
+      const [j] = await getUserByUsername(JAKE_USERNAME)
+      setJake (j || {})
     }
 
     if (userId) {
       if (userId == JAKE_USERNAME) {
         getUserObjForJake()
-      } else {
         getUserObjByUserId(userId);
       }
     }
   }, [userId]);
 
-  return { user: activeUser, setActiveUser };
+  return { jake: jake, user: activeUser, setActiveUser };
 }

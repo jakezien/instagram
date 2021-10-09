@@ -12,7 +12,7 @@ export default function Timeline() {
   // const { user: { following } = {} } = useContext(LoggedInUserContext);
 
   const { photos } = useJakePhotos();
-  console.log(photos)
+  // console.log(photos)
 
   return (
     <div className="container col-span-3">
