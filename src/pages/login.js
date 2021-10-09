@@ -30,7 +30,7 @@ export default function Login() {
     event.preventDefault();
 
     var actionCodeSettings = {
-      url: 'http://localhost:3000/login',
+      url: 'http://localhost:3000' + ROUTES.LOGIN,
       // This must be true.
       handleCodeInApp: true
     };
@@ -38,7 +38,7 @@ export default function Login() {
     try {
       await firebase.auth().sendSignInLinkToEmail(emailAddress, actionCodeSettings)
       window.localStorage.setItem('emailForSignIn', emailAddress);
-      history.push(ROUTES.DASHBOARD);
+      // history.push(ROUTES.DASHBOARD);
     } catch (error) {
       setEmailAddress("");
       setPassword("");
@@ -46,7 +46,7 @@ export default function Login() {
     }
   }
 
-  const completeSignIn = async (event) => {
+  const handleSignInWithLink = async (event) => {
     // Confirm the link is a sign-in with email link.
     if (firebase.auth().isSignInWithEmailLink(window.location.href)) {
       // Additional state parameters can also be passed via URL.
@@ -55,16 +55,17 @@ export default function Login() {
       // Get the email if available. This should be available if the user completes
       // the flow on the same device where they started it.
       var email = window.localStorage.getItem('emailForSignIn');
-      console.log('completeSignIn', email, window.location.href )
+      console.log('handleSignInWithLink', email, window.location.href )
       if (!email) {
         // User opened the link on a different device. To prevent session fixation
         // attacks, ask the user to provide the associated email again. For example:
-        email = window.prompt('Please provide your email for confirmation');
+        email = window.prompt('Please confirm your email address.');
       }
       // The client SDK will parse the code from the link for you.
       if (email) {
         firebase.auth().signInWithEmailLink(email, window.location.href)
           .then((result) => {
+            console.log('result from signInWithEmailLink', result.user, result.user ? true : false)
             // Clear email from storage.
             window.localStorage.removeItem('emailForSignIn');
             // You can access the new user via result.user
@@ -73,7 +74,7 @@ export default function Login() {
             // You can check if the user is new or existing:
             // result.additionalUserInfo.isNewUser
             if (result.user) {
-              history.push('/');
+              history.push(ROUTES.DASHBOARD)
             }
           })
           .catch((error) => {
@@ -88,7 +89,7 @@ export default function Login() {
 
   useEffect(() => {
     document.title = "Login - Instagram";
-    completeSignIn()
+    handleSignInWithLink()
   }, []);
 
   
