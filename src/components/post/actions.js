@@ -2,6 +2,7 @@ import { useState, useContext } from "react";
 import PropTypes from "prop-types";
 import FirebaseContext from "../../context/firebase";
 import UserContext from "../../context/user";
+import { SignInPromptContext } from "../../context/sign-in-prompt";
 
 export default function Actions({
   docId,
@@ -10,20 +11,18 @@ export default function Actions({
   handleFocus,
 }) {
 
-  const testContext = useContext(UserContext)
-  if (testContext.user) {
-    const {
-      user: { uid: userId },
-    } = useContext(UserContext);
-  }
+  const userContext = useContext(UserContext)
+  const user = userContext?.user ? userContext.user : null
+  const signInPromptContext = useContext(SignInPromptContext)
+
   const [toggleLiked, setToggleLiked] = useState(likedPhoto);
   const [likes, setLikes] = useState(totalLikes);
   const { firebase, FieldValue } = useContext(FirebaseContext);
 
   const handleToggleLiked = async () => {
-    setToggleLiked((toggleLiked) => !toggleLiked);
 
-    if (userId) {
+    if (user?.userId) {
+      setToggleLiked((toggleLiked) => !toggleLiked);
       await firebase
         .firestore()
         .collection("photos")
@@ -35,6 +34,8 @@ export default function Actions({
         });
         
       setLikes((likes) => (toggleLiked ? likes - 1 : likes + 1));
+    } else {
+      signInPromptContext.setShowPrompt(true)
     }
   };
 
