@@ -39,7 +39,7 @@ export default function Comments({
               }
             }}
           >
-            View more comments
+            More comments
           </button>
         )}
         <p className="text-gray-base uppercase text-xs mt-2">

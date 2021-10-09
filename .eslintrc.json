@@ -2,8 +2,8 @@
   "extends": [
     "airbnb",
     "prettier",
-    "prettier/react",
-    "plugin:jsx-a11y/recommended"
+    "plugin:jsx-a11y/recommended",
+    "plugin:react-hooks/recommended"
   ],
   "parser": "babel-eslint",
   "parserOptions": {
@@ -48,7 +48,7 @@
       }
     ],
     "no-console": 0,
-    "import/prefer-default-export": 0,
+    "import/prefer-default-export": 1,
     "import": 0,
     "func-names": 0,
     "space-before-function-paren": 0,
@@ -89,7 +89,7 @@
       "error",
       {
         "trailingComma": "none",
-        // "singleQuote": true,
+        "singleQuote": true,
         "printWidth": 100
       }
     ],
@@ -104,7 +104,7 @@
     ]
   },
   "plugins": [
-    // "prettier",
+    "prettier",
     "react",
     "react-hooks"
   ]

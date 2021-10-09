@@ -122,7 +122,7 @@ export async function getPhotos(userId, following) {
 export async function getUserPhotosByUserId(userId) {
   const result = await firebase
     .firestore()
-    .collection("photos")
+    .collection("jgPhotos")
     .where("userId", "==", userId)
     .get();
 

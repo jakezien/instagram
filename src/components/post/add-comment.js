@@ -2,6 +2,8 @@ import { useState, useContext } from "react";
 import PropTypes from "prop-types";
 import FirebaseContext from "../../context/firebase";
 import UserContext from "../../context/user";
+import useUser from "../../hooks/use-user";
+
 
 export default function AddComment({
   docId,
@@ -9,14 +11,20 @@ export default function AddComment({
   setComments,
   commentInput,
 }) {
+  const { user: loggedInUser } = useContext(UserContext);
+  const { user } = useUser(loggedInUser?.uid);
+  console.log(user)
+  let displayName = user?.username
+
   const [comment, setComment] = useState("");
   const { firebase, FieldValue } = useContext(FirebaseContext);
-  const {
-    user: { displayName },
-  } = useContext(UserContext);
+  // const {
+  //   user: { displayName },
+  // } = useContext(UserContext);
 
   const handleSubmitComment = (event) => {
     event.preventDefault();
+    console.log('submit comment', displayName, comment)
 
     setComments([...comments, { displayName, comment }]);
     setComment("");

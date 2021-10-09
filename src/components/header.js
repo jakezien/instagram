@@ -87,6 +87,7 @@ export default function Header() {
                           e.target.src = DEFAULT_IMAGE_PATH;
                         }}
                       />
+                      <p>{user?.username}</p>
                     </Link>
                   </div>
                 )}
