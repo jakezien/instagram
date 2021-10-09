@@ -7,18 +7,18 @@ const SignInPrompt = React.forwardRef((props, ref) => {
   // const [showPrompt, setShowPrompt] = useState(props.showPrompt)
 
   const promptContext = useContext(SignInPromptContext)  
-  const styles = "bg-white container sticky top-0 w-screen "
+  const styles = "sticky top-0 w-screen bg-white bg-opacity-90 box-border box-model border-gray-primary backdrop-filter backdrop-blur backdrop-saturate-150 h-16	p-2 "
 
   return (
     <div ref={node => (container.current = node)} className={styles + (promptContext.showPrompt ? 'block' : 'hidden')}>
         <button 
           aria-label="Close this prompt" 
-          className="float-right z-0 p-2 text-3xl" 
+          className="float-right z-0 p-2 text-3xl leading-3" 
           onClick={() => promptContext.setShowPrompt(false)}
         >
           ✕
         </button>
-        <p className="flex bg-yellow-500 justify-center font-bold">
+        <p className="flex justify-center font-bold">
           Sign in to like and comment.
         </p>
         <p className="text-sm flex justify-center">

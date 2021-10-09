@@ -1,19 +1,32 @@
-import { useContext } from "react";
+import { useContext, useState, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
 import FirebaseContext from "../context/firebase";
 import UserContext from "../context/user";
 import * as ROUTES from "../constants/routes";
 import { DEFAULT_IMAGE_PATH } from "../constants/paths";
 import useUser from "../hooks/use-user";
+import { SignInPromptContext } from "../context/sign-in-prompt";
+
 
 export default function Header() {
+  const promptContext = useContext(SignInPromptContext)
   const { user: loggedInUser } = useContext(UserContext);
   const { user } = useUser(loggedInUser?.uid);
   const { firebase } = useContext(FirebaseContext);
   const history = useHistory();
+  const [signInPromptShowing, setSignInPromptShowing] = useState(promptContext.showPrompt)
+
+  let styles = "sticky h-16 mb-8 p-2 w-screen bg-white bg-opacity-90 border-b border-gray-primary backdrop-filter backdrop-blur backdrop-saturate-150 "
+  useEffect(()=> {  
+    styles = "sticky h-16 mb-8 p-2 w-screen bg-white bg-opacity-90 border-b border-gray-primary backdrop-filter backdrop-blur backdrop-saturate-150 "
+    styles += promptContext.showPrompt ? ' top-15' : ' top-0'
+    console.log('hihihi')
+  }, [promptContext.showPrompt])
+  
+
 
   return (
-    <header className="h-16 bg-white border-b border-gray-primary mb-8">
+    <header className={styles + (promptContext.showPrompt ? ' top-16' : ' top-0')}>
       <div className="container mx-auto max-w-screen-lg h-full">
         <div className="flex justify-between h-full">
           <div className="text-gray-700 text-center flex items-center align-items cursor-pointer">
@@ -97,19 +110,19 @@ export default function Header() {
                 <Link to={ROUTES.LOGIN}>
                   <button
                     type="button"
-                    className="bg-blue-medium font-bold text-sm rounded text-white w-20 h-8"
+                    className="bg-blue-medium font-bold text-sm rounded text-white w-40 h-8"
                   >
-                    Log In
+                    Two-second Sign In 
                   </button>
                 </Link>
-                <Link to={ROUTES.SIGN_IN}>
+                {/* <Link to={ROUTES.SIGN_IN}>
                   <button
                     type="button"
                     className="font-bold text-sm rounded text-blue-medium w-20 h-8"
                   >
                     Sign Up
                   </button>
-                </Link>
+                </Link> */}
               </>
             )}
           </div>
