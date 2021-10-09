@@ -1,4 +1,5 @@
-export const DASHBOARD = '/';
+export const DASHBOARD = '/dashboard';
+export const FEED = '/';
 export const LOGIN = '/login';
 export const SIGN_IN = '/sign-in';
 export const PROFILE = '/p/:username';
