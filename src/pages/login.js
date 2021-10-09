@@ -18,7 +18,7 @@ export default function Login() {
 
     try {
       await firebase.auth().signInWithEmailAndPassword(emailAddress, password);
-      history.push(ROUTES.DASHBOARD);
+      history.push(ROUTES.FEED);
     } catch (error) {
       setEmailAddress("");
       setPassword("");
@@ -38,7 +38,7 @@ export default function Login() {
     try {
       await firebase.auth().sendSignInLinkToEmail(emailAddress, actionCodeSettings)
       window.localStorage.setItem('emailForSignIn', emailAddress);
-      // history.push(ROUTES.DASHBOARD);
+      // history.push(ROUTES.FEED);
     } catch (error) {
       setEmailAddress("");
       setPassword("");
@@ -74,7 +74,7 @@ export default function Login() {
             // You can check if the user is new or existing:
             // result.additionalUserInfo.isNewUser
             if (result.user) {
-              history.push(ROUTES.DASHBOARD)
+              history.push(ROUTES.FEED)
             }
           })
           .catch((error) => {
