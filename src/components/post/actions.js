@@ -42,7 +42,7 @@ export default function Actions({
   return (
     <>
       <div className="flex justify-between p-4">
-        <div className="flex">
+        <div className="flex h-10">
           <svg
             onClick={handleToggleLiked}
             onKeyDown={(event) => {

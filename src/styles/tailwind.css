@@ -1,3 +1,16 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer utilities {
+  .bg-ig-gradient {
+    background: linear-gradient(rgb(101, 89, 202), rgb(188, 49, 143) 30%, rgb(227, 63, 95) 50%, rgb(247, 118, 56) 70%, rgb(254, 198, 109) 100%);
+  }
+  .text-ig-gradient {
+    background-image: radial-gradient(circle at 30% 175%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+  }
+}

@@ -2,6 +2,8 @@ import { useState, useContext, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
 import FirebaseContext from "../context/firebase";
 import * as ROUTES from "../constants/routes";
+import InstagramLogin from 'react-instagram-login';
+
 
 export default function Login() {
   const history = useHistory();
@@ -89,11 +91,14 @@ export default function Login() {
     }
   }
 
+  const handleInstagramResponse = (response) => {
+    console.log(response);
+  }
+ 
   useEffect(() => {
-    document.title = "Login - Instagram";
+    document.title = "Login - Jakestagram";
     handleSignInWithLink()
   }, []);
-
   
 
   return (
@@ -137,26 +142,29 @@ export default function Login() {
             <button
               disabled={isInvalid}
               type="submit"
-              className={`bg-blue-medium text-white w-full rounded h-8 font-bold ${isInvalid && "opacity-50"}`}
+              className={`bg-blue-medium text-white w-full rounded h-10 font-bold ${isInvalid && "opacity-50"}`}
             >
               Send Magic Sign-in link
             </button>
-            <p className="text-center my-2">or</p>
-            <button>
-              Sign in with Instagram
-            </button>
-            <p className="text-s text-center">Yep, for real</p>
+            <p className="text-center my-2 text-sm text-gray-500">or</p>
+            <InstagramLogin
+              clientId="5fd2f11482844c5eba963747a5f34556"
+              buttonText="Login"
+              onSuccess={handleInstagramResponse}
+              onFailure={handleInstagramResponse}
+              cssClass={"w-full rounded h-10 font-bold bg-ig-gradient"}
+            >
+              <div className="bg-white rounded-sm box-border block h-9 m-0.5">
+                <div className="text-ig-gradient block leading-9">
+                  Log in with Instagram
+                </div>
+              </div>
+            </InstagramLogin>
+            
+            <p className="text-sm text-gray-500 text-center mt-2">Yep, for real</p>
             
 
           </form>
-        </div>
-        <div className="flex justify-center items-center flex-col w-full bg-white p-4 rounded border border-gray-primary">
-          <p className="text-sm">
-            Don't have an account?{` `}
-            <Link to={ROUTES.SIGN_IN} className="font-bold text-blue-medium">
-              Sign in
-            </Link>
-          </p>
         </div>
       </div>
     </div>
