@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import FirebaseContext from "../../context/firebase";
 import UserContext from "../../context/user";
 import useUser from "../../hooks/use-user";
+import { SignInPromptContext } from "../../context/sign-in-prompt";
 
 
 export default function AddComment({
@@ -14,6 +15,10 @@ export default function AddComment({
   const { user: loggedInUser } = useContext(UserContext);
   const { user } = useUser(loggedInUser?.uid);
   let displayName = user?.username
+  let signInPromptContext = useContext(SignInPromptContext)
+
+
+
 
   const [comment, setComment] = useState("");
   const { firebase, FieldValue } = useContext(FirebaseContext);
@@ -25,16 +30,21 @@ export default function AddComment({
     event.preventDefault();
     console.log('submit comment', displayName, comment)
 
-    setComments([...comments, { displayName, comment }]);
-    setComment("");
-
-    return firebase
+    if (user?.userId) {
+      setComments([...comments, { displayName, comment }]);
+      setComment("");
+  
+      return firebase
       .firestore()
       .collection("photos")
       .doc(docId)
       .update({
         comments: FieldValue.arrayUnion({ displayName, comment }),
       });
+    } else {
+      signInPromptContext.setShowPrompt(true)
+    }
+
   };
 
   return (
