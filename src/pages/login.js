@@ -142,17 +142,20 @@ export default function Login() {
             <button
               disabled={isInvalid}
               type="submit"
-              className={`bg-blue-medium text-white w-full rounded h-10 font-bold ${isInvalid && "opacity-50"}`}
+              className={`bg-yellow-primary text-white w-full rounded h-10 font-bold ${isInvalid && "opacity-50"}`}
             >
               Send Magic Sign-in link
             </button>
             <p className="text-center my-2 text-sm text-gray-500">or</p>
             <InstagramLogin
-              clientId="5fd2f11482844c5eba963747a5f34556"
+              clientId="403164224515689"
               buttonText="Login"
               onSuccess={handleInstagramResponse}
               onFailure={handleInstagramResponse}
               cssClass={"w-full rounded h-10 font-bold bg-ig-gradient"}
+              useRedirect={true}
+              redirectUri={"https://jakestagram.com/login/"}
+              scope="user_profile"
             >
               <div className="bg-white rounded-sm box-border block h-9 m-0.5">
                 <div className="text-ig-gradient block leading-9">
