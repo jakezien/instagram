@@ -12,7 +12,6 @@ const Dashboard = lazy(() => import("./pages/dashboard"));
 const Feed = lazy(() => import("./pages/feed"));
 const Profile = lazy(() => import("./pages/profile"));
 const NotFound = lazy(() => import("./pages/not-found"));
-const SignInPrompt = lazy(() => import("./components/signInPrompt"))
 
 export default function App() {
   const { user } = useAuthListener();
