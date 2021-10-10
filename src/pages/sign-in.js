@@ -93,7 +93,7 @@ export default function SignIn() {
 
 
   useEffect(() => {
-    document.title = "Sign In - Instagram";
+    document.title = "Sign In - Jakestagram";
   }, []);
 
   completeSignIn();
@@ -103,7 +103,7 @@ export default function SignIn() {
       <div className="flex w-3/5">
         <img
           src="/images/iphone-with-profile.jpg"
-          alt="iPhone with Instagram app"
+          alt="iPhone with Jakestagram website"
         />
       </div>
       <div className="flex flex-col w-2/5">
@@ -111,7 +111,7 @@ export default function SignIn() {
           <h1 className="flex justify-center w-full">
             <img
               src="/images/logo.svg"
-              alt="Instagram"
+              alt="Jakestagram"
               className="mt-2 w-6/12 mb-4"
             />
           </h1>

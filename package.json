@@ -1,5 +1,5 @@
 {
-  "name": "instagram",
+  "name": "jakestagram",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -49,7 +49,7 @@
   "eslintConfig": {
     "extends": [
       "react-app",
-      "react-app/jest"
+      "react-ap/jest"
     ]
   },
   "browserslist": {
@@ -63,5 +63,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "prettier": {
+    "singleQuote": false
   }
 }

@@ -86,12 +86,12 @@
       }
     ],
     "prettier/prettier": [
-      "error",
-      {
-        "trailingComma": "none",
-        "singleQuote": true,
-        "printWidth": 100
-      }
+      "warn"
+      // {
+      //   "trailingComma": "none",
+      //   "singleQuote": false,
+      //   "printWidth": 100
+      // }
     ],
     "jsx-a11y/href-no-hash": "off",
     "jsx-a11y/anchor-is-valid": [
