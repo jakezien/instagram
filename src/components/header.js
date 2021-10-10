@@ -33,9 +33,9 @@ export default function Header() {
             <h1 className="flex justify-center w-full">
               <Link to={ROUTES.FEED} aria-label="Instagram logo">
                 <img
-                  src="/images/logo.png"
+                  src="/images/logo.svg"
                   alt="Jakestagram"
-                  className="mt-2 w-6/12"
+                  className="mt-2 w-4/12 max-w-md"
                 />
               </Link>
             </h1>
