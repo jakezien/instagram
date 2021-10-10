@@ -110,7 +110,7 @@ export default function Header() {
                 <Link to={ROUTES.LOGIN}>
                   <button
                     type="button"
-                    className="bg-blue-medium font-bold text-sm rounded text-white w-40 h-8"
+                    className="bg-yellow-primary font-bold text-sm rounded text-black-light w-40 h-8"
                   >
                     Two-second Sign In 
                   </button>

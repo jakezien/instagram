@@ -11,6 +11,7 @@ export default function Login() {
   const [password, setPassword] = useState("");
 
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
   const isInvalid = emailAddress === "";
 
   const handleLogin = async (event) => {
@@ -19,6 +20,7 @@ export default function Login() {
     try {
       await firebase.auth().signInWithEmailAndPassword(emailAddress, password);
       history.push(ROUTES.FEED);
+      setSuccess("")
     } catch (error) {
       setEmailAddress("");
       setPassword("");
@@ -98,8 +100,8 @@ export default function Login() {
     <div className="container flex mx-auto max-w-screen-md items-center h-screen">
       <div className="flex w-3/5">
         <img
-          src="/images/iphone-with-profile.jpg"
-          alt="iPhone with Instagram app"
+          src=""
+          alt=""
         />
       </div>
       <div className="flex flex-col w-2/5">
@@ -107,16 +109,17 @@ export default function Login() {
           <h1 className="flex justify-center w-full">
             <img
               src="/images/logo.svg"
-              alt="Instagram"
+              alt="Jakestagram"
               className="mt-2 w-6/12 mb-4"
             />
           </h1>
 
           {error && <p className="mb-4 text-xs text-red-primary">{error}</p>}
-
+          {success && <p className="mb-4 text-xs text-green-primary">{success}</p>}
+          <p className="text-center text-sm mb-2">Sign in with a magic passwordless link</p>
           <form onSubmit={handleSendEmail} method="POST">
             <input
-              aria-label="Enter your email address"
+              aria-label="Send a magic link to my email address"
               type="text"
               placeholder="Email address"
               className="text-sm text-gray-base w-full mr-3 py-5 px-4 h-2 border border-gray-primary rounded mb-2"
@@ -134,11 +137,17 @@ export default function Login() {
             <button
               disabled={isInvalid}
               type="submit"
-              className={`bg-blue-medium text-white w-full rounded h-8 font-bold
-            ${isInvalid && "opacity-50"}`}
+              className={`bg-blue-medium text-white w-full rounded h-8 font-bold ${isInvalid && "opacity-50"}`}
             >
-              Login
+              Send Magic Sign-in link
             </button>
+            <p className="text-center my-2">or</p>
+            <button>
+              Sign in with Instagram
+            </button>
+            <p className="text-s text-center">Yep, for real</p>
+            
+
           </form>
         </div>
         <div className="flex justify-center items-center flex-col w-full bg-white p-4 rounded border border-gray-primary">

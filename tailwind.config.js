@@ -3,11 +3,13 @@ module.exports = {
     removeDeprecatedGapUtilities: true
   },
   purge: {
+    enabled: process.env.PURGE_CSS === 'production' ? true : false,
     content: ['./src/**/*.js', './src/**/**/*.js']
   },
   theme: {
     fill: (theme) => ({
-      red: theme('colors.red.primary')
+      red: theme('colors.red.primary'),
+      yellow: theme('colors.yellow.primary')
     }),
     colors: {
       white: '#ffffff',
@@ -25,6 +27,10 @@ module.exports = {
       },
       red: {
         primary: '#ed4956'
+      },
+      yellow: {
+        primary: 'rgb(255,196,0)',
+        light: 'rgb(255, 250, 235)'
       }
     }
   },
