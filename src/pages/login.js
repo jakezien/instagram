@@ -170,13 +170,13 @@ export default function Login() {
             </button>
             <p className="text-center my-2 text-sm text-gray-500">or</p>
             <InstagramLogin
-              clientId="403164224515689"
+              clientId={process.env.CLIENT_ID}
               buttonText="Login"
               onSuccess={handleInstagramResponse}
               onFailure={handleInstagramResponse}
               cssClass={"w-full rounded h-10 font-bold bg-ig-gradient"}
               useRedirect={true}
-              redirectUri={"https://jakestagram.com/login/"}
+              redirectUri={"https://jakestagram.com/login"}
               scope="user_profile"
             >
               <div className="bg-white rounded-sm box-border block h-9 m-0.5">
