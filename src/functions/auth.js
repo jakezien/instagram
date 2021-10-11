@@ -13,6 +13,8 @@ exports.handler = async function (event, context, callback) {
 
   console.log(clientId, clientSecret)
 
+  console.log(clientId, clientSecret, redirectUri, body.code)
+
   const result = await axios({
     method: 'post',
     url: base,
