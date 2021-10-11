@@ -1,6 +1,8 @@
 const axios = require('axios')
 
 exports.handler = async function (event, context, callback) {
+  console.log(event, context, callback)
+  
   const base = 'https://api.instagram.com/oauth/access_token'
   const clientId = null;
   const clientSecret = null;
