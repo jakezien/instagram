@@ -98,18 +98,28 @@ export default function Login() {
     console.log(results)
   }
 
-  const handleInstagramResponse = (response) => {
-    const fetchData = async() => {
-      const results = await axious.get('/.netlify/functions/auth')
-      console.log(results)
-    }
-    console.log(response);
+  const fetchInstagramToken = async (code) => {
+    const result = await axios({
+      method: 'get',
+      url: '/.netlify/functions/auth',
+      data: {
+        code: code
+      }
+    })
+    return result
+  }
+
+  const handleInstagramResponse = async (response) => {
+    
+    let result = await fetchInstagramToken(response)
+    console.log(response)
+    console.log(result);
   }
  
   useEffect(() => {
     document.title = "Login - Jakestagram";
     handleSignInWithLink()
-    fetchData()
+    // fetchData()
   }, []);
   
 
