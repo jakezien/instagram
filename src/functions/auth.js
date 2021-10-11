@@ -8,8 +8,8 @@ exports.handler = async function (event, context, callback) {
 
   
   const base = 'https://api.instagram.com/oauth/access_token'
-  const { CLIENT_ID } = process.env;
-  const { CLIENT_SECRET } = process.env;
+  const clientId = process.env.CLIENT_ID;
+  const clientSecret = process.env.CLIENT_SECRET;
   const redirectUri = 'https://jakestagram.com/login';
   const code = code;
 
