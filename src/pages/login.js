@@ -16,19 +16,20 @@ export default function Login() {
   const [success, setSuccess] = useState("");
   const isInvalid = emailAddress === "";
 
-  const handleLogin = async (event) => {
-    event.preventDefault();
+  // const handleLogin = async (event) => {
+  //   event.preventDefault();
 
-    try {
-      await firebase.auth().signInWithEmailAndPassword(emailAddress, password);
-      history.push(ROUTES.FEED);
-      setSuccess("")
-    } catch (error) {
-      setEmailAddress("");
-      setPassword("");
-      setError(error.message);
-    }
-  };
+  //   try {
+  //     await firebase.auth().signInWithEmailAndPassword(emailAddress, password);
+  //     history.push(ROUTES.FEED);
+  //     setSuccess("")
+  //   } catch (error) {
+  //     setEmailAddress("");
+  //     setPassword("");
+  //     setError(error.message);
+  //   }
+  // };
+
 
   const handleSendEmail = async (event) => {
     event.preventDefault();
@@ -91,13 +92,23 @@ export default function Login() {
     }
   }
 
+  const fetchData = async() => {
+    const results = await axious.get('/.netlify/functions/auth')
+    console.log(results)
+  }
+
   const handleInstagramResponse = (response) => {
+    const fetchData = async() => {
+      const results = await axious.get('/.netlify/functions/auth')
+      console.log(results)
+    }
     console.log(response);
   }
  
   useEffect(() => {
     document.title = "Login - Jakestagram";
     handleSignInWithLink()
+    fetchData()
   }, []);
   
 
