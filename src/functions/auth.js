@@ -11,6 +11,8 @@ exports.handler = async function (event, context, callback) {
   const clientSecret = process.env.CLIENT_SECRET;
   const redirectUri = 'https://jakestagram.com/login';
 
+  console.log(clientId, clientSecret)
+
   const result = await axios({
     method: 'post',
     url: base,
@@ -22,6 +24,8 @@ exports.handler = async function (event, context, callback) {
       code: body.code
     }
   })
+
+  console.log('result', result)
 
   // -F client_id={app-id} \
   // -F client_secret={app-secret} \
