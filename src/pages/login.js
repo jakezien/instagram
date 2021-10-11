@@ -100,7 +100,7 @@ export default function Login() {
 
   const fetchInstagramToken = async (code) => {
     const result = await axios({
-      method: 'get',
+      method: 'post',
       url: '/.netlify/functions/auth',
       data: {
         code: code
