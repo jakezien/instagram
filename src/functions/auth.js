@@ -29,6 +29,6 @@ exports.handler = async function (event, context, callback) {
 
   return {
     statuscode:result.status,
-    body: JSON.stringify({result.data})
+    body: JSON.stringify(result.data)
   }
 }
