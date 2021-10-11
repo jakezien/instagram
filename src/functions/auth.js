@@ -3,8 +3,8 @@ const axios = require('axios')
 exports.handler = async function (event, context, callback) {
   // console.log(event, context, callback)
   const body = JSON.parse(event.body)
-  const code = body?.code
-  console.log('code', code)
+  if (!body) return;
+  console.log('code', body.code)
   
   const base = 'https://api.instagram.com/oauth/access_token'
   const clientId = process.env.CLIENT_ID;
@@ -19,7 +19,7 @@ exports.handler = async function (event, context, callback) {
       client_secret: clientSecret,
       grant_type: 'authorization_code',
       redirect_uri: redirectUri,
-      code: code
+      code: body.code
     }
   })
 
