@@ -3,15 +3,14 @@ const axios = require('axios')
 exports.handler = async function (event, context, callback) {
   // console.log(event, context, callback)
   const body = JSON.parse(event.body)
-  const code = JSON.parse(event.body)?.code
-  console.log('body', body, 'code', code)
+  console.log('body', body)
 
   
   const base = 'https://api.instagram.com/oauth/access_token'
   const clientId = process.env.CLIENT_ID;
   const clientSecret = process.env.CLIENT_SECRET;
   const redirectUri = 'https://jakestagram.com/login';
-  const code = code;
+  const code = null
 
   const result = await axios({
     method: 'post',
