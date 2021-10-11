@@ -170,7 +170,7 @@ export default function Login() {
             </button>
             <p className="text-center my-2 text-sm text-gray-500">or</p>
             <InstagramLogin
-              clientId="4031642515689"
+              clientId="403164224515689"
               buttonText="Login"
               onSuccess={handleInstagramResponse}
               onFailure={handleInstagramResponse}
