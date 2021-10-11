@@ -3,6 +3,7 @@ import { Link, useHistory } from "react-router-dom";
 import FirebaseContext from "../context/firebase";
 import * as ROUTES from "../constants/routes";
 import InstagramLogin from 'react-instagram-login';
+import axios from "axios";
 
 
 export default function Login() {
@@ -93,7 +94,7 @@ export default function Login() {
   }
 
   const fetchData = async() => {
-    const results = await axious.get('/.netlify/functions/auth')
+    const results = await axios.get('/.netlify/functions/auth')
     console.log(results)
   }
 
