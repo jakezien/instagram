@@ -19,26 +19,16 @@ exports.handler = async function (event, context, callback) {
     'code': body.code
   })
 
-  console.log(data)
-  console.log(clientId, clientSecret, redirectUri, body.code)
-
   const result = await axios({
     method: 'post',
     url: base,
     data: data
   })
 
-  console.log('result', result)
-
-  // -F client_id={app-id} \
-  // -F client_secret={app-secret} \
-  // -F grant_type=authorization_code \
-  // -F redirect_uri={redirect-uri} \
-  // -F code={code}
-
+  console.log('result', result.status, result.data)
 
   return {
-    statuscode:200,
-    body: JSON.stringify({result, event, context, callback})
+    statuscode:result.status,
+    body: JSON.stringify({result.data})
   }
 }

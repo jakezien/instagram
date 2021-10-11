@@ -110,10 +110,9 @@ export default function Login() {
   }
 
   const handleInstagramResponse = async (response) => {
-    
     let result = await fetchInstagramToken(response)
-    console.log(response)
-    console.log(result);
+    // console.log(response)
+    console.log(result)
   }
  
   useEffect(() => {
