@@ -11,7 +11,7 @@ exports.handler = async function (event, context, callback) {
   const clientSecret = process.env.CLIENT_SECRET;
   const redirectUri = 'https://jakestagram.com/login';
 
-  let shortTokenRequestData = qs.stringify({
+  const shortTokenRequestData = qs.stringify({
     'client_id': clientId,
     'client_secret': clientSecret,
     'grant_type': 'authorization_code',
@@ -29,7 +29,7 @@ exports.handler = async function (event, context, callback) {
 
   // if result.status == '200'
 
-  let longTokenRequestData = qs.stringify({
+  const longTokenRequestParams = qs.stringify({
     'grant_type': 'ig_exchange_token',
     'client_secret': clientSecret,
     'access_token': shortTokenResult.data.access_token
@@ -38,7 +38,7 @@ exports.handler = async function (event, context, callback) {
   const longTokenResult = await axios({
     method: 'get',
     url: 'https://graph.instagram.com/access_token',
-    data: longTokenRequestData
+    params: longTokenRequestParams
   })
 
   console.log('longtokenResult', longTokenResult)
