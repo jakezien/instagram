@@ -25,7 +25,7 @@ exports.handler = async function (event, context, callback) {
     data: shortTokenRequestData
   })
 
-  console.log('result', shortTokenResult.status, shortTokenResult.data)
+  console.log('result', shortTokenResult.status, shortTokenResult.data.access_token)
 
   // if result.status == '200'
 
