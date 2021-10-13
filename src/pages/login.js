@@ -109,8 +109,21 @@ export default function Login() {
     return result
   }
 
+  const fetchInstagramUsername = async (code) => {
+    const result = await axios({
+      method: 'get',
+      url: 'https://graph.instagram.com/me',
+      params: {
+        'fields': 'id,username',
+      }
+    })
+    console.log('fetchInstagramToken', result)
+    return result
+  }
+
   const handleInstagramResponse = async (response) => {
     let result = await fetchInstagramToken(response)
+    let username = await fetchInstagramUsername()
     // console.log(response)
     console.log(result)
   }
@@ -152,14 +165,7 @@ export default function Login() {
               onChange={({ target }) => setEmailAddress(target.value)}
               value={emailAddress}
             />
-{/*            <input
-              aria-label="Enter your password"
-              type="password"
-              placeholder="Password"
-              className="text-sm text-gray-base w-full mr-3 py-5 px-4 h-2 border border-gray-primary rounded mb-2"
-              onChange={({ target }) => setPassword(target.value)}
-              value={password}
-            />*/}
+
             <button
               disabled={isInvalid}
               type="submit"
@@ -190,7 +196,7 @@ export default function Login() {
 
           </form>
         </div>
-        <p>If you log in, I'll use a cookie to keep you logged in.</p>
+        
       </div>
     </div>
   );

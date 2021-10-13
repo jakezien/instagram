@@ -31,16 +31,14 @@ exports.handler = async function (event, context, callback) {
 
   // if result.status == '200'
 
-  const longTokenRequestParams = {
-    'grant_type': 'ig_exchange_token',
-    'client_secret': clientSecret,
-    'access_token': shortTokenResult.data.access_token
-  }
-
   const longTokenResult = await axios({
     method: 'get',
     url: 'https://graph.instagram.com/access_token',
-    params: longTokenRequestParams
+    params: {
+      'grant_type': 'ig_exchange_token',
+      'client_secret': clientSecret,
+      'access_token': shortTokenResult.data.access_token
+    }
   })
 
   const longToken = longTokenResult.data.access_token
