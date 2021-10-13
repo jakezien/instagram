@@ -115,7 +115,8 @@ export default function Login() {
       url: 'https://graph.instagram.com/me',
       params: {
         'fields': 'id,username',
-      }
+      },
+      withCredentials: true
     })
     console.log('fetchInstagramToken', result)
     return result
