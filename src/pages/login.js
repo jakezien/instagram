@@ -134,7 +134,7 @@ export default function Login() {
         <div className="flex flex-col items-center bg-white p-4 border border-gray-primary mb-4 rounded">
           <h1 className="flex justify-center w-full">
             <img
-              src="/images/logo.svg"
+              src="/images/logo-jakestagram.svg"
               alt="Jakestagram"
               className="mt-2 w-6/12 mb-4"
             />
@@ -190,6 +190,7 @@ export default function Login() {
 
           </form>
         </div>
+        <p>If you log in, I'll use a cookie to keep you logged in.</p>
       </div>
     </div>
   );

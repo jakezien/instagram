@@ -1,5 +1,7 @@
 const axios = require('axios')
 const qs = require('qs')
+const cookie = ('cookie')
+
 
 exports.handler = async function (event, context, callback) {
   // console.log(event, context, callback)
@@ -41,12 +43,24 @@ exports.handler = async function (event, context, callback) {
     params: longTokenRequestParams
   })
 
-  console.log('longtokenResult', longTokenResult)
+  const longToken = longTokenResult.data.access_token
+  const expiration = longTokenResult.data.expires_in
 
-  // GET "https://graph.instagram.com/access_token
-  // ?grant_type=ig_exchange_token
-  // &client_secret={instagram-app-secret}
-  // &access_token={short-lived-access-token}"
+  const longCookie = cookie.serialize('jg_ig_cookie', longToken, {
+    secure: true,
+    httpOnly: true,
+    path: '/',
+    maxAge: expiration,
+  })
+
+  return {
+    'statusCode': 200,
+    'headers': {
+      'Set-Cookie': longCookie,
+      'Cache-Control': 'no-cache',
+    },
+    'body': 'cookie set!'
+  }
 
   return {
     statuscode: result.status,
