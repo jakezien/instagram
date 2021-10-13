@@ -1,6 +1,6 @@
 const axios = require('axios')
 const qs = require('qs')
-const cookie = ('cookie')
+const cookie = require('cookie')
 
 
 exports.handler = async function (event, context, callback) {
