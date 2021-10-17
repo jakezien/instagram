@@ -104,7 +104,8 @@ export default function Login() {
       url: '/.netlify/functions/auth',
       data: {
         code: code
-      }
+      },
+      // withCredentials: true
     })
     return result
   }
