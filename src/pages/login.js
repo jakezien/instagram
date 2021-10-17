@@ -149,7 +149,7 @@ export default function Login() {
         <div className="flex flex-col items-center bg-white p-4 border border-gray-primary mb-4 rounded">
           <h1 className="flex justify-center w-full">
             <img
-              src="/images/logo-jakestagram.svg"
+              src="/images/logo.svg"
               alt="Jakestagram"
               className="mt-2 w-6/12 mb-4"
             />

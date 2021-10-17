@@ -8,6 +8,7 @@ import useUser from "../hooks/use-user";
 import { SignInPromptContext } from "../context/sign-in-prompt";
 
 
+
 export default function Header() {
   const promptContext = useContext(SignInPromptContext)
   const { user: loggedInUser } = useContext(UserContext);
@@ -15,6 +16,7 @@ export default function Header() {
   const { firebase } = useContext(FirebaseContext);
   const history = useHistory();
   const [signInPromptShowing, setSignInPromptShowing] = useState(promptContext.showPrompt)
+  const [isAdmin, setIsAdmin] = useState(false);
 
   let styles = "sticky h-16 mb-8 p-2 w-screen bg-white bg-opacity-90 border-b border-gray-primary backdrop-filter backdrop-blur backdrop-saturate-150 "
   useEffect(()=> {  
@@ -22,7 +24,17 @@ export default function Header() {
     styles += promptContext.showPrompt ? ' top-15' : ' top-0'
   }, [promptContext.showPrompt])
   
-
+  if (loggedInUser) {
+    firebase.auth().currentUser?.getIdTokenResult()
+      .then((idTokenResult) => {
+        if (!!idTokenResult.claims.admin) {
+          setIsAdmin(true)
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
 
   return (
     <header className={styles + (promptContext.showPrompt ? ' top-16' : ' top-0')}>
@@ -30,7 +42,7 @@ export default function Header() {
         <div className="flex justify-between h-full">
           <div className="text-gray-700 text-center flex items-center align-items cursor-pointer">
             <h1 className="flex justify-center w-full">
-              <Link to={ROUTES.FEED} aria-label="Instagram logo">
+              <Link to={ROUTES.FEED} aria-label="Jakestagram logo">
                 <img
                   src="/images/logo.svg"
                   alt="Jakestagram"
@@ -40,6 +52,23 @@ export default function Header() {
             </h1>
           </div>
           <div className="text-gray-700 text-center flex items-center align-items">
+            {isAdmin && (
+              <button
+                type="button"
+                title="Add photo"
+                onClick={() => {
+                  history.push(ROUTES.ADD_PHOTO);
+                }}
+                onKeyDown={(event) => {
+                  if (event.key === "Enter") {
+                    history.push(ROUTES.ADD_PHOTO);
+                  }
+                }}
+              >
+                Add photo
+              </button>
+            )}
+            
             {loggedInUser ? (
               <>
                 <Link to={ROUTES.DASHBOARD} aria-label="Dashboard">
@@ -88,6 +117,7 @@ export default function Header() {
                     />
                   </svg>
                 </button>
+                
                 {user && (
                   <div className="flex items-center cursor-pointer">
                     <Link to={`/p/${user?.username}`}>
