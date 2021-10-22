@@ -1,4 +1,4 @@
 {
   "editor.suggest.showStatusBar": true,
-  "workbench.statusBar.visible": false
+  "workbench.statusBar.visible": true
 }
