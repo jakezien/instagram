@@ -42,7 +42,7 @@ exports.handler = async function (event, context, callback) {
     }
   )
   
-  const redirectUri = AuthorizationCode.authorizeURL({
+  const redirectUri = oauth2.authorizeURL({
     redirect_uri: `https://jakestagram.com/${OAUTH_CALLBACK_PATH}`,
     scope: OAUTH_SCOPES,
     state: state
