@@ -27,7 +27,7 @@ exports.handler = async function (event, context, callback) {
 
   const oauth2 = new AuthorizationCode(credentials);
   console.log(event.headers)
-  const state = event.headers.cookies.state || crypto.randomBytes(20).toString('hex');
+  const state = event.headers.cookie.state || crypto.randomBytes(20).toString('hex');
   console.log('Setting state cookie for verification:', state);
   const secureCookie = event.path.indexOf('localhost:') !== 0;
   console.log('Need a secure cookie (i.e. not on localhost)?', secureCookie);
