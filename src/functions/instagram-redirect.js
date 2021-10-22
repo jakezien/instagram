@@ -1,6 +1,8 @@
 // Modules imports
 const cookie = require('cookie');
 const crypto = require('crypto');
+const { ClientCredentials, ResourceOwnerPassword, AuthorizationCode } = require('simple-oauth2');
+
 
 // Instagram scopes requested.
 const OAUTH_SCOPES = 'basic';
@@ -19,10 +21,11 @@ const credentials = {
     tokenPath: '/oauth/access_token'
   }
 };
-const oauth2 = require('simple-oauth2').create(credentials);
 
 
 exports.handler = async function (event, context, callback) {
+
+  const oauth2 = new AuthorizationCode(credentials);
 
   const state = event.headers.cookies.state || crypto.randomBytes(20).toString('hex');
   console.log('Setting state cookie for verification:', state);
@@ -39,7 +42,7 @@ exports.handler = async function (event, context, callback) {
     }
   )
   
-  const redirectUri = oauth2.authorizationCode.authorizeURL({
+  const redirectUri = AuthorizationCode.authorizeURL({
     redirect_uri: `https://jakestagram.com/${OAUTH_CALLBACK_PATH}`,
     scope: OAUTH_SCOPES,
     state: state
