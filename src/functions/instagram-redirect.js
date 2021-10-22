@@ -26,7 +26,7 @@ const credentials = {
 exports.handler = async function (event, context, callback) {
 
   const oauth2 = new AuthorizationCode(credentials);
-
+  console.log(event.headers)
   const state = event.headers.cookies.state || crypto.randomBytes(20).toString('hex');
   console.log('Setting state cookie for verification:', state);
   const secureCookie = event.path.indexOf('localhost:') !== 0;
