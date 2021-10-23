@@ -1,3 +1,5 @@
 [dev]
-functions = "functions"
-functionsPort = 9090
+functions = "src/functions"
+
+[build]
+functions = "src/functions"

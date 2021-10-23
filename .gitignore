@@ -24,3 +24,6 @@ yarn-debug.log*
 yarn-error.log*
 makeAdmin.js
 jakestagram-key.json
+
+# Local Netlify folder
+.netlify

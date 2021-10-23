@@ -27,7 +27,7 @@ exports.handler = async function (event, context, callback) {
 
   const oauth2 = new AuthorizationCode(credentials);
   console.log(event.headers)
-  const state = event.headers.cookie.state || crypto.randomBytes(20).toString('hex');
+  const state = event.headers?.cookie?.state || crypto.randomBytes(20).toString('hex');
   console.log('Setting state cookie for verification:', state);
   const secureCookie = event.path.indexOf('localhost:') !== 0;
   console.log('Need a secure cookie (i.e. not on localhost)?', secureCookie);
@@ -42,8 +42,11 @@ exports.handler = async function (event, context, callback) {
     }
   )
   
+  const r_uri = `https://jakestagram.com${OAUTH_CALLBACK_PATH}`
+  console.log('r_uri', r_uri)
+  
   const redirectUri = oauth2.authorizeURL({
-    redirect_uri: `https://jakestagram.com/${OAUTH_CALLBACK_PATH}`,
+    redirect_uri: `https://jakestagram.com${OAUTH_CALLBACK_PATH}`,
     scope: OAUTH_SCOPES,
     state: state
   })
