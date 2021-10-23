@@ -20,18 +20,18 @@ exports.handler = async function (event, context, callback) {
   console.log('eventCookies', eventCookies)
 
 
-  const stateCookie = eventCookies.state
-  const stateQuery = event.queryStringParameters.state
+  const cookieState = eventCookies ? eventCookies.state : null
+  const queryState = event.queryStringParameters.state
   const authCode = event.queryStringParameters.code
-  console.log('Received state cookie:', stateCookie);
-  console.log('Received state query parameter:', stateQuery);
+  console.log('Received state cookie:', cookieState);
+  console.log('Received state query parameter:', queryState);
 
-  if (!stateCookie) {
+  if (!cookieState) {
     return {
       statusCode: 400,
       body: 'State cookie not set or expired. Maybe you took too long to authorize. Please try again.'
     }
-  } else if (stateCookie !== stateQuery) {
+  } else if (cookieState !== queryState) {
     return {
       statusCode: 400,
       body: 'State validation failed.'
