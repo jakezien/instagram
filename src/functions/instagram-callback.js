@@ -15,9 +15,9 @@ exports.handler = async function (event, context, callback) {
 
   const oauth2 = new AuthorizationCode(credentials);
 
-  const stateCookie = event.headers.cookie?.state
-  const queryCookie = event.queryStringParameters?.state
-  const authCode = event.queryStringParameters?.code
+  const stateCookie = event.headers.cookie.state
+  const queryCookie = event.queryStringParameters.state
+  const authCode = event.queryStringParameters.code
   console.log('Received state cookie:', stateCookie);
   console.log('Received state query parameter:', queryCookie);
 
