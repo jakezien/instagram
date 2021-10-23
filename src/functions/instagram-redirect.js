@@ -30,7 +30,7 @@ exports.handler = async function (event, context, callback) {
   console.log(event.headers)
   const state = event.headers.cookie ? event.headers.cookie.state : crypto.randomBytes(20).toString('hex');
   console.log('Setting state cookie for verification:', state);
-  const secureCookie = event.path.indexOf('localhost:') !== 0;
+  const secureCookie = event.path.indexOf('localhost') == -1;
   console.log('Need a secure cookie (i.e. not on localhost)?', secureCookie);
   
   const serializedCookie = cookie.serialize(
