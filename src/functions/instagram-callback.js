@@ -1,6 +1,8 @@
 const { AuthorizationCode } = require("simple-oauth2");
 const cookie = require('cookie');
 
+const OAUTH_CALLBACK_PATH = '/instagram-callback';
+
 const credentials = {
   client: {
     id: process.env.CLIENT_ID,
@@ -40,17 +42,19 @@ exports.handler = async function (event, context, callback) {
   console.log('Received auth code:', authCode)
   oauth2.getToken({
     code: authCode,
-    redirectUri: `https://localhost:8888/`
+    redirectUri: `https://jakestagram.com/.netlify/functions${OAUTH_CALLBACK_PATH}`,
+  }).then(results => {
+    console.log('Auth code exchange result received:', results)
+    const accessToken = results.access_token;
+    const instagramUserID = results.user.id;
+    const profilePic = results.user.profile_picture;
+    const userName = results.user.full_name;
   })
 
   return {
-    'statusCode': 302,
-    'headers': {
-      'Set-Cookie': serializedCookie,
-      'Cache-Control': 'no-cache',
-      'Location': redirectUri
-    },
-    'body': 'redirect'
+    'statusCode': 200,
+    'headers': {},
+    'body': 'firebase template apparently'
   }
 
 
