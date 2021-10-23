@@ -25,20 +25,20 @@ const credentials = {
 
 exports.handler = async function (event, context, callback) {
 
-  console.log('why hello there')
-  console.log('hello')
   const oauth2 = new AuthorizationCode(credentials);
-  console.log(event.headers)
-  const state = event.headers.cookie ? event.headers.cookie.state : crypto.randomBytes(20).toString('hex');
+  
+  console.log(event.headers.cookie)
+  const eventCookies = event.headers.cookie ? cookie.parse(event.headers.cookie) : null
+  const state = eventCookies ? eventCookies.state : crypto.randomBytes(20).toString('hex');
+  const isLocalhost = event.headers.host.indexOf('localhost') > -1;
   console.log('Setting state cookie for verification:', state);
-  const secureCookie = event.path.indexOf('localhost') == -1;
-  console.log('Need a secure cookie (i.e. not on localhost)?', secureCookie);
+  console.log('Is localhost?', isLocalhost);
   
   const serializedCookie = cookie.serialize(
     'state',
-    state,
+    state, 
     {
-      secure: secureCookie,
+      secure: !isLocalhost,
       httpOnly: true,
       maxAge: 3600000
     }
