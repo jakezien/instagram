@@ -29,6 +29,7 @@ exports.handler = async function (event, context, callback) {
   
   console.log(event.headers.cookie)
   const eventCookies = event.headers.cookie ? cookie.parse(event.headers.cookie) : null
+  console.log(eventCookies)
   const state = eventCookies ? eventCookies.state : crypto.randomBytes(20).toString('hex');
   const isLocalhost = event.headers.host.indexOf('localhost') > -1;
   console.log('Setting state cookie for verification:', state);
