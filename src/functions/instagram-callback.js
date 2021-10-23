@@ -1,4 +1,5 @@
 const { AuthorizationCode } = require("simple-oauth2");
+const cookie = require('cookie');
 
 const credentials = {
   client: {
@@ -15,18 +16,22 @@ exports.handler = async function (event, context, callback) {
 
   const oauth2 = new AuthorizationCode(credentials);
 
-  const stateCookie = event.headers.cookie.state
-  const queryCookie = event.queryStringParameters.state
+  const eventCookies = event.headers.cookie ? cookie.parse(event.headers.cookie) : null
+  console.log('eventCookies', eventCookies)
+
+
+  const stateCookie = eventCookies.state
+  const stateQuery = event.queryStringParameters.state
   const authCode = event.queryStringParameters.code
   console.log('Received state cookie:', stateCookie);
-  console.log('Received state query parameter:', queryCookie);
+  console.log('Received state query parameter:', stateQuery);
 
   if (!stateCookie) {
     return {
       statusCode: 400,
       body: 'State cookie not set or expired. Maybe you took too long to authorize. Please try again.'
     }
-  } else if (stateCookie !== queryCookie) {
+  } else if (stateCookie !== stateQuery) {
     return {
       statusCode: 400,
       body: 'State validation failed.'
