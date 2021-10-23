@@ -1,7 +1,7 @@
 // Modules imports
 const cookie = require('cookie');
 const crypto = require('crypto');
-const { ClientCredentials, ResourceOwnerPassword, AuthorizationCode } = require('simple-oauth2');
+const { AuthorizationCode } = require('simple-oauth2');
 
 
 // Instagram scopes requested.
@@ -25,6 +25,7 @@ const credentials = {
 
 exports.handler = async function (event, context, callback) {
 
+  console.log('why hello there')
   console.log('hello')
   const oauth2 = new AuthorizationCode(credentials);
   console.log(event.headers)
