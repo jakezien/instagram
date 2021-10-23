@@ -25,6 +25,7 @@ const credentials = {
 
 exports.handler = async function (event, context, callback) {
 
+  console.log('hello')
   const oauth2 = new AuthorizationCode(credentials);
   console.log(event.headers)
   const state = event.headers.cookie ? event.headers.cookie.state : crypto.randomBytes(20).toString('hex');
