@@ -5,7 +5,7 @@ const { ClientCredentials, ResourceOwnerPassword, AuthorizationCode } = require(
 
 
 // Instagram scopes requested.
-const OAUTH_SCOPES = 'basic';
+const OAUTH_SCOPES = 'user_profile';
 
 // Path to the OAuth handlers.
 const OAUTH_CALLBACK_PATH = '/instagram-callback';
@@ -26,7 +26,7 @@ const credentials = {
 exports.handler = async function (event, context, callback) {
 
   const oauth2 = new AuthorizationCode(credentials);
-  console.log(event.headers)
+  // console.log(event.headers)
   const state = event.headers?.cookie?.state || crypto.randomBytes(20).toString('hex');
   console.log('Setting state cookie for verification:', state);
   const secureCookie = event.path.indexOf('localhost:') !== 0;
@@ -41,9 +41,7 @@ exports.handler = async function (event, context, callback) {
       maxAge: 3600000
     }
   )
-  
-  const r_uri = `https://jakestagram.com/.netlify/functions${OAUTH_CALLBACK_PATH}`
-  console.log('r_uri', r_uri)
+
   
   const redirectUri = oauth2.authorizeURL({
     redirect_uri: `https://jakestagram.com/.netlify/functions${OAUTH_CALLBACK_PATH}`,
