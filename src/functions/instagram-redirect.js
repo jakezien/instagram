@@ -42,11 +42,11 @@ exports.handler = async function (event, context, callback) {
     }
   )
   
-  const r_uri = `https://jakestagram.com${OAUTH_CALLBACK_PATH}`
+  const r_uri = `https://jakestagram.com/.netlify/functions${OAUTH_CALLBACK_PATH}`
   console.log('r_uri', r_uri)
   
   const redirectUri = oauth2.authorizeURL({
-    redirect_uri: `https://jakestagram.com${OAUTH_CALLBACK_PATH}`,
+    redirect_uri: `https://jakestagram.com/.netlify/functions${OAUTH_CALLBACK_PATH}`,
     scope: OAUTH_SCOPES,
     state: state
   })
