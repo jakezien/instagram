@@ -26,10 +26,8 @@ const credentials = {
 exports.handler = async function (event, context, callback) {
 
   const oauth2 = new AuthorizationCode(credentials);
-  console.log('oauth2', oauth2)
 
   const eventCookies = event.headers.cookie ? cookie.parse(event.headers.cookie) : null
-  console.log('eventCookies', eventCookies)
 
 
   const cookieState = eventCookies ? eventCookies.state : null
@@ -68,7 +66,7 @@ exports.handler = async function (event, context, callback) {
         authorization: token,
       }
     });
-    console.log('got userProfile:', userProfile)
+    // console.log('got userProfile:', userProfile)
     return userProfile
   }
 
@@ -133,7 +131,7 @@ function createFirebaseAccount(instagramID, displayName, accessToken) {
   const uid = `instagram:${instagramID}`;
   console.log('uid', uid)
   
-  console.log('admin.database()', admin.database().ref(`/instagramAccessToken/${uid}`))
+  // console.log('admin.database()', admin.database().ref(`/instagramAccessToken/${uid}`))
   // Save the access token to the Firebase Realtime Database.
   const databaseTask = admin.database().ref(`/instagramAccessToken/${uid}`)
     .set(accessToken);
