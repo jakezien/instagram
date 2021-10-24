@@ -56,6 +56,7 @@ exports.handler = async function (event, context, callback) {
     const delay = await oauth2.getToken({
       code: authCode,
       redirectUri: redirectUri,
+      client_id: process.env.CLIENT_ID
     }).then(results => {
       console.log('Auth code exchange result received:', results)
       const accessToken = results.access_token;
