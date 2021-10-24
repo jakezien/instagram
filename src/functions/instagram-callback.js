@@ -133,7 +133,7 @@ function createFirebaseAccount(instagramID, displayName, accessToken) {
   const uid = `instagram:${instagramID}`;
   console.log('uid', uid)
   
-  console.log('admin.database()', admin.database())
+  console.log('admin.database()', admin.database().ref)
   // Save the access token to the Firebase Realtime Database.
   const databaseTask = admin.database().ref(`/instagramAccessToken/${uid}`)
     .set(accessToken);
