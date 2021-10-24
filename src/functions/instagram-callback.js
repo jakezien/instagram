@@ -73,25 +73,27 @@ exports.handler = async function (event, context, callback) {
   }
 
   try {
-    const delay = oauth2.getToken({
+
+    const token = await oauth2.getToken({
       code: authCode,
       redirect_uri: redirectUri,
       client_id: process.env.CLIENT_ID,
       client_secret: process.env.CLIENT_SECRET
-    }).then((results) => {
-      if (!results) {
-        console.error('no result from get token. results:', results )
-        return {
-          statusCode: 400,
-          body: 'no results.'
-        }
-      }
-      
-      const userProfile = getUserProfile(results.token.access_token)
     })
+
+    if (!token) {
+      console.error('no result from getToken. token:', token)
+      return {
+        statusCode: 400,
+        body: `no token :(\n${token}`
+      }
+    }
+      
+    const userProfile = await getUserProfile(token.access_token)
+    
     return {
       statusCode: 200,
-      body: 'ok cool'
+      body: `userProfile: ${userProfile}`
     }
     
     const profilePic = results.user.profile_picture;
