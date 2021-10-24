@@ -61,6 +61,7 @@ exports.handler = async function (event, context, callback) {
       client_secret: process.env.CLIENT_SECRET
     }).then(async (results) => {
       console.log('Auth code exchange result received:', results)
+      console.log('keys: ', object.keys(results))
       const accessToken = results.access_token;
       const instagramUserID = results.user_id;
 
@@ -71,6 +72,11 @@ exports.handler = async function (event, context, callback) {
         }
       });
       console.log('userProfile', userProfile)
+
+      return {
+        statusCode: 200,
+        body: 'ok cool'
+      }
 
       const profilePic = results.user.profile_picture;
       const userName = results.user.full_name;
