@@ -2,7 +2,6 @@ const { AuthorizationCode } = require("simple-oauth2");
 const cookie = require('cookie');
 const OAUTH_CALLBACK_PATH = '/instagram-callback';
 const axios = require('axios');
-import { getAuth } from 'firebase/auth';
 
 // Firebase Setup
 const admin = require('firebase-admin');
