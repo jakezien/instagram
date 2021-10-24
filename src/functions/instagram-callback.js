@@ -53,6 +53,25 @@ exports.handler = async function (event, context, callback) {
   
   const redirectUri = `${event.headers['x-forwarded-proto']}://${event.headers.host}/.netlify/functions${OAUTH_CALLBACK_PATH}`
   console.log('Redirect uri:', redirectUri)
+  
+  
+  const getUserProfile = async (token) => {
+    console.log('Auth code exchange result received:', results)
+    console.log('keys: ', Object.keys(results))
+    const accessToken = token;
+    // const instagramUserID = token.user_id;
+
+    console.log('getting userProfile…')
+    const userProfile = await axios.get('https://graph.instagram.com/me', {
+      fields: ['id', 'username'],
+      headers: {
+        authorization: accessToken
+      }
+    });
+    console.log('got userProfile:', userProfile)
+    return userProfile
+  }
+
   try {
     const delay = await oauth2.getToken({
       code: authCode,
@@ -60,36 +79,25 @@ exports.handler = async function (event, context, callback) {
       client_id: process.env.CLIENT_ID,
       client_secret: process.env.CLIENT_SECRET
     }).then((results) => {
-      console.log('Auth code exchange result received:', results)
-      console.log('keys: ', Object.keys(results))
-      const accessToken = results.token.access_token;
-      const instagramUserID = results.token.user_id;
+      const userProfile = getUserProfile(results.token.access_token)
+    })
+    return {
+      statusCode: 200,
+      body: 'ok cool'
+    }
+    
+    const profilePic = results.user.profile_picture;
+    const userName = results.user.full_name;
 
-      const userProfile = axios.get('https://graph.instagram.com/me', {
-        fields: ['id', 'username'],
-        headers: {
-          authorization: accessToken
+    createFirebaseAccount(instagramUserID, userName, profilePic, accessToken)
+      .then(firebaseToken => {
+        // Serve an HTML page that signs the user in and updates the user profile.
+        return {
+          statusCode: 200,
+          body: signInFirebaseTemplate(firebaseToken, userName, profilePic, accessToken)
         }
       });
-      console.log('userProfile', userProfile)
-
-      return {
-        statusCode: 200,
-        body: 'ok cool'
-      }
-
-      const profilePic = results.user.profile_picture;
-      const userName = results.user.full_name;
-
-      createFirebaseAccount(instagramUserID, userName, profilePic, accessToken)
-        .then(firebaseToken => {
-          // Serve an HTML page that signs the user in and updates the user profile.
-          return {
-            statusCode: 200,
-            body: signInFirebaseTemplate(firebaseToken, userName, profilePic, accessToken)
-          }
-        });
-    })
+    // })
     
   } catch (error) {
     console.error('getToken error', error)
@@ -103,6 +111,10 @@ exports.handler = async function (event, context, callback) {
     body: 'errrorrrr :((('
   }
 }
+
+
+
+
 
 /**
  * Creates a Firebase account with the given user profile and returns a custom auth token allowing
