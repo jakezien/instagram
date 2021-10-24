@@ -57,7 +57,7 @@ exports.handler = async function (event, context, callback) {
   
   const getUserProfile = async (token) => {
     console.log('getUserProfile with token:', token)
-    // console.log('keys: ', Object.keys(results))
+    console.log('keys: ', Object.keys(token))
     const accessToken = token.access_token ? token.access_token : token.token.access_token;
     // const instagramUserID = token.user_id;
 
@@ -94,20 +94,15 @@ exports.handler = async function (event, context, callback) {
       
     const userProfile = await getUserProfile(token)
     
-    return {
-      statusCode: 200,
-      body: `userProfile: ${userProfile}`
-    }
-    
-    const profilePic = results.user.profile_picture;
-    const userName = results.user.full_name;
+    // const profilePic = results.user.profile_picture;
+    const userName = userProfile.data.username
 
-    createFirebaseAccount(instagramUserID, userName, profilePic, accessToken)
+    createFirebaseAccount(instagramUserID, userName, accessToken)
       .then(firebaseToken => {
         // Serve an HTML page that signs the user in and updates the user profile.
         return {
           statusCode: 200,
-          body: signInFirebaseTemplate(firebaseToken, userName, profilePic, accessToken)
+          body: signInFirebaseTemplate(firebaseToken, userName, accessToken)
         }
       });
     // })
@@ -136,7 +131,7 @@ exports.handler = async function (event, context, callback) {
  *
  * @returns {Promise<string>} The Firebase custom auth token in a promise.
  */
-function createFirebaseAccount(instagramID, displayName, photoURL, accessToken) {
+function createFirebaseAccount(instagramID, displayName, accessToken) {
   // The UID we'll assign to the user.
   const uid = `instagram:${instagramID}`;
 
@@ -146,8 +141,7 @@ function createFirebaseAccount(instagramID, displayName, photoURL, accessToken) 
 
   // Create or update the user account.
   const userCreationTask = admin.auth().updateUser(uid, {
-    displayName: displayName,
-    photoURL: photoURL
+    displayName: displayName
   }).catch(error => {
     // If user does not exists we create it.
     if (error.code === 'auth/user-not-found') {
