@@ -51,7 +51,7 @@ exports.handler = async function (event, context, callback) {
   const redirectUri = `${event.headers['x-forwarded-proto']}://${event.headers.host}/.netlify/functions${OAUTH_CALLBACK_PATH}`
   console.log('Redirect uri:', redirectUri)
   const oauth2 = new AuthorizationCode(credentials);
-  oauth2.getToken({
+  return oauth2.getToken({
     code: authCode,
     redirectUri: redirectUri,
   }).then(results => {
@@ -70,13 +70,6 @@ exports.handler = async function (event, context, callback) {
         }
     });
   })
-
-
-  return {
-    'statusCode': 200,
-    // 'headers': {},
-    // 'body': 'firebase template apparently'
-  }
 }
 
 /**
