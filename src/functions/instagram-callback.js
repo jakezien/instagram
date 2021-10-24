@@ -2,6 +2,7 @@ const { AuthorizationCode } = require("simple-oauth2");
 const cookie = require('cookie');
 const OAUTH_CALLBACK_PATH = '/instagram-callback';
 const axios = require('axios');
+import { getAuth } from 'firebase/auth';
 
 // Firebase Setup
 const admin = require('firebase-admin');
@@ -121,9 +122,6 @@ exports.handler = async function (event, context, callback) {
 }
 
 
-
-
-
 /**
  * Creates a Firebase account with the given user profile and returns a custom auth token allowing
  * signing-in this account.
@@ -136,7 +134,7 @@ function createFirebaseAccount(instagramID, displayName, accessToken) {
   const uid = `instagram:${instagramID}`;
   console.log('uid', uid)
   
-
+  console.log('admin.database()', admin.database())
   // Save the access token to the Firebase Realtime Database.
   const databaseTask = admin.database().ref(`/instagramAccessToken/${uid}`)
     .set(accessToken);
