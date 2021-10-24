@@ -64,13 +64,12 @@ exports.handler = async function (event, context, callback) {
       const accessToken = results.access_token;
       const instagramUserID = results.user_id;
 
-      const userProfile = await axios.get('https://graph.instagram.com/me', {
+      const userProfile = axios.get('https://graph.instagram.com/me', {
         fields: ['id', 'username'],
         headers: {
           authorization: accessToken
         }
       });
-
       console.log('userProfile', userProfile)
 
       const profilePic = results.user.profile_picture;
