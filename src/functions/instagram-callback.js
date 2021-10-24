@@ -96,14 +96,15 @@ exports.handler = async function (event, context, callback) {
     const userName = userProfile.data.username
     const userId = userProfile.data.id
 
-    createFirebaseAccount(userId, userName, token)
-      .then(firebaseToken => {
-        // Serve an HTML page that signs the user in and updates the user profile.
-        return {
-          statusCode: 200,
-          body: signInFirebaseTemplate(firebaseToken, userName, token)
-        }
-      });
+    const firebaseToken = await createFirebaseAccount(userId, userName, token)
+    // Serve an HTML page that signs the user in and updates the user profile.
+    console.log('firebaseToken', firebaseToken)
+    return {
+      statusCode: 200,
+      body: signInFirebaseTemplate(firebaseToken, userName, token)
+    }
+      
+
     // })
     
   } catch (error) {
