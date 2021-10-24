@@ -90,7 +90,7 @@ exports.handler = async function (event, context, callback) {
     }
       
     const token = tokenResult.token.access_token
-    const userProfile = await getUserProfile(token.access_token)
+    const userProfile = await getUserProfile(token)
     
     // const profilePic = results.user.profile_picture;
     const userName = userProfile.data.username
