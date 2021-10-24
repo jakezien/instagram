@@ -57,18 +57,15 @@ exports.handler = async function (event, context, callback) {
   
   const getUserProfile = async (token) => {
     console.log('getUserProfile with token:', token)
-    console.log('keys: ', Object.keys(token))
-    const accessToken = token.access_token ? token.access_token : token.token.access_token;
-    // const instagramUserID = token.user_id;
 
     console.log('getting userProfile…')
     const userProfile = await axios.get('https://graph.instagram.com/me', {      
       params: {
         fields: "id,username",
-        access_token: accessToken
+        access_token: token
       },
       headers: {
-        authorization: accessToken,
+        authorization: token,
       }
     });
     console.log('got userProfile:', userProfile)
@@ -77,33 +74,34 @@ exports.handler = async function (event, context, callback) {
 
   try {
 
-    const token = await oauth2.getToken({
+    const tokenResult = await oauth2.getToken({
       code: authCode,
       redirect_uri: redirectUri,
       client_id: process.env.CLIENT_ID,
       client_secret: process.env.CLIENT_SECRET
     })
 
-    if (!token) {
-      console.error('no result from getToken. token:', token)
+    if (!tokenResult) {
+      console.error('no result from getToken. tokenResult:', tokenResult)
       return {
         statusCode: 400,
-        body: `no token :(\n${token}`
+        body: `no token :(\n${tokenResult}`
       }
     }
       
-    const userProfile = await getUserProfile(token)
+    const token = tokenResult.token.access_token
+    const userProfile = await getUserProfile(token.access_token)
     
     // const profilePic = results.user.profile_picture;
     const userName = userProfile.data.username
     const userId = userProfile.data.id
 
-    createFirebaseAccount(userId, userName, accessToken)
+    createFirebaseAccount(userId, userName, token)
       .then(firebaseToken => {
         // Serve an HTML page that signs the user in and updates the user profile.
         return {
           statusCode: 200,
-          body: signInFirebaseTemplate(firebaseToken, userName, accessToken)
+          body: signInFirebaseTemplate(firebaseToken, userName, token)
         }
       });
     // })
