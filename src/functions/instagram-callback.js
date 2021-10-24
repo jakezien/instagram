@@ -73,7 +73,7 @@ exports.handler = async function (event, context, callback) {
   }
 
   try {
-    const delay = await oauth2.getToken({
+    const delay = oauth2.getToken({
       code: authCode,
       redirect_uri: redirectUri,
       client_id: process.env.CLIENT_ID,
