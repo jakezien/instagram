@@ -96,8 +96,9 @@ exports.handler = async function (event, context, callback) {
     
     // const profilePic = results.user.profile_picture;
     const userName = userProfile.data.username
+    const userId = userProfile.data.id
 
-    createFirebaseAccount(instagramUserID, userName, accessToken)
+    createFirebaseAccount(userId, userName, accessToken)
       .then(firebaseToken => {
         // Serve an HTML page that signs the user in and updates the user profile.
         return {
