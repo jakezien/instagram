@@ -134,10 +134,13 @@ exports.handler = async function (event, context, callback) {
 function createFirebaseAccount(instagramID, displayName, accessToken) {
   // The UID we'll assign to the user.
   const uid = `instagram:${instagramID}`;
+  console.log('uid', uid)
+  
 
   // Save the access token to the Firebase Realtime Database.
   const databaseTask = admin.database().ref(`/instagramAccessToken/${uid}`)
-      .set(accessToken);
+    .set(accessToken);
+  console.log('databaseTask', databaseTask)
 
   // Create or update the user account.
   const userCreationTask = admin.auth().updateUser(uid, {
@@ -152,6 +155,7 @@ function createFirebaseAccount(instagramID, displayName, accessToken) {
     }
     throw error;
   });
+  console.log('userCreationTask', userCreationTask)
 
   // Wait for all async task to complete then generate and return a custom auth token.
   return Promise.all([userCreationTask, databaseTask]).then(() => {
