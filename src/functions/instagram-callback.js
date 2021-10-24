@@ -147,8 +147,7 @@ function createFirebaseAccount(instagramID, displayName, accessToken) {
     if (error.code === 'auth/user-not-found') {
       return admin.auth().createUser({
         uid: uid,
-        displayName: displayName,
-        photoURL: photoURL
+        displayName: displayName
       });
     }
     throw error;
