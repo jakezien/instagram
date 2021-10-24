@@ -4,12 +4,12 @@ const OAUTH_CALLBACK_PATH = '/instagram-callback';
 
 // Firebase Setup
 const admin = require('firebase-admin');
-const serviceAccount = require('../../jakestagram-key.json');
+const serviceAccount = JSON.parse(Buffer.from(process.env.SERVICE_ACCOUNT, 'base64').toString())
+
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
   databaseURL: `https://${serviceAccount.project_id}.firebaseio.com`
 });
-
 
 const credentials = {
   client: {
@@ -24,7 +24,6 @@ const credentials = {
 
 exports.handler = async function (event, context, callback) {
 
-  const oauth2 = new AuthorizationCode(credentials);
 
   const eventCookies = event.headers.cookie ? cookie.parse(event.headers.cookie) : null
   console.log('eventCookies', eventCookies)
@@ -48,6 +47,8 @@ exports.handler = async function (event, context, callback) {
     }
   }
   console.log('Received auth code:', authCode)
+  
+  const oauth2 = new AuthorizationCode(credentials);
   oauth2.getToken({
     code: authCode,
     redirectUri: `https://jakestagram.com/.netlify/functions${OAUTH_CALLBACK_PATH}`,
