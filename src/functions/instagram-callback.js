@@ -59,7 +59,7 @@ exports.handler = async function (event, context, callback) {
       redirect_uri: redirectUri,
       client_id: process.env.CLIENT_ID,
       client_secret: process.env.CLIENT_SECRET
-    }).then(results => {
+    }).then(async (results) => {
       console.log('Auth code exchange result received:', results)
       const accessToken = results.access_token;
       const instagramUserID = results.user_id;
