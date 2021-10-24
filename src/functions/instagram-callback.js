@@ -51,25 +51,35 @@ exports.handler = async function (event, context, callback) {
   const redirectUri = `${event.headers['x-forwarded-proto']}://${event.headers.host}/.netlify/functions${OAUTH_CALLBACK_PATH}`
   console.log('Redirect uri:', redirectUri)
   const oauth2 = new AuthorizationCode(credentials);
-  return oauth2.getToken({
-    code: authCode,
-    redirectUri: redirectUri,
-  }).then(results => {
-    console.log('Auth code exchange result received:', results)
-    const accessToken = results.access_token;
-    const instagramUserID = results.user.id;
-    const profilePic = results.user.profile_picture;
-    const userName = results.user.full_name;
+  try {
+    oauth2.getToken({
+      code: authCode,
+      redirectUri: redirectUri,
+    }).then(results => {
+      console.log('Auth code exchange result received:', results)
+      const accessToken = results.access_token;
+      const instagramUserID = results.user.id;
+      const profilePic = results.user.profile_picture;
+      const userName = results.user.full_name;
 
-    createFirebaseAccount(instagramUserID, userName, profilePic, accessToken)
-      .then(firebaseToken => {
-        // Serve an HTML page that signs the user in and updates the user profile.
-        return {
-          statusCode: 200,
-          body: signInFirebaseTemplate(firebaseToken, userName, profilePic, accessToken)
-        }
-    });
-  })
+      createFirebaseAccount(instagramUserID, userName, profilePic, accessToken)
+        .then(firebaseToken => {
+          // Serve an HTML page that signs the user in and updates the user profile.
+          return {
+            statusCode: 200,
+            body: signInFirebaseTemplate(firebaseToken, userName, profilePic, accessToken)
+          }
+        });
+    })
+    
+  } catch (error) {
+    console.error('getToken error', error)
+    return {
+      statusCode: 400,
+      body: error
+    }
+  }
+
 }
 
 /**
