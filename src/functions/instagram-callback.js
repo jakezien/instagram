@@ -59,13 +59,13 @@ exports.handler = async function (event, context, callback) {
       redirect_uri: redirectUri,
       client_id: process.env.CLIENT_ID,
       client_secret: process.env.CLIENT_SECRET
-    }).then(async (results) => {
+    }).then((results) => {
       console.log('Auth code exchange result received:', results)
-      console.log('keys: ', object.keys(results))
+      console.log('keys: ', Object.keys(results))
       const accessToken = results.access_token;
       const instagramUserID = results.user_id;
 
-      const userProfile = await axios.get('https://graph.instagram.com/me', {
+      const userProfile = axios.get('https://graph.instagram.com/me', {
         fields: ['id', 'username'],
         headers: {
           authorization: accessToken
