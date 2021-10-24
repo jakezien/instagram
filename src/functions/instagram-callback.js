@@ -58,14 +58,17 @@ exports.handler = async function (event, context, callback) {
   const getUserProfile = async (token) => {
     console.log('getUserProfile with token:', token)
     // console.log('keys: ', Object.keys(results))
-    const accessToken = token;
+    const accessToken = token.access_token ? token.access_token : token.token.access_token;
     // const instagramUserID = token.user_id;
 
     console.log('getting userProfile…')
-    const userProfile = await axios.get('https://graph.instagram.com/me', {
-      fields: ['id', 'username'],
+    const userProfile = await axios.get('https://graph.instagram.com/me', {      
+      params: {
+        fields: "id,username",
+        access_token: accessToken
+      },
       headers: {
-        authorization: accessToken
+        authorization: accessToken,
       }
     });
     console.log('got userProfile:', userProfile)
