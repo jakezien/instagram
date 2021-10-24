@@ -48,10 +48,12 @@ exports.handler = async function (event, context, callback) {
   }
   console.log('Received auth code:', authCode)
   
+  const redirectUri = `${event.headers['x-forwarded-proto']}://${event.headers.host}/.netlify/functions${OAUTH_CALLBACK_PATH}`
+  console.log('Redirect uri:', redirectUri)
   const oauth2 = new AuthorizationCode(credentials);
   oauth2.getToken({
     code: authCode,
-    redirectUri: `https://jakestagram.com/.netlify/functions${OAUTH_CALLBACK_PATH}`,
+    redirectUri: redirectUri,
   }).then(results => {
     console.log('Auth code exchange result received:', results)
     const accessToken = results.access_token;
