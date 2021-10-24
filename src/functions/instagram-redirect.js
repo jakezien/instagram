@@ -3,7 +3,6 @@ const cookie = require('cookie');
 const crypto = require('crypto');
 const { AuthorizationCode } = require('simple-oauth2');
 
-
 // Instagram scopes requested.
 const OAUTH_SCOPES = 'user_profile';
 
@@ -21,7 +20,6 @@ const credentials = {
     tokenPath: '/oauth/access_token'
   }
 };
-
 
 exports.handler = async function (event, context, callback) {
 
@@ -53,7 +51,6 @@ exports.handler = async function (event, context, callback) {
 
   console.log('Redirecting to:', redirectUri);
 
-  
   return {
     'statusCode': 302,
     'headers': {
@@ -64,18 +61,4 @@ exports.handler = async function (event, context, callback) {
     'body': 'redirect'
   }
   
-  // app.get(OAUTH_REDIRECT_PATH, (req, res) => {
-  //   const state = req.cookies.state || crypto.randomBytes(20).toString('hex');
-  //   console.log('Setting state cookie for verification:', state);
-  //   const secureCookie = req.get('host').indexOf('localhost:') !== 0;
-  //   console.log('Need a secure cookie (i.e. not on localhost)?', secureCookie);
-  //   res.cookie('state', state, { maxAge: 3600000, secure: secureCookie, httpOnly: true });
-  //   const redirectUri = oauth2.authorizationCode.authorizeURL({
-  //     redirect_uri: `${req.protocol}://${req.get('host')}${OAUTH_CALLBACK_PATH}`,
-  //     scope: OAUTH_SCOPES,
-  //     state: state
-  //   });
-  //   console.log('Redirecting to:', redirectUri);
-  //   res.redirect(redirectUri);
-  // });
 }
