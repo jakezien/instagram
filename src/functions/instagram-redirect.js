@@ -45,9 +45,8 @@ exports.handler = async function (event, context, callback) {
     }
   )
 
-  
   const redirectUri = oauth2.authorizeURL({
-    redirect_uri: `https://jakestagram.com/.netlify/functions${OAUTH_CALLBACK_PATH}`,
+    redirect_uri: `${event.headers['x-forwarded-proto']}://${event.headers.host}/.netlify/functions${OAUTH_CALLBACK_PATH}`,
     scope: OAUTH_SCOPES,
     state: state
   })
