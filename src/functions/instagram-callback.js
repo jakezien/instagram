@@ -79,7 +79,10 @@ exports.handler = async function (event, context, callback) {
       body: error
     }
   }
-
+  return {
+    statusCode: 400,
+    body: 'errrorrrr :((('
+  }
 }
 
 /**
