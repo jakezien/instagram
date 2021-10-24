@@ -56,8 +56,8 @@ exports.handler = async function (event, context, callback) {
   
   
   const getUserProfile = async (token) => {
-    console.log('Auth code exchange result received:', results)
-    console.log('keys: ', Object.keys(results))
+    console.log('getUserProfile with token:', token)
+    // console.log('keys: ', Object.keys(results))
     const accessToken = token;
     // const instagramUserID = token.user_id;
 
