@@ -62,8 +62,8 @@ exports.handler = async function (event, context, callback) {
     }).then((results) => {
       console.log('Auth code exchange result received:', results)
       console.log('keys: ', Object.keys(results))
-      const accessToken = results.access_token;
-      const instagramUserID = results.user_id;
+      const accessToken = results.token.access_token;
+      const instagramUserID = results.token.user_id;
 
       const userProfile = axios.get('https://graph.instagram.com/me', {
         fields: ['id', 'username'],
