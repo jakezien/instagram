@@ -89,7 +89,7 @@ exports.handler = async function (event, context, callback) {
       }
     }
       
-    const userProfile = await getUserProfile(token.access_token)
+    const userProfile = await getUserProfile(token)
     
     return {
       statusCode: 200,
