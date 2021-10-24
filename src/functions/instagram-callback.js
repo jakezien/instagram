@@ -1,6 +1,7 @@
 const { AuthorizationCode } = require("simple-oauth2");
 const cookie = require('cookie');
 const OAUTH_CALLBACK_PATH = '/instagram-callback';
+const axios = require('axios');
 
 // Firebase Setup
 const admin = require('firebase-admin');
@@ -61,7 +62,17 @@ exports.handler = async function (event, context, callback) {
     }).then(results => {
       console.log('Auth code exchange result received:', results)
       const accessToken = results.access_token;
-      const instagramUserID = results.user.id;
+      const instagramUserID = results.user_id;
+
+      const userProfile = await axios.get('https://graph.instagram.com/me', {
+        fields: ['id', 'username'],
+        headers: {
+          authorization: accessToken
+        }
+      });
+
+      console.log('userProfile', userProfile)
+
       const profilePic = results.user.profile_picture;
       const userName = results.user.full_name;
 
