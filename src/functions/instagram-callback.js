@@ -52,7 +52,7 @@ exports.handler = async function (event, context, callback) {
   console.log('Redirect uri:', redirectUri)
   const oauth2 = new AuthorizationCode(credentials);
   try {
-    oauth2.getToken({
+    const delay = await oauth2.getToken({
       code: authCode,
       redirectUri: redirectUri,
     }).then(results => {
