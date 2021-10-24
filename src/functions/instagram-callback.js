@@ -79,6 +79,14 @@ exports.handler = async function (event, context, callback) {
       client_id: process.env.CLIENT_ID,
       client_secret: process.env.CLIENT_SECRET
     }).then((results) => {
+      if (!results) {
+        console.error('no result from get token. results:', results )
+        return {
+          statusCode: 400,
+          body: 'no results.'
+        }
+      }
+      
       const userProfile = getUserProfile(results.token.access_token)
     })
     return {
