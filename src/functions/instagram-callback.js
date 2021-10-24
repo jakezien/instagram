@@ -24,6 +24,8 @@ const credentials = {
 
 exports.handler = async function (event, context, callback) {
 
+  const oauth2 = new AuthorizationCode(credentials);
+  console.log('oauth2', oauth2)
 
   const eventCookies = event.headers.cookie ? cookie.parse(event.headers.cookie) : null
   console.log('eventCookies', eventCookies)
@@ -50,7 +52,6 @@ exports.handler = async function (event, context, callback) {
   
   const redirectUri = `${event.headers['x-forwarded-proto']}://${event.headers.host}/.netlify/functions${OAUTH_CALLBACK_PATH}`
   console.log('Redirect uri:', redirectUri)
-  const oauth2 = new AuthorizationCode(credentials);
   try {
     const delay = await oauth2.getToken({
       code: authCode,
