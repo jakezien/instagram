@@ -7,9 +7,16 @@ const axios = require('axios');
 const admin = require('firebase-admin');
 const serviceAccount = JSON.parse(Buffer.from(process.env.SERVICE_ACCOUNT, 'base64').toString())
 
+// Get a reference to the database service
+var database = firebase.database();
+
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
-  databaseURL: `https://${serviceAccount.project_id}.firebaseio.com`
+  serviceAccount: serviceAccount,
+  apiKey: "apiKey",
+  authDomain: "projectId.firebaseapp.com",
+  databaseURL: process.env.RTDB_URL,
+  storageBucket: "bucket.appspot.com"
 });
 
 const credentials = {
@@ -94,13 +101,16 @@ exports.handler = async function (event, context, callback) {
     const userName = userProfile.data.username
     const userId = userProfile.data.id
 
-    const firebaseToken = await createFirebaseAccount(userId, userName, token)
-    // Serve an HTML page that signs the user in and updates the user profile.
-    console.log('firebaseToken', firebaseToken)
-    return {
-      statusCode: 200,
-      body: signInFirebaseTemplate(firebaseToken, userName, token)
-    }
+    const firebaseToken = await createFirebaseToken(userId)
+    console.log('firebase token:', firebaseToken)
+
+    // const firebaseToken = await createFirebaseAccount(userId, userName, token)
+    // // Serve an HTML page that signs the user in and updates the user profile.
+    // console.log('firebaseToken', firebaseToken)
+    // return {
+    //   statusCode: 200,
+    //   body: signInFirebaseTemplate(firebaseToken, userName, token)
+    // }
       
 
     // })
@@ -118,6 +128,13 @@ exports.handler = async function (event, context, callback) {
   }
 }
 
+function createFirebaseToken(instagramID) {
+  // The uid we'll assign to the user.
+  const uid = `instagram:${instagramID}`;
+
+  // Create the custom token.
+  return firebase.auth().createCustomToken(uid);
+}
 
 /**
  * Creates a Firebase account with the given user profile and returns a custom auth token allowing
