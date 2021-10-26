@@ -71,7 +71,7 @@ export default function Header() {
             
             {loggedInUser ? (
               <>
-                <p>{loggedInUser.uid}</p>
+                <p className="mx-6">{loggedInUser.uid}</p>
                 <Link to={ROUTES.DASHBOARD} aria-label="Dashboard">
                   <svg
                     className="w-8 mr-6 text-black-light cursor-pointer"
