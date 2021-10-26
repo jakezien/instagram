@@ -10,7 +10,7 @@ const serviceAccount = JSON.parse(Buffer.from(process.env.SERVICE_ACCOUNT, 'base
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
   serviceAccount: serviceAccount,
-  databaseURL: process.env.RTDB_URL,
+  databaseURL: `${process.env.RTDB_URL}`,
   
 });
 
@@ -142,8 +142,8 @@ function signInFirebaseTemplate(token, displayName, instagramAccessToken) {
     <script>
       var token = '${token}';
       var config = {
-        apiKey: ${process.env.FIREBASE_API_KEY},
-        databaseURL: ${process.env.RTDB_URL}
+        apiKey: '${process.env.FIREBASE_API_KEY}',
+        databaseURL: '${process.env.RTDB_URL}'
       };
       // We sign in via a temporary Firebase app to update the profile.
       var tempApp = firebase.initializeApp(config, '_temp_');
