@@ -13,10 +13,8 @@ var database = firebase.database();
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
   serviceAccount: serviceAccount,
-  apiKey: "apiKey",
-  authDomain: "projectId.firebaseapp.com",
   databaseURL: process.env.RTDB_URL,
-  storageBucket: "bucket.appspot.com"
+  
 });
 
 const credentials = {
