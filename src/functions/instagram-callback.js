@@ -68,7 +68,7 @@ exports.handler = async function (event, context, callback) {
         authorization: token,
       }
     });
-    // console.log('got userProfile:', userProfile)
+    console.log('got userProfile:', userProfile)
     return userProfile
   }
 
@@ -89,8 +89,8 @@ exports.handler = async function (event, context, callback) {
       }
     }
       
-    const token = tokenResult.token.access_token
-    const userProfile = await getUserProfile(token)
+    const instagramToken = tokenResult.token.access_token
+    const userProfile = await getUserProfile(instagramToken)
     
     // const profilePic = results.user.profile_picture;
     const userName = userProfile.data.username
@@ -99,6 +99,10 @@ exports.handler = async function (event, context, callback) {
     const firebaseToken = await createFirebaseToken(userId)
     console.log('firebase token:', firebaseToken)
 
+    return {
+      statusCode: 200,
+      body: signInFirebaseTemplate(firebaseToken, userName, instagramToken)
+    }
     // const firebaseToken = await createFirebaseAccount(userId, userName, token)
     // // Serve an HTML page that signs the user in and updates the user profile.
     // console.log('firebaseToken', firebaseToken)
@@ -172,6 +176,43 @@ function createFirebaseAccount(instagramID, displayName, accessToken) {
     return token;
   });
 }
+
+function signInFirebaseTemplate(token, displayName, instagramAccessToken) {
+  return `
+    <script src="https://www.gstatic.com/firebasejs/3.6.0/firebase.js"></script>
+    <script src="promise.min.js"></script><!-- Promise Polyfill for older browsers -->
+    <script>
+      var token = '${token}';
+      var config = {
+        apiKey: ${process.env.FIREBASE_API_KEY},
+        databaseURL: ${process.env.RTDB_URL}
+      };
+      // We sign in via a temporary Firebase app to update the profile.
+      var tempApp = firebase.initializeApp(config, '_temp_');
+      tempApp.auth().signInWithCustomToken(token).then(function(user) {
+     
+        // Saving the Instagram API access token in the Realtime Database.
+        const tasks = [tempApp.database().ref('/instagramAccessToken/' + user.uid)
+            .set('${instagramAccessToken}')];
+   
+        // Updating the displayname and photoURL if needed.
+        if ('${displayName}' !== user.displayName) {
+          tasks.push(user.updateProfile({displayName: '${displayName}'}));
+        }
+   
+        // Wait for completion of above tasks.
+        return Promise.all(tasks).then(function() {
+          // Delete temporary Firebase app and sign in the default Firebase app, then close the popup.
+          var defaultApp = firebase.initializeApp(config);
+          Promise.all([
+              defaultApp.auth().signInWithCustomToken(token),
+              tempApp.delete()]).then(function() {
+            window.close(); // We’re done! Closing the popup.
+          });
+        });
+      });
+    </script>`;
+ }
 
 /**
  * Generates the HTML template that signs the user in Firebase using the given token and closes the
