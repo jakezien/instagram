@@ -93,6 +93,11 @@ export default function Login() {
     }
   }
 
+  const onSignInWithInstagramButtonClick = () => {
+    // Open the Auth flow in a popup.
+    window.open('/.netlify/functions/instagram-redirect', 'Sign In With Instagram', 'height=315,width=400');
+  };
+
   const fetchData = async() => {
     const results = await axios.get('/.netlify/functions/auth')
     console.log(results)
@@ -176,22 +181,17 @@ export default function Login() {
               Send Magic Sign-in link
             </button>
             <p className="text-center my-2 text-sm text-gray-500">or</p>
-            <InstagramLogin
-              clientId="403164224515689"
-              buttonText="Login"
-              onSuccess={handleInstagramResponse}
-              onFailure={handleInstagramResponse}
-              cssClass={"w-full rounded h-10 font-bold bg-ig-gradient"}
-              useRedirect={true}
-              redirectUri={"https://jakestagram.com/login"}
-              scope="user_profile"
+
+            <button
+              onClick={onSignInWithInstagramButtonClick}
+              className={"w-full rounded h-10 font-bold bg-ig-gradient"}
             >
               <div className="bg-white rounded-sm box-border block h-9 m-0.5">
                 <div className="text-ig-gradient block leading-9">
                   Log in with Instagram
                 </div>
               </div>
-            </InstagramLogin>
+            </button>
             
             <p className="text-sm text-gray-500 text-center mt-2">Yep, for real</p>
             
