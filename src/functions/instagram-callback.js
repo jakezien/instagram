@@ -68,7 +68,7 @@ exports.handler = async function (event, context, callback) {
         authorization: token,
       }
     });
-    console.log('got userProfile:', userProfile)
+    console.log('got userProfile:', userProfile.data)
     return userProfile
   }
 
@@ -138,7 +138,6 @@ function createFirebaseToken(instagramID) {
 function signInFirebaseTemplate(token, displayName, instagramAccessToken) {
   return `
     <script src="https://www.gstatic.com/firebasejs/3.6.0/firebase.js"></script>
-    <script src="promise.min.js"></script><!-- Promise Polyfill for older browsers -->
     <script>
       var token = '${token}';
       var config = {
