@@ -3,14 +3,11 @@ module.exports = {
     removeDeprecatedGapUtilities: true
   },
   purge: {
-    enabled: process.env.PURGE_CSS === 'production' ? true : false,
-    // enabled: false,
+    // enabled: process.env.PURGE_CSS === 'production' ? true : false,
+    enabled: false,
     content: ['./src/**/*.js', './src/**/**/*.js']
   },
   theme: {
-    fill: (theme) => ({
-      yellow: theme('colors.yellow.primary')
-    }),
     extend: {
       colors: {
         white: '#ffffff',
