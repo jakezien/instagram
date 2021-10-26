@@ -7,9 +7,6 @@ const axios = require('axios');
 const admin = require('firebase-admin');
 const serviceAccount = JSON.parse(Buffer.from(process.env.SERVICE_ACCOUNT, 'base64').toString())
 
-// Get a reference to the database service
-var database = firebase.database();
-
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
   serviceAccount: serviceAccount,
