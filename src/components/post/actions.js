@@ -11,8 +11,7 @@ export default function Actions({
   handleFocus,
 }) {
 
-  const userContext = useContext(UserContext)
-  const user = userContext?.user ? userContext.user : null
+  const { user: loggedInUser } = useContext(UserContext);
   const signInPromptContext = useContext(SignInPromptContext)
 
   const [toggleLiked, setToggleLiked] = useState(likedPhoto);
@@ -21,7 +20,7 @@ export default function Actions({
 
   const handleToggleLiked = async () => {
 
-    if (user?.userId) {
+    if (loggedInUser?.uid) {
       setToggleLiked((toggleLiked) => !toggleLiked);
       await firebase
         .firestore()
@@ -29,8 +28,8 @@ export default function Actions({
         .doc(docId)
         .update({
           likes: toggleLiked
-            ? FieldValue.arrayRemove(userId)
-            : FieldValue.arrayUnion(userId),
+            ? FieldValue.arrayRemove(loggedInUser.uid)
+            : FieldValue.arrayUnion(loggedInUser.uid),
         });
         
       setLikes((likes) => (toggleLiked ? likes - 1 : likes + 1));

@@ -24,7 +24,9 @@ export default function Header() {
     styles += promptContext.showPrompt ? ' top-15' : ' top-0'
   }, [promptContext.showPrompt])
   
+  // Check to see if the logged in user is an admin
   if (loggedInUser) {
+    // console.log(loggedInUser)
     firebase.auth().currentUser?.getIdTokenResult()
       .then((idTokenResult) => {
         if (!!idTokenResult.claims.admin) {
@@ -71,7 +73,7 @@ export default function Header() {
             
             {loggedInUser ? (
               <>
-                <p className="mx-6">{loggedInUser.uid}</p>
+                <p className="mx-6">{loggedInUser.displayName || loggedInUser.uid}</p>
                 <Link to={ROUTES.DASHBOARD} aria-label="Dashboard">
                   <svg
                     className="w-8 mr-6 text-black-light cursor-pointer"
