@@ -128,7 +128,7 @@ function createFirebaseToken(instagramID) {
   const uid = `instagram:${instagramID}`;
 
   // Create the custom token.
-  return firebase.auth().createCustomToken(uid);
+  return admin.auth().createCustomToken(uid);
 }
 
 /**
