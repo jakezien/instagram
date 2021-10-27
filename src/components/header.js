@@ -56,7 +56,7 @@ export default function Header() {
           <div className="text-gray-700 text-center flex items-center align-items">
             {isAdmin && (
               <Link to={ROUTES.ADD_PHOTO} aria-label="Add a photo">              
-                Add one
+                Add photo
               </Link>
             )}
             
