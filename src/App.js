@@ -29,8 +29,8 @@ export default function App() {
               <Route path={ROUTES.SIGN_IN} component={SignIn} />
               <Route path={ROUTES.PROFILE} component={Profile} />
               <Route path={ROUTES.DASHBOARD} component={Dashboard} />
-              <Route path={ROUTES.FEED} component={Feed} />
               <Route path={ROUTES.ADD_PHOTO} component={AddPhoto} />
+              <Route path={ROUTES.FEED} component={Feed} />
               <Route component={NotFound} />
             </Switch>
             

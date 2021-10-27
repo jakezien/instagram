@@ -55,21 +55,9 @@ export default function Header() {
           </div>
           <div className="text-gray-700 text-center flex items-center align-items">
             {isAdmin && (
-              <button
-                type="button"
-                title="Add photo"
-                onClick={() => {
-                  console.log('add', ROUTES.ADD_PHOTO)
-                  history.push(ROUTES.ADD_PHOTO);
-                }}
-                onKeyDown={(event) => {
-                  if (event.key === "Enter") {
-                    history.push(ROUTES.ADD_PHOTO);
-                  }
-                }}
-              >
-                Add photo
-              </button>
+              <Link to={ROUTES.ADD_PHOTO} aria-label="Add a photo">              
+                Add one
+              </Link>
             )}
             
             {loggedInUser ? (
