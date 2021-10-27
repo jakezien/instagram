@@ -13,8 +13,7 @@ export default function AddComment({
   commentInput,
 }) {
   const { user: loggedInUser } = useContext(UserContext);
-  const { user } = useUser(loggedInUser?.uid);
-  let displayName = user?.username
+  let displayName = loggedInUser?.displayName
   let signInPromptContext = useContext(SignInPromptContext)
 
 
@@ -22,15 +21,12 @@ export default function AddComment({
 
   const [comment, setComment] = useState("");
   const { firebase, FieldValue } = useContext(FirebaseContext);
-  // const {
-  //   user: { displayName },
-  // } = useContext(UserContext);
 
   const handleSubmitComment = (event) => {
     event.preventDefault();
-    console.log('submit comment', displayName, comment)
+    // console.log('submit comment', displayName, comment)
 
-    if (user?.userId) {
+    if (loggedInUser?.uid) {
       setComments([...comments, { displayName, comment }]);
       setComment("");
   
