@@ -170,7 +170,7 @@ export default function Login() {
             {success && <p className="mb-2 text-m text-white bg-green-500 text-center rounded px-1 py-1">{success}</p>}
             <form onSubmit={handleSendEmail} method="POST">
               <input
-                aria-label="Send a magic link to my email address"
+                aria-label="Send a magic link to your email address"
                 type="text"
                 placeholder="Email address"
                 className="text-sm text-gray-base w-full mr-3 py-5 px-4 h-2 border border-gray-primary rounded mb-2"

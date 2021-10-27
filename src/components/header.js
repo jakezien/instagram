@@ -6,7 +6,8 @@ import * as ROUTES from "../constants/routes";
 import { DEFAULT_IMAGE_PATH } from "../constants/paths";
 import useUser from "../hooks/use-user";
 import { SignInPromptContext } from "../context/sign-in-prompt";
-
+import { Popover } from "react-tiny-popover"
+import UpdateProfile from "./profile/updateProfile"
 
 
 export default function Header() {
@@ -17,6 +18,7 @@ export default function Header() {
   const history = useHistory();
   const [signInPromptShowing, setSignInPromptShowing] = useState(promptContext.showPrompt)
   const [isAdmin, setIsAdmin] = useState(false);
+  const [isPopoverOpen, setIsPopoverOpen] = useState(false);
 
   let styles = "sticky h-16 mb-8 p-2 w-screen bg-white bg-opacity-90 border-b border-gray-primary backdrop-filter backdrop-blur backdrop-saturate-150 "
   useEffect(()=> {  
@@ -53,6 +55,7 @@ export default function Header() {
               </Link>
             </h1>
           </div>
+          
           <div className="text-gray-700 text-center flex items-center align-items">
             {isAdmin && (
               <Link to={ROUTES.ADD_PHOTO} aria-label="Add a photo">              
@@ -80,6 +83,20 @@ export default function Header() {
                   </svg>
                 </Link>
 
+                <Popover
+                  isOpen={isPopoverOpen}
+                  positions={['bottom']} // preferred positions by priority
+                  content={<UpdateProfile />}
+                  onClickOutside={() => setIsPopoverOpen(false)}
+                >
+                  <div onClick={() => { console.log('click'); setIsPopoverOpen(!isPopoverOpen) }}>
+                    Settings
+                  </div>
+                </Popover>
+                
+
+
+              
                 <button
                   type="button"
                   title="Sign Out"
