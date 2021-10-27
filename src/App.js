@@ -12,6 +12,7 @@ const Dashboard = lazy(() => import("./pages/dashboard"));
 const Feed = lazy(() => import("./pages/feed"));
 const Profile = lazy(() => import("./pages/profile"));
 const NotFound = lazy(() => import("./pages/not-found"));
+const AddPhoto = lazy(() => import("./pages/add-photo"));
 
 export default function App() {
   const { user } = useAuthListener();
@@ -29,6 +30,7 @@ export default function App() {
               <Route path={ROUTES.PROFILE} component={Profile} />
               <Route path={ROUTES.DASHBOARD} component={Dashboard} />
               <Route path={ROUTES.FEED} component={Feed} />
+              <Route path={ROUTES.ADD_PHOTO} component={AddPhoto} />
               <Route component={NotFound} />
             </Switch>
             

@@ -59,6 +59,7 @@ export default function Header() {
                 type="button"
                 title="Add photo"
                 onClick={() => {
+                  console.log('add', ROUTES.ADD_PHOTO)
                   history.push(ROUTES.ADD_PHOTO);
                 }}
                 onKeyDown={(event) => {
