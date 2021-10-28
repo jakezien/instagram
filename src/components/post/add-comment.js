@@ -44,7 +44,7 @@ export default function AddComment({
   };
 
   return (
-    <div className="border-t border-gray-primary">
+    <div className="border rounded-lg border-gray-primary">
       <form
         className="flex justify-between pl-0 pr-5"
         method="POST"
@@ -57,7 +57,7 @@ export default function AddComment({
         <input
           aria-label="Add a comment"
           autoComplete="off"
-          className="text-sm text-gray-base w-full mr-3 py-5 px-4"
+          className="text-sm rounded-lg text-gray-base w-full mr-3 py-5 px-4"
           type="text"
           name="add-comment"
           placeholder="Add a comment..."

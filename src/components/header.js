@@ -23,7 +23,6 @@ export default function Header() {
 
   let styles = "sticky h-16 mb-8 p-2 w-screen bg-white bg-opacity-90 border-b border-gray-primary backdrop-filter backdrop-blur backdrop-saturate-150 "
   useEffect(()=> {  
-    styles = "sticky h-16 mb-8 p-2 w-screen bg-white bg-opacity-90 border-b border-gray-primary backdrop-filter backdrop-blur backdrop-saturate-150 "
     styles += promptContext.showPrompt ? ' top-15' : ' top-0'
   }, [promptContext.showPrompt])
   

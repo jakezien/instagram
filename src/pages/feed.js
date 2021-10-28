@@ -16,7 +16,7 @@ export default function Feed() {
   
 
   return(
-    <div className="bg-gray-background">
+    <div className="bg-white">
     <Header />
     {/* <SignInPrompt ref={}/> */}
     <div className="grid grid-cols-3 gap-4 justify-between mx-auto max-w-screen-lg">

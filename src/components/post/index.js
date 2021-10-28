@@ -13,7 +13,7 @@ export default function Post({ content }) {
   // components
   // -> header, image, actions (like & comment icons), footer, comments
   return (
-    <div className="rounded col-span-4 border bg-white border-gray-primary mb-12">
+    <div className="rounded col-span-4 bg-white mb-12">
       <Header username={content.username} />
       <div className="">
         <Image
