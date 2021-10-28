@@ -27,8 +27,21 @@ module.exports = {
           primary: 'rgb(255,196,0)',
           light: 'rgb(255, 250, 235)'
         }
+      },
+      height: {
+        "screen/2": "50vh",
+        "screen-50": "50vh",
+        "screen-70": "70vh",
+        "screen/3": "calc(100vh / 3)",
+        "screen/4": "calc(100vh / 4)",
+        "screen/5": "calc(100vh / 5)",
+        "screen/5": "calc(100vh / 5)"
+      },
+      maxHeight: {
+        "maxPhotoHeight": "42.5rem"
       }
     }
+    
   },
   variants: {
     extend: {
