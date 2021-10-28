@@ -62,15 +62,17 @@ export default function Header() {
               <Link
                 to={ROUTES.ADD_PHOTO}
                 aria-label="Add a photo"
-                className="block mr-6"
+                className="block mr-2"
               >
-                Add photo
+                <div className="cursor-pointer hover:bg-yellow-200 p-2 rounded-md">
+                  Add photo
+                </div>
               </Link>
             )}
             
             {loggedInUser ? (
               <>                
-                <div className="flex items-center cursor-pointe">
+                <div className="flex items-center cursor-pointer">
                   <Popover
                     isOpen={isPopoverOpen}
                     positions={['bottom']} 
@@ -119,7 +121,10 @@ export default function Header() {
                     }
                     onClickOutside={(e) => { if (e.target.id != 'show-edit-username-button') setIsPopoverOpen(false) }}
                   >
-                    <div onClick={() => { console.log('click'); setIsPopoverOpen(!isPopoverOpen); setIsUpdateProfileOpen(false)}}>
+                    <div
+                      onClick={() => { setIsPopoverOpen(!isPopoverOpen); setIsUpdateProfileOpen(false) }}
+                      className='cursor-pointer hover:bg-yellow-200 p-2 rounded-md'
+                    >
                       <p>{loggedInUser?.displayName}</p>
                     </div>
                   </Popover>
