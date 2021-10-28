@@ -28,8 +28,27 @@ export default function AddPhoto() {
     console.log('file to upload:', newImagePath, images?.[0])
     newImageRef.put(images[0].file).then((snapshot) => {
       console.log('Uploaded', images[0].file.name);
+      newImageRef.getDownloadURL().then(url => {
+        console.log('url', url)
+        addImageToDb(url)
+      })
     });
   }
+
+  const addImageToDb = (imageUrl) => {
+    firebase
+      .firestore()
+      .collection("photos")
+      .add({
+        userId: `${loggedInUser.uid}`,
+        imageSrc: `${imageUrl}`,
+        caption: "",
+        likes: [],
+        comments: [],
+        dateCreated: Date.now(),
+      });
+  }
+
 
   useEffect(() => {
     document.title = "Add Photo | Jakestagram";
