@@ -23,7 +23,6 @@ export default function AddPhoto() {
   };
 
   const onCaptionChange = (e) => {
-    console.log(e.target.value)
     setCaption(e.target.value)
   }
 

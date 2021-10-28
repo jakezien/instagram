@@ -12,12 +12,10 @@ import UpdateProfile from "./profile/updateProfile"
 
 export default function Header() {
   const promptContext = useContext(SignInPromptContext)
-  const { user: loggedInUser } = useContext(UserContext);
-  const { user } = useUser(loggedInUser?.uid);
+  const { user } = useContext(UserContext);
   const { firebase } = useContext(FirebaseContext);
   const history = useHistory();
   const [signInPromptShowing, setSignInPromptShowing] = useState(promptContext.showPrompt)
-  const [isAdmin, setIsAdmin] = useState(false);
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const [isUpdateProfileOpen, setIsUpdateProfileOpen] = useState(false);
 
@@ -25,20 +23,8 @@ export default function Header() {
   useEffect(()=> {  
     styles += promptContext.showPrompt ? ' top-15' : ' top-0'
   }, [promptContext.showPrompt])
-  
-  // Check to see if the logged in user is an admin
-  if (loggedInUser) {
-    // console.log(loggedInUser)
-    firebase.auth().currentUser?.getIdTokenResult()
-      .then((idTokenResult) => {
-        if (!!idTokenResult.claims.admin) {
-          setIsAdmin(true)
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }
+
+  console.log('user', user)
 
   return (
     <header className={styles + (promptContext.showPrompt ? ' top-16' : ' top-0')}>
@@ -57,20 +43,21 @@ export default function Header() {
           </div>
           
           <div className="text-gray-700 text-center flex items-center align-items">
-            {isAdmin && (
-              <Link
-                to={ROUTES.ADD_PHOTO}
-                aria-label="Add a photo"
-                className="block mr-2"
-              >
-                <div className="cursor-pointer hover:bg-yellow-200 p-2 rounded-md">
-                  Add photo
-                </div>
-              </Link>
-            )}
-            
-            {loggedInUser ? (
-              <>                
+
+            {user ? (
+              <>
+                {user.isAdmin && (
+                  <Link
+                    to={ROUTES.ADD_PHOTO}
+                    aria-label="Add a photo"
+                    className="block mr-2"
+                  >
+                    <div className="cursor-pointer hover:bg-yellow-200 p-2 rounded-md">
+                      Add photo
+                    </div>
+                  </Link>
+                )}
+                
                 <div className="flex items-center cursor-pointer">
                   <Popover
                     isOpen={isPopoverOpen}
@@ -84,7 +71,7 @@ export default function Header() {
                           ) : (
                             <>
                               <div className="flex flex-row">
-                                <p className="mr-4 py-2">{loggedInUser.displayName}</p>
+                                <p className="mr-4 py-2">{user.displayName}</p>
                                 <button
                                   id="show-edit-username-button"
                                   onClick={() => setIsUpdateProfileOpen(true)}
@@ -124,7 +111,7 @@ export default function Header() {
                       onClick={() => { setIsPopoverOpen(!isPopoverOpen); setIsUpdateProfileOpen(false) }}
                       className='cursor-pointer hover:bg-yellow-200 p-2 rounded-md'
                     >
-                      <p>{loggedInUser?.displayName}</p>
+                      <p>{user?.displayName}</p>
                     </div>
                   </Popover>
                 </div>
