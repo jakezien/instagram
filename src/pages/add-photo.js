@@ -13,6 +13,7 @@ export default function AddPhoto() {
   const { firebase } = useContext(FirebaseContext);
   const history = useHistory();
   const [images, setImages] = useState([]);
+  const [caption, setCaption] = useState();
   const maxNumber = 1;
 
   const onChange = (imageList, addUpdateIndex) => {
@@ -20,6 +21,11 @@ export default function AddPhoto() {
     console.log(imageList, addUpdateIndex);
     setImages(imageList);
   };
+
+  const onCaptionChange = (e) => {
+    console.log(e.target.value)
+    setCaption(e.target.value)
+  }
 
   const uploadImage = () => {
     const storageRef = firebase.storage().ref();
@@ -30,19 +36,19 @@ export default function AddPhoto() {
       console.log('Uploaded', images[0].file.name);
       newImageRef.getDownloadURL().then(url => {
         console.log('url', url)
-        addImageToDb(url)
+        addImageToDb(url, caption)
       })
     });
   }
 
-  const addImageToDb = (imageUrl) => {
+  const addImageToDb = (imageUrl, caption) => {
     firebase
       .firestore()
       .collection("photos")
       .add({
         userId: `${loggedInUser.uid}`,
         imageSrc: `${imageUrl}`,
-        caption: "",
+        caption: `${caption}`,
         likes: [],
         comments: [],
         dateCreated: Date.now(),
@@ -107,14 +113,19 @@ export default function AddPhoto() {
                 ))}
               </div>
               <div>
-                <button onClick={uploadImage}>
-                  Upload image
-                </button>
               </div>
             </div>
 
           )}
         </ImageUploading>
+        <label>Caption</label>
+        <input type="text" value={caption} onChange={onCaptionChange}/>
+        <button
+          className="block"
+          disabled={!images[0]}
+          onClick={uploadImage}>
+          Upload image
+        </button>
       </div>
     </div>
   )
