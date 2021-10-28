@@ -14,7 +14,7 @@ export default function Comments({
   const [commentsSlice, setCommentsSlice] = useState(3);
 
   const showNextComments = () => {
-    setCommentsSlice(commentsSlice + 3);
+    setCommentsSlice(commentsSlice + comments.length-3);
   };
 
   return (
