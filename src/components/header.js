@@ -6,7 +6,7 @@ import * as ROUTES from "../constants/routes";
 import { DEFAULT_IMAGE_PATH } from "../constants/paths";
 import useUser from "../hooks/use-user";
 import { SignInPromptContext } from "../context/sign-in-prompt";
-import { Popover } from "reaact-tiny-popover"
+import { Popover } from "react-tiny-popover"
 import UpdateProfile from "./profile/updateProfile"
 
 

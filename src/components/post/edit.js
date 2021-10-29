@@ -9,6 +9,7 @@ export default function Edit({ caption }) {
   
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const [isEditPostOpen, setIsEditPostOpen] = useState(false);
+  const [isDeletePostOpen, setIsDeletePostOpen] = useState(false);
   const [newCaption, setNewCaption] = useState(caption);
   
   const onCaptionChange = (e) => {
@@ -19,7 +20,21 @@ export default function Edit({ caption }) {
     console.log('update post yo')
   };
 
-  console.log(caption)
+  const deletePost = async (downloadURL) => {
+    // Delete the file
+    // var citiesRef = db.collection("photos");
+    // var query = db.collection("photos").where("imageSrc", "==", downloadURL);
+    // storage.storage.refFromURL(downloadURL).delete().then(() => {
+      // File deleted successfully
+
+
+    // }).catch((error) => {
+      // Uh-oh, an error occurred!
+
+    // });
+  }
+
+
 
   return (
     <>
@@ -27,7 +42,7 @@ export default function Edit({ caption }) {
           <Popover
             isOpen={isPopoverOpen}
             positions={['bottom']}
-            onClickOutside={(e) => { if (e.target.id != 'show-edit-post-button') setIsPopoverOpen(false) }}
+            onClickOutside={(e) => { if (e.target.id != 'show-edit-post-button' || 'show-delete-post-button') setIsPopoverOpen(false) }}
             content={
               <div className="bg-white px-4 py-4 shadow-lg rounded-md">
                 <input type="text" value={newCaption} onChange={onCaptionChange}/>
@@ -40,6 +55,27 @@ export default function Edit({ caption }) {
                 >
                   Update post
                 </button>
+                {isDeletePostOpen ? (
+                  <button
+                    type="button"
+                    title="Edit post"
+                    onClick={() => setIsDeletePostOpen(false)}
+                    className="py-2 mt-2 bg-white w-full rounded-md bg-red-300 text-red-900 hover:bg-red-400"
+                  >
+                    Delete post for real
+                  </button>                  
+                ) : (
+                  <button
+                    type="button"
+                    title="Edit post"
+                    onClick={() => setIsDeletePostOpen(true)}
+                    className="py-2 mt-2 bg-white w-full rounded-md hover:bg-red-200"
+                    id="show-delete-post-button"
+                  >
+                    Delete post
+                  </button> 
+                )}
+
               </div>
             }
           >
