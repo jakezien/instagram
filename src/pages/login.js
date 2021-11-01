@@ -17,21 +17,6 @@ export default function Login() {
   const [success, setSuccess] = useState("");
   const isInvalid = emailAddress === "";
 
-  // const handleLogin = async (event) => {
-  //   event.preventDefault();
-
-  //   try {
-  //     await firebase.auth().signInWithEmailAndPassword(emailAddress, password);
-  //     history.push(ROUTES.FEED);
-  //     setSuccess("")
-  //   } catch (error) {
-  //     setEmailAddress("");
-  //     setPassword("");
-  //     setError(error.message);
-  //   }
-  // };
-
-
   const handleSendEmail = async (event) => {
     event.preventDefault();
 
@@ -102,42 +87,6 @@ export default function Login() {
     window.open('/.netlify/functions/instagram-redirect', 'Sign In With Instagram', 'height=315,width=800');
   };
 
-  // const fetchData = async() => {
-  //   const results = await axios.get('/.netlify/functions/auth')
-  //   console.log(results)
-  // }
-
-  // const fetchInstagramToken = async (code) => {
-  //   const result = await axios({
-  //     method: 'post',
-  //     url: '/.netlify/functions/auth',
-  //     data: {
-  //       code: code
-  //     },
-  //     // withCredentials: true
-  //   })
-  //   return result
-  // }
-
-  // const fetchInstagramUsername = async (code) => {
-  //   const result = await axios({
-  //     method: 'get',
-  //     url: 'https://graph.instagram.com/me',
-  //     params: {
-  //       'fields': 'id,username',
-  //     },
-  //     withCredentials: true
-  //   })
-  //   console.log('fetchInstagramToken', result)
-  //   return result
-  // }
-
-  // const handleInstagramResponse = async (response) => {
-  //   let result = await fetchInstagramToken(response)
-  //   let username = await fetchInstagramUsername()
-  //   // console.log(response)
-  //   console.log(result)
-  // }
  
   useEffect(() => {
     document.title = "Sign In to Jakestagram";
