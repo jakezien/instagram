@@ -5,7 +5,7 @@ import UserContext from "../../context/user";
 import { SignInPromptContext } from "../../context/sign-in-prompt";
 
 export default function Actions({
-  docId,
+  content,
   totalLikes,
   likedPhoto,
   handleFocus,
@@ -25,7 +25,7 @@ export default function Actions({
       await firebase
         .firestore()
         .collection("photos")
-        .doc(docId)
+        .doc(content.docId)
         .update({
           likes: toggleLiked
             ? FieldValue.arrayRemove(loggedInUser.uid)
@@ -96,10 +96,3 @@ export default function Actions({
     </>
   );
 }
-
-Actions.propTypes = {
-  docId: PropTypes.string.isRequired,
-  totalLikes: PropTypes.number.isRequired,
-  likedPhoto: PropTypes.bool.isRequired,
-  handleFocus: PropTypes.func.isRequired,
-};

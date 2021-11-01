@@ -14,7 +14,7 @@ export default function Post({ content }) {
   // -> header, image, actions (like & comment icons), footer, comments
   return (
     <div className="rounded col-span-4 bg-white mb-12">
-      <Header username={content.username} caption={content.caption} />
+      <Header content={content} username={content.username} caption={content.caption} />
       <div className="">
         <Image
           src={content.imageSrc} caption={content.caption}
@@ -22,7 +22,7 @@ export default function Post({ content }) {
         />
       </div>
       <Actions
-        docId={content.docId}
+        docId={content}
         totalLikes={content.likes.length}
         likedPhoto={content.userLikedPhoto}
         handleFocus={handleFocus}

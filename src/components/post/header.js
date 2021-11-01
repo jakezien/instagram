@@ -5,7 +5,7 @@ import UserContext from "../../context/user";
 import { useContext, useState } from "react";
 import Edit from './edit'
 
-export default function Header({ username, caption }) {
+export default function Header({ content, username, caption }) {
 
   return (
     <div className="flex border-gray-primary h-4 p-4 py-8">
@@ -19,7 +19,7 @@ export default function Header({ username, caption }) {
           <p className="font-bold">{username}</p>
         </Link>
         
-        <Edit caption={caption} />
+        <Edit content={content} />
       </div>
     </div>
   );
