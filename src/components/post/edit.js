@@ -4,6 +4,7 @@ import UserContext from "../../context/user";
 import { Popover } from "react-tiny-popover"
 import { storage } from "firebase-admin";
 
+
 export default function Edit({content}) {
   const { user } = useContext(UserContext);
   const { firebase } = useContext(FirebaseContext);
@@ -11,6 +12,7 @@ export default function Edit({content}) {
   const [isEditPostOpen, setIsEditPostOpen] = useState(false);
   const [isDeletePostOpen, setIsDeletePostOpen] = useState(false);
   const [newCaption, setNewCaption] = useState(content.caption);
+  
   
   const onCaptionChange = (e) => {
     setNewCaption(e.target.value)

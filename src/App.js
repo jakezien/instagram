@@ -5,6 +5,8 @@ import * as ROUTES from "./constants/routes";
 import UserContext from "./context/user";
 import { SignInPromptContextProvider } from "./context/sign-in-prompt";
 import useAuthListener from "./hooks/use-auth-listener";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Login = lazy(() => import("./pages/login"));
 const SignIn = lazy(() => import("./pages/sign-in"));
@@ -13,6 +15,7 @@ const Feed = lazy(() => import("./pages/feed"));
 const Profile = lazy(() => import("./pages/profile"));
 const NotFound = lazy(() => import("./pages/not-found"));
 const AddPhoto = lazy(() => import("./pages/add-photo"));
+
 
 export default function App() {
   const { user } = useAuthListener();
@@ -33,7 +36,17 @@ export default function App() {
               <Route path={ROUTES.FEED} component={Feed} />
               <Route component={NotFound} />
             </Switch>
-            
+            <ToastContainer
+              position="top-center"
+              autoClose={5000}
+              hideProgressBar
+              newestOnTop={false}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+            />
           </SignInPromptContextProvider>
         </Suspense>
       </Router>

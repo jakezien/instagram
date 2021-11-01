@@ -122,7 +122,7 @@ export default function Header() {
                       onClick={() => { setIsPopoverOpen(!isPopoverOpen); setIsUpdateProfileOpen(false) }}
                       className='cursor-pointer hover:bg-yellow-200 p-2 rounded-md'
                     >
-                      <p>{user?.displayName}</p>
+                      <p>{user?.displayName || 'Pick a username'}</p>
                     </div>
                   </Popover>
                 </div>

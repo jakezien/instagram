@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import FirebaseContext from "../../context/firebase";
 import UserContext from "../../context/user";
 import { SignInPromptContext } from "../../context/sign-in-prompt";
+import { toast } from 'react-toastify';
 
 export default function Actions({
   content,
@@ -22,6 +23,7 @@ export default function Actions({
 
     if (loggedInUser?.uid) {
       setToggleLiked((toggleLiked) => !toggleLiked);
+      console.log(content)
       await firebase
         .firestore()
         .collection("photos")
@@ -34,7 +36,19 @@ export default function Actions({
         
       setLikes((likes) => (toggleLiked ? likes - 1 : likes + 1));
     } else {
-      signInPromptContext.setShowPrompt(true)
+      toast(<div className="text-center">
+        <strong>Sign in to like and comment.</strong>
+        <p>Sign in with one click — no need to make an account :)</p>
+      </div>, {
+        position: "top-center",
+        autoClose: 3500,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+      // signInPromptContext.setShowPrompt(true)
     }
   };
 

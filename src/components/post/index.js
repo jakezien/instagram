@@ -22,7 +22,7 @@ export default function Post({ content }) {
         />
       </div>
       <Actions
-        docId={content}
+        content={content}
         totalLikes={content.likes.length}
         likedPhoto={content.userLikedPhoto}
         handleFocus={handleFocus}

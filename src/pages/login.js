@@ -2,8 +2,8 @@ import { useState, useContext, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
 import FirebaseContext from "../context/firebase";
 import * as ROUTES from "../constants/routes";
-import InstagramLogin from 'react-instagram-login';
-import axios from "axios";
+import { toast } from 'react-toastify';
+
 
 
 export default function Login() {
@@ -69,6 +69,7 @@ export default function Login() {
             // You can check if the user is new or existing:
             // result.additionalUserInfo.isNewUser
             if (result.user) {
+              toast(`Alright, you're signed in!`)
               history.push(ROUTES.FEED)
             }
           })
