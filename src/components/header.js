@@ -36,7 +36,7 @@ export default function Header() {
                 <img
                   src="/images/logo.svg"
                   alt="Jakestagram"
-                  className="mt-2 w-4/12 max-w-md"
+                  className="mt-2 ml-1 w-6/12 max-h-9"
                 />
               </Link>
             </h1>

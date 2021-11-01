@@ -155,9 +155,9 @@ export default function Login() {
         />
       </div> */}
       <div className="w-full ">
-        <div className="flex flex-col w-2/5 mx-auto">
-          <div className="flex flex-col items-center bg-white p-4 border border-gray-primary mb-4 rounded">
-            <h1 className="flex justify-center w-full">
+        <div className="flex flex-col w-4/5 md:w-2/5 mx-auto">
+          <div className="flex flex-col items-center bg-white p-4 py-6 border border-gray-primary mb-4 rounded">
+            <h1 className="flex justify-center w-full min-h-12 max-h-16">
               <img
                 src="/images/logo.svg"
                 alt="Jakestagram"
