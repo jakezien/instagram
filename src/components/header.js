@@ -24,19 +24,30 @@ export default function Header() {
     styles += promptContext.showPrompt ? ' top-15' : ' top-0'
   }, [promptContext.showPrompt])
 
+  useEffect(() => {
+    
+  }, [user])
+
   console.log('user', user)
 
   return (
     <header className={styles + (promptContext.showPrompt ? ' top-16' : ' top-0')}>
       <div className="container mx-auto max-w-screen-lg h-full">
         <div className="flex justify-between h-full">
-          <div className="text-gray-700 text-center flex items-center align-items cursor-pointer">
-            <h1 className="flex justify-center w-full">
-              <Link to={ROUTES.FEED} aria-label="Jakestagram logo">
+          <div
+            className="max-w-xs text-gray-700 text-center flex items-center align-items cursor-pointer"
+            style={{maxWidth:'8rem'}}
+          >
+            <h1 className="">
+              <Link
+                to={ROUTES.FEED}
+                aria-label="Jakestagram logo"
+                className="w-6/12"
+              >
                 <img
                   src="/images/logo.svg"
                   alt="Jakestagram"
-                  className="mt-2 ml-1 w-6/12 max-h-9 md:max-h-8"
+                  className="mt-2 ml-1 w-full max-h-9 md:max-h-8"
                 />
               </Link>
             </h1>
@@ -50,7 +61,7 @@ export default function Header() {
                   <Link
                     to={ROUTES.ADD_PHOTO}
                     aria-label="Add a photo"
-                    className="block mr-2"
+                    className="block mr-2 flex-shrink-0"
                   >
                     <div className="cursor-pointer hover:bg-yellow-200 p-2 rounded-md">
                       Add photo

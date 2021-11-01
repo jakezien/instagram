@@ -44,7 +44,7 @@ export default function AddComment({
   };
 
   return (
-    <div className="border rounded-lg border-gray-primary">
+    <div className="border rounded-lg border-gray-primary mx-auto w-11/12 md:w-full">
       <form
         className="flex justify-between pl-0 pr-5"
         method="POST"
