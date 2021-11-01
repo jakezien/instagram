@@ -185,18 +185,6 @@ export default function Login() {
               >
                 Send Magic Sign-in link
               </button>
-              <p className="text-center my-2 text-sm text-gray-500">or</p>
-
-              <button
-                onClick={onSignInWithInstagramButtonClick}
-                className={"w-full rounded h-10 font-bold bg-ig-gradient"}
-              >
-                <div className="bg-white rounded-sm box-border block h-9 m-0.5">
-                  <div className="text-ig-gradient block leading-9">
-                    Log in with Instagram
-                  </div>
-                </div>
-              </button>
             </form>
           </div>
         </div>
