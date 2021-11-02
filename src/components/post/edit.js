@@ -2,7 +2,6 @@ import { useState, useContext } from "react";
 import FirebaseContext from "../../context/firebase";
 import UserContext from "../../context/user";
 import { Popover } from "react-tiny-popover"
-import { storage } from "firebase-admin";
 
 
 export default function Edit({content}) {
