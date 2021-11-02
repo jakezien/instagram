@@ -1,6 +1,7 @@
 import { useState, useContext } from "react"
 import UserContext from "../../context/user";
 import FirebaseContext from "../../context/firebase";
+import { updateUsername } from "../../services/firebase";
 
 export default function UpdateProfile() {
   const { user: loggedInUser } = useContext(UserContext);
@@ -10,15 +11,7 @@ export default function UpdateProfile() {
 
   function updateProfile() {
     console.log('update Profile', displayName)
-    const user = firebase.auth().currentUser;
-
-    user.updateProfile({
-      displayName: displayName
-    }).then(() => {
-      console.log(`Displayname updated to '${displayName}'`)
-    }).catch((error) => {
-      console.error(`Error updating profile:'${error}'`)
-    });      
+    updateUsername(loggedInUser.uid, displayName)
   }
 
   return (

@@ -206,3 +206,21 @@ export async function toggleFollow(
     isFollowingProfile
   );
 }
+
+export async function updateUsername(username, userId) {
+  return firebase
+    .firestore()
+    .collection("users")
+    .doc(userId)
+    .update({
+      username,
+    });
+}
+
+export async function deletePhoto(photoId) {
+  return firebase
+    .firestore()
+    .collection("photos")
+    .doc(photoId)
+    .delete();
+}

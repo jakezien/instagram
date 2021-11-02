@@ -11,7 +11,6 @@ export default function useAuthListener() {
     const listener = firebase.auth().onAuthStateChanged((authUser) => {
       if (authUser) {
         // we have a user...therefore we can store the user in localstorage
-        
         firebase.auth().currentUser?.getIdTokenResult()
           .then((idTokenResult) => {
             if (!!idTokenResult.claims.admin) {

@@ -35,9 +35,9 @@ export default function AddPhoto() {
       console.log('Uploaded', images[0].file.name);
       newImageRef.getDownloadURL().then(url => {
         console.log('url', url)
-        addImageToDb(url, caption)
+        addImageToDb(url, caption) 
       })
-    });
+    }); 
   }
 
   const addImageToDb = (imageUrl, caption) => {

@@ -1,12 +1,12 @@
 module.exports = {
+  // mode: 'jit',
   future: {
     removeDeprecatedGapUtilities: true
   },
-  purge: {
+  purge: ['./src/*.js', './src/**/*.js', './src/**/**/*.js'],
     // enabled: process.env.PURGE_CSS === 'production' ? true : false,
-    enabled: false,
-    content: ['./src/**/*.js', './src/**/**/*.js']
-  },
+    // enabled: false,
+    // content: ['./src/**/*.js', './src/**/**/*.js']
   theme: {
     extend: {
       colors: {
@@ -45,7 +45,9 @@ module.exports = {
   },
   variants: {
     extend: {
-      display: ['group-hover']
+      display: ['group-hover'],
+      opacity: ['disabled'],
+      cursor: ['disabled']
     }
   }
-};
+} 

@@ -3,7 +3,8 @@ import PropTypes from "prop-types";
 import FirebaseContext from "../../context/firebase";
 import UserContext from "../../context/user";
 import useUser from "../../hooks/use-user";
-import { SignInPromptContext } from "../../context/sign-in-prompt";
+import { toast } from "react-toastify";
+import PickDisplayNamePrompt from "../pickDisplaynamePrompt";
 
 
 export default function AddComment({
@@ -14,11 +15,6 @@ export default function AddComment({
 }) {
   const { user: loggedInUser } = useContext(UserContext);
   let displayName = loggedInUser?.displayName
-  let signInPromptContext = useContext(SignInPromptContext)
-
-
-
-
   const [comment, setComment] = useState("");
   const { firebase, FieldValue } = useContext(FirebaseContext);
 
@@ -27,24 +23,47 @@ export default function AddComment({
     // console.log('submit comment', displayName, comment)
 
     if (loggedInUser?.uid) {
-      setComments([...comments, { displayName, comment }]);
-      setComment("");
-  
-      return firebase
-      .firestore()
-      .collection("photos")
-      .doc(docId)
-      .update({
-        comments: FieldValue.arrayUnion({ displayName, comment }),
-      });
+      if (displayName) {
+        setComments([...comments, { displayName, comment }]);
+        setComment("");
+        return firebase
+          .firestore()
+          .collection("photos")
+          .doc(docId)
+          .update({
+            comments: FieldValue.arrayUnion({ displayName, comment }),
+          });
+      } else {
+        // No username
+
+      }
     } else {
-      signInPromptContext.setShowPrompt(true)
+      // No user logged in
+      toast(<div className="text-center">
+        <strong>Sign in to like and comment.</strong>
+        <p>Sign in with one click — no need to make an account :)</p>
+      </div>, {
+        position: "top-center",
+        autoClose: 3500,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
     }
 
   };
 
+  console.log(displayName, !displayName)
+
   return (
     <div className="border rounded-lg border-gray-primary mx-auto w-11/12 md:w-full">
+
+      {(comment.length > 0 && loggedInUser && !displayName) && (
+        <PickDisplayNamePrompt comment={comment}/>
+      )}
+
       <form
         className="flex justify-between pl-0 pr-5"
         method="POST"
@@ -54,6 +73,7 @@ export default function AddComment({
             : event.preventDefault()
         }
       >
+
         <input
           aria-label="Add a comment"
           autoComplete="off"
@@ -66,11 +86,9 @@ export default function AddComment({
           ref={commentInput}
         />
         <button
-          className={`text-sm font-bold text-blue-medium ${
-            !comment && "opacity-25"
-          }`}
+          className={`text-sm font-bold text-blue-medium disabled:opacity-30 disabled:cursor-default `}
           type="button"
-          disabled={comment.length < 1}
+          disabled={(comment.length < 1 || !displayName)}
           onClick={handleSubmitComment}
         >
           Post
