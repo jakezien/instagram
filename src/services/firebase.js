@@ -110,7 +110,6 @@ export async function getJakePhotos(userId) {
       }
 
       const user = await getUserByUserId(photo.userId);
-      // raphael
       const { username } = user[0];
       return { username, ...photo, userLikedPhoto };
     })
