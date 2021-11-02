@@ -43,14 +43,15 @@ export default function PickDisplayNamePrompt({comment, callback}) {
       isDisplayNameValid: isDisplayNameValid
     })
   }, [displayName, isDisplayNameAvailable, isDisplayNameValid])
-  
+
   return (
     <div className="px-4 py-2">
       <p className="text-gray-800">Before you comment, please pick a username:</p>
       <div className="flex">
         <input type="text" placeholder="username" value={displayName} onChange={onInputChange} />
         <div className="text-right">
-          {(displayName?.length > 2) && (isDisplayNameAvailable ?
+          {isDisplayNameValid === false && <p className="text-red-800">Hmm, you used a character that's not allowed</p>}
+          {(displayName?.length > 2) && isDisplayNameValid && (isDisplayNameAvailable ?
             <span className="text-gray-500"><span className="text-green-600">{displayName}</span> is available</span>
             : <span className="text-gray-500"><span className="text-red-800">{displayName}</span> isn't available :(</span>
           )}
