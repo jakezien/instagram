@@ -55,13 +55,17 @@ export default function AddComment({
 
   };
 
+  const onDisplayNameChange = (newDisplayName) => {
+    console.log(newDisplayName)
+  }
+
   console.log(displayName, !displayName)
 
   return (
     <div className="border rounded-lg border-gray-primary mx-auto w-11/12 md:w-full">
 
       {(comment.length > 0 && loggedInUser && !displayName) && (
-        <PickDisplayNamePrompt comment={comment}/>
+        <PickDisplayNamePrompt comment={comment} callback={onDisplayNameChange}/>
       )}
 
       <form
