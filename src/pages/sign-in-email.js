@@ -61,6 +61,8 @@ export default function SignInEmail() {
             // Common errors could be invalid email and invalid or expired OTPs.
           });
       }
+    } else {
+      history.push(ROUTES.FEED)
     }
   }
 
