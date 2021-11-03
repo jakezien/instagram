@@ -1,5 +1,6 @@
 import { useState, useEffect, useContext } from "react";
 import FirebaseContext from "../context/firebase";
+import { getUserByUserId } from "../services/firebase";
 
 export default function useAuthListener() {
   const [user, setUser] = useState(
@@ -7,17 +8,17 @@ export default function useAuthListener() {
   );
   const { firebase } = useContext(FirebaseContext);
 
-  const updateUserDisplayName = (displayName) => {
-
+  const updateUserUserName = (username) => {
+    console.log("update authUser username", username);
     const newUser = JSON.parse(JSON.stringify(user));
-    newUser.displayName = displayName;
+    newUser.username = username;
     console.log(newUser)
     setUser(newUser);
     // localStorage.setItem("authUser", JSON.stringify(newUser));
   };
 
   useEffect(() => {
-    const listener = firebase.auth().onAuthStateChanged((authUser) => {
+    const listener = firebase.auth().onAuthStateChanged(async (authUser) => {
       if (authUser) {
         // we have a user...therefore we can store the user in localstorage
         firebase.auth().currentUser?.getIdTokenResult()
@@ -30,8 +31,10 @@ export default function useAuthListener() {
             console.log(error);
           });
         
-        console.log('authUser:', authUser)
+        const user = await getUserByUserId(authUser.uid);
+        authUser.docId = user[0]?.docId;
         localStorage.setItem("authUser", JSON.stringify(authUser));
+        console.log('localstorage set authUser:', authUser)
         setUser(authUser);
       } else {
         console.log('no authUser :(', authUser)
@@ -45,13 +48,14 @@ export default function useAuthListener() {
   }, [firebase]);
 
   useEffect(() => {
-    firebase.firestore().collection("users").doc(user?.uid)
+    firebase.firestore().collection("users").doc(user?.docId)
+      // watch for changes to the user's username
       .onSnapshot((doc) => {
-        if (doc.data() && doc.data().displayName) {
-          updateUserDisplayName(doc.data().displayName);
+        if (doc.data() && doc.data().username) {
+          updateUserUserName(doc.data().username);
         }
     });
-  }, []);
+  }, [user]);
 
   return { user };
 }

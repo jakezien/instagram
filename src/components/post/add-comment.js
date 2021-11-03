@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import PropTypes from "prop-types";
 import FirebaseContext from "../../context/firebase";
 import UserContext from "../../context/user";
@@ -14,7 +14,7 @@ export default function AddComment({
   commentInput,
 }) {
   const { user: loggedInUser } = useContext(UserContext);
-  let userDisplayName = loggedInUser?.displayName
+  let userUsername = loggedInUser?.username
   const [comment, setComment] = useState("");
   const { firebase, FieldValue } = useContext(FirebaseContext);
   
@@ -22,7 +22,12 @@ export default function AddComment({
   const [isDisplayNameAvailable, setIsDisplayNameAvailable] = useState();
   const [isDisplayNameValid, setIsDisplayNameValid] = useState();
 
+
+  // DISPLAYNAME is for comment author only
+  // USERNAME is stored on the user document
+
   const onInputChange = (e) => {
+    console.log(loggedInUser)
     const value = e.target.value
     if (value.length > 0) {
       let regex = /^(?=[a-zA-Z0-9._@-]{3,20}$)(?!.*[_.]{2})[^_.].*[^_.]$/;
@@ -54,8 +59,8 @@ export default function AddComment({
 
     if (loggedInUser?.uid) {
       if (displayName) {
-        if (!userDisplayName) {
-          // set user display name if they don't have one
+        if (!userUsername) {
+          // set user username if they don't have one
           updateUsername(loggedInUser.uid, displayName)
         }
         setComments([...comments, { displayName, comment }]);
@@ -97,7 +102,7 @@ export default function AddComment({
   return (
     <div className="border rounded-lg border-gray-primary mx-auto w-11/12 md:w-full">
 
-      {(comment.length > 0 && loggedInUser && !userDisplayName) && (
+      {(comment.length > 0 && loggedInUser && !userUsername) && (
         <div className="px-4 py-2 bg-yellow-100 m-2 rounded-lg text-gray-500">
           <p className="text-gray-800"><strong>Before you comment, please pick a username:</strong></p>
           <div className="flex py-2">
@@ -138,13 +143,13 @@ export default function AddComment({
           name="add-comment"
           placeholder="Add a comment..."
           value={comment}
-          onChange={({ target }) => { console.log(userDisplayName); setComment(target.value)}}
+          onChange={({ target }) => { console.log(userUsername); setComment(target.value)}}
           ref={commentInput}
         />
         <button
           className={`text-sm font-bold text-blue-medium disabled:opacity-30 disabled:cursor-default `}
           type="button"
-          disabled={(comment.length < 1 || (!userDisplayName && !isDisplayNameValid) || (!userDisplayName && !isDisplayNameAvailable))}
+          disabled={(comment.length < 1 || (!userUsername && !isDisplayNameValid) || (!userUsername && !isDisplayNameAvailable))}
           onClick={handleSubmit}
         >
           Post

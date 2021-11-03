@@ -1,5 +1,6 @@
 import { firebase, FieldValue } from "../lib/firebase";
 import { JAKE_USERID } from "../constants/jake"
+import { toast } from "react-toastify";
 
 export async function doesUsernameExist(username) {
   const result = await firebase
@@ -207,15 +208,18 @@ export async function toggleFollow(
   );
 }
 
-export async function updateUsername(userId, username) {
-  console.log('update username', username, userId)
-  return firebase
-    .firestore()
-    .collection("users")
-    .doc(userId)
-    .update({
-      displayName: username
-    });
+export async function updateUsername(uid, username) {
+  const user = await getUserByUserId(uid);
+  if (user.length) {
+    return firebase
+      .firestore()
+      .collection("users")
+      .doc(user[0].docId)
+      .update({
+        username: username
+      });
+  }
+  toast(<p>Your username was set to <strong>{displayName}</strong>.</p>)
 }
 
 export async function deletePhoto(photoId) {
@@ -226,13 +230,24 @@ export async function deletePhoto(photoId) {
     .delete();
 }
 
-export async function createUser(userId, email) {
-  return firebase
-    .firestore()
-    .collection("users")
-    .doc(userId)
-    .set({
+export async function createOrUpdateUser(uid, email) {
+  
+  const user = await getUserByUserId(uid);
+  console.log(user)
+  if (user.length) {
+    console.log('updating user', uid)
+    return firebase.firestore().collection('users').doc(user[0].docId).update({
       emailAddress: email,
-      createdAt: new Date(),
+      updatedAt: new Date().toISOString()
     });
+  } else {
+    console.log('creating user', uid)
+    return firebase.firestore().collection('users').add({
+      userId: uid,
+      emailAddress: email,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString()
+    });
+  }
 }
+

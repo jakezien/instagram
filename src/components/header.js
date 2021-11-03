@@ -25,10 +25,9 @@ export default function Header() {
   }, [promptContext.showPrompt])
 
   useEffect(() => {
-    
+    console.log(user)
   }, [user])
 
-  console.log('user', user)
 
   return (
     <header className={styles + (promptContext.showPrompt ? ' top-16' : ' top-0')}>
@@ -82,7 +81,7 @@ export default function Header() {
                           ) : (
                             <>
                               <div className="flex flex-row">
-                                <p className="mr-4 py-2">{user.displayName}</p>
+                                {/* <p className="mr-4 py-2">{user.username}</p> */}
                                 <button
                                   id="show-edit-username-button"
                                   onClick={() => setIsUpdateProfileOpen(true)}
@@ -122,7 +121,7 @@ export default function Header() {
                       onClick={() => { setIsPopoverOpen(!isPopoverOpen); setIsUpdateProfileOpen(false) }}
                       className='cursor-pointer hover:bg-yellow-200 p-2 rounded-md'
                     >
-                      <p>{user?.displayName || 'Pick a username'}</p>
+                      <p>{user?.username || 'Pick a username'}</p>
                     </div>
                   </Popover>
                 </div>

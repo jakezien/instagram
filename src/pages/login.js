@@ -3,7 +3,7 @@ import { Link, useHistory } from "react-router-dom";
 import FirebaseContext from "../context/firebase";
 import * as ROUTES from "../constants/routes";
 import { toast } from 'react-toastify';
-import { createUser } from "../services/firebase";
+import { createOrUpdateUser } from "../services/firebase";
 
 
 
@@ -52,17 +52,16 @@ export default function Login() {
       // Get the email if available. This should be available if the user completes
       // the flow on the same device where they started it.
       var email = window.localStorage.getItem('emailForSignIn');
-      console.log('handleSignInWithLink', email, window.location.href )
       if (!email) {
         // User opened the link on a different device. To prevent session fixation
         // attacks, ask the user to provide the associated email again. For example:
-        email = window.prompt('Please confirm your email address.');
+        email = window.prompt('Please confirm your email address:');
       }
       // The client SDK will parse the code from the link for you.
       if (email) {
         firebase.auth().signInWithEmailLink(email, window.location.href)
           .then((result) => {
-            console.log('result from signInWithEmailLink', result.user, result.user ? true : false)
+            console.log('result from signInWithEmailLink', result.user)
             // Clear email from storage.
             window.localStorage.removeItem('emailForSignIn');
             // You can access the new user via result.user
@@ -71,9 +70,13 @@ export default function Login() {
             // You can check if the user is new or existing:
             // result.additionalUserInfo.isNewUser
             if (result.user) {
-              toast(`Alright, you're signed in!`)
               history.push(ROUTES.FEED)
-              createUser(result.user.uid, email)
+              if (result.additionalUserInfo.isNewUser) {
+                createOrUpdateUser(result.user.uid, email)
+                toast(`You're signed in — welcome to Jakestagram!`)
+              } else {
+                toast(`Alright, you're signed in!`)
+              }
             }
           })
           .catch((error) => {
