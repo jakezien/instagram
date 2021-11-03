@@ -12,22 +12,29 @@ export default function AddComment({
   comments,
   setComments,
   commentInput,
+  onSubmitCallback,
 }) {
   const { user: loggedInUser } = useContext(UserContext);
-  let userUsername = loggedInUser?.username
+  const [userUsername, setUserUsername] = useState(loggedInUser?.username)
   const [comment, setComment] = useState("");
   const { firebase, FieldValue } = useContext(FirebaseContext);
   
-  const [displayName, setDisplayName] = useState("");
+  const [displayName, setDisplayName] = useState(userUsername || "");
+  // console.log('userUsername', userUsername)
+  // console.log('displayname', displayName)
   const [isDisplayNameAvailable, setIsDisplayNameAvailable] = useState();
   const [isDisplayNameValid, setIsDisplayNameValid] = useState();
 
-
+  useEffect(() => {
+    if (loggedInUser?.username) {
+      setUserUsername(loggedInUser.username);
+      console.log(loggedInUser.username)
+    }
+  }, [loggedInUser]);
   // DISPLAYNAME is for comment author only
   // USERNAME is stored on the user document
 
-  const onInputChange = (e) => {
-    console.log(loggedInUser)
+  const onUsernameInputChange = (e) => {
     const value = e.target.value
     if (value.length > 0) {
       let regex = /^(?=[a-zA-Z0-9._@-]{3,20}$)(?!.*[_.]{2})[^_.].*[^_.]$/;
@@ -55,8 +62,7 @@ export default function AddComment({
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    // console.log('submit comment', displayName, comment)
-
+    // console.log("handleSubmit", loggedInUser, event.target.value);
     if (loggedInUser?.uid) {
       if (displayName) {
         if (!userUsername) {
@@ -65,6 +71,7 @@ export default function AddComment({
         }
         setComments([...comments, { displayName, comment }]);
         setComment("");
+        onSubmitCallback({ displayName, comment });
         return firebase
           .firestore()
           .collection("photos")
@@ -94,11 +101,6 @@ export default function AddComment({
 
   };
 
-  const onDisplayNameChange = (newDisplayName) => {
-    
-  }
-
-
   return (
     <div className="border rounded-lg border-gray-primary mx-auto w-11/12 md:w-full">
 
@@ -110,7 +112,7 @@ export default function AddComment({
               type="text"
               placeholder="username"
               value={displayName}
-              onChange={onInputChange}
+              onChange={onUsernameInputChange}
               className="border-b border-gray-400 p-2"
             />
             <div className="text-right p-2">

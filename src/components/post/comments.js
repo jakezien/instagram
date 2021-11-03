@@ -13,8 +13,12 @@ export default function Comments({
   const [comments, setComments] = useState(allComments);
   const [commentsSlice, setCommentsSlice] = useState(3);
 
-  const showNextComments = () => {
+  const showAllComments = () => {
     setCommentsSlice(commentsSlice + comments.length-3);
+  };
+
+  const onCommentSubmit = (comment) => {
+    showAllComments();
   };
 
   return (
@@ -32,10 +36,10 @@ export default function Comments({
           <button
             className="text-sm text-gray-base mb-1 cursor-pointer focus:outline-none"
             type="button"
-            onClick={showNextComments}
+            onClick={showAllComments}
             onKeyDown={(event) => {
               if (event.key === "Enter") {
-                showNextComments();
+                showAllComments();
               }
             }}
           >
@@ -51,6 +55,7 @@ export default function Comments({
         comments={comments}
         setComments={setComments}
         commentInput={commentInput}
+        onSubmitCallback={onCommentSubmit}
       />
     </>
   );
