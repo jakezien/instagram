@@ -207,13 +207,14 @@ export async function toggleFollow(
   );
 }
 
-export async function updateUsername(username, userId) {
+export async function updateUsername(userId, username) {
+  console.log('update username', username, userId)
   return firebase
     .firestore()
     .collection("users")
     .doc(userId)
     .update({
-      username,
+      displayName: username
     });
 }
 
@@ -223,4 +224,15 @@ export async function deletePhoto(photoId) {
     .collection("photos")
     .doc(photoId)
     .delete();
+}
+
+export async function createUser(userId, email) {
+  return firebase
+    .firestore()
+    .collection("users")
+    .doc(userId)
+    .set({
+      emailAddress: email,
+      createdAt: new Date(),
+    });
 }

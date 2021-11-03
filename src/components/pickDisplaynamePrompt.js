@@ -22,9 +22,9 @@ export default function PickDisplayNamePrompt({comment, callback}) {
       } else {
         // valid display name
         setIsDisplayNameValid(true)
+        setDisplayName(value)
         doesUsernameExist(value).then((doesExist) => {
           setIsDisplayNameAvailable(!doesExist);
-          setDisplayName(value)
         });
       }
     } else {
@@ -45,12 +45,19 @@ export default function PickDisplayNamePrompt({comment, callback}) {
   }, [displayName, isDisplayNameAvailable, isDisplayNameValid])
 
   return (
-    <div className="px-4 py-2">
-      <p className="text-gray-800">Before you comment, please pick a username:</p>
-      <div className="flex">
-        <input type="text" placeholder="username" value={displayName} onChange={onInputChange} />
-        <div className="text-right">
-          {isDisplayNameValid === false && <p className="text-red-800">Hmm, you used a character that's not allowed</p>}
+    <div className="px-4 py-2 bg-yellow-100 m-2 rounded-lg text-gray-500">
+      <p className="text-gray-800"><strong>Before you comment, please pick a username:</strong></p>
+      <div className="flex py-2">
+        <input
+          type="text"
+          placeholder="username"
+          value={displayName}
+          onChange={onInputChange}
+          className="border-b border-gray-400 p-2"
+        />
+        <div className="text-right p-2">
+          {displayName.length > 0 && displayName.length < 3 && <p className="text-gray-500">It's gotta be at least 3 characters</p>}
+          {displayName.length > 2 && isDisplayNameValid === false && <p className="text-red-800">Looks like something's not formatted correctly</p>}
           {(displayName?.length > 2) && isDisplayNameValid && (isDisplayNameAvailable ?
             <span className="text-gray-500"><span className="text-green-600">{displayName}</span> is available</span>
             : <span className="text-gray-500"><span className="text-red-800">{displayName}</span> isn't available :(</span>

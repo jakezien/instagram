@@ -3,6 +3,7 @@ import { Link, useHistory } from "react-router-dom";
 import FirebaseContext from "../context/firebase";
 import * as ROUTES from "../constants/routes";
 import { toast } from 'react-toastify';
+import { createUser } from "../services/firebase";
 
 
 
@@ -42,6 +43,7 @@ export default function Login() {
 
 
   const handleSignInWithLink = async (event) => {
+
     // Confirm the link is a sign-in with email link.
     if (firebase.auth().isSignInWithEmailLink(window.location.href)) {
       // Additional state parameters can also be passed via URL.
@@ -71,6 +73,7 @@ export default function Login() {
             if (result.user) {
               toast(`Alright, you're signed in!`)
               history.push(ROUTES.FEED)
+              createUser(result.user.uid, email)
             }
           })
           .catch((error) => {
