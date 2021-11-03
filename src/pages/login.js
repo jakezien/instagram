@@ -20,9 +20,9 @@ export default function Login() {
 
   const handleSendEmail = async (event) => {
     event.preventDefault();
-
+    console.log(window.location.protocol + '//' + window.location.host + ROUTES.SIGN_IN_EMAIL)
     var actionCodeSettings = {
-      url: 'https://jakestagram.com' + ROUTES.LOGIN,
+      url: window.location.protocol + '//' + window.location.host + ROUTES.SIGN_IN_EMAIL,
       // This must be true.
       handleCodeInApp: true
     };
@@ -39,66 +39,9 @@ export default function Login() {
       setError(error.message);
     }
   }
-
-
-
-  const handleSignInWithLink = async (event) => {
-
-    // Confirm the link is a sign-in with email link.
-    if (firebase.auth().isSignInWithEmailLink(window.location.href)) {
-      // Additional state parameters can also be passed via URL.
-      // This can be used to continue the user's intended action before triggering
-      // the sign-in operation.
-      // Get the email if available. This should be available if the user completes
-      // the flow on the same device where they started it.
-      var email = window.localStorage.getItem('emailForSignIn');
-      if (!email) {
-        // User opened the link on a different device. To prevent session fixation
-        // attacks, ask the user to provide the associated email again. For example:
-        email = window.prompt('Please confirm your email address:');
-      }
-      // The client SDK will parse the code from the link for you.
-      if (email) {
-        firebase.auth().signInWithEmailLink(email, window.location.href)
-          .then((result) => {
-            console.log('result from signInWithEmailLink', result.user)
-            // Clear email from storage.
-            window.localStorage.removeItem('emailForSignIn');
-            // You can access the new user via result.user
-            // Additional user info profile not available via:
-            // result.additionalUserInfo.profile == null
-            // You can check if the user is new or existing:
-            // result.additionalUserInfo.isNewUser
-            if (result.user) {
-              history.push(ROUTES.FEED)
-              if (result.additionalUserInfo.isNewUser) {
-                createOrUpdateUser(result.user.uid, email)
-                toast(`You're signed in — welcome to Jakestagram!`)
-              } else {
-                toast(`Alright, you're signed in!`)
-              }
-            }
-          })
-          .catch((error) => {
-            setEmailAddress("");
-            setError(error.message);
-            // Some error occurred, you can inspect the code: error.code
-            // Common errors could be invalid email and invalid or expired OTPs.
-          });
-      }
-    }
-  }
-
-  const onSignInWithInstagramButtonClick = () => {
-    // Open the Auth flow in a popup.
-    window.open('/.netlify/functions/instagram-redirect', 'Sign In With Instagram', 'height=315,width=800');
-  };
-
  
   useEffect(() => {
     document.title = "Sign In to Jakestagram";
-    handleSignInWithLink()
-    // fetchData()
   }, []);
   
 
@@ -121,7 +64,7 @@ export default function Login() {
               />
             </h1>
 
-            <p className="text-center text-sm mb-2">Sign in with a magic passwordless link</p>
+            <p className="text-center text-sm mb-3">Sign in with a magic passwordless link</p>
             {error && <p className="mb-4 text-xs text-red-primary">{error}</p>}
             {success && <p className="mb-2 text-m text-white bg-green-500 text-center rounded px-1 py-1">{success}</p>}
             <form onSubmit={handleSendEmail} method="POST">

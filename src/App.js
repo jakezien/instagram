@@ -15,6 +15,7 @@ const Feed = lazy(() => import("./pages/feed"));
 const Profile = lazy(() => import("./pages/profile"));
 const NotFound = lazy(() => import("./pages/not-found"));
 const AddPhoto = lazy(() => import("./pages/add-photo"));
+const SignInEmail = lazy(() => import("./pages/sign-in-email"));
 
 
 export default function App() {
@@ -33,6 +34,7 @@ export default function App() {
               <Route path={ROUTES.PROFILE} component={Profile} />
               <Route path={ROUTES.DASHBOARD} component={Dashboard} />
               <Route path={ROUTES.ADD_PHOTO} component={AddPhoto} />
+              <Route path={ROUTES.SIGN_IN_EMAIL} component={SignInEmail} />
               <Route path={ROUTES.FEED} component={Feed} />
               <Route component={NotFound} />
             </Switch>

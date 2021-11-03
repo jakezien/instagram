@@ -5,8 +5,10 @@
   - [X] success message
 - [x] prompt email users to add username
 - [X] user's liked photos not loading correctly
+- [ ] update edit username popup
 - [ ] dopamine 
 - [ ] screed
+- [ ] mobile check
 - [ ] styling
 
 # launch
