@@ -1,6 +1,6 @@
 - [ ] smooth out login flow
-  - [ ] redirects could be better
-  - [ ] new callback pages?
+  - [x] redirects could be better
+  - [x] new callback pages?
   - ~~ [ ] popup window?~~ killed ig login
   - [X] success message
 - [x] prompt email users to add username
