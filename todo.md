@@ -3,11 +3,11 @@
   - [ ] new callback pages?
   - ~~ [ ] popup window?~~ killed ig login
   - [X] success message
-- [ ] prompt email users to add username
+- [x] prompt email users to add username
 - [X] user's liked photos not loading correctly
-- [ ] styling
 - [ ] dopamine 
 - [ ] screed
+- [ ] styling
 
 # launch
 - [ ] db rules

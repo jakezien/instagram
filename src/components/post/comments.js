@@ -26,9 +26,7 @@ export default function Comments({
       <div className="p-4 pt-1 pb-4">
         {comments.slice(0, commentsSlice).map((item) => (
           <p key={`${item.comment}-${item.displayName}`} className="mb-1">
-            <Link to={`/p/${item.displayName}`}>
-              <span className="mr-1 font-bold">{item.displayName}</span>
-            </Link>
+            <span className="mr-1 font-bold">{item.displayName}</span>
             <span>{item.comment}</span>
           </p>
         ))}
