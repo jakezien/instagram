@@ -7,6 +7,15 @@ export default function useAuthListener() {
   );
   const { firebase } = useContext(FirebaseContext);
 
+  const updateUserDisplayName = (displayName) => {
+
+    const newUser = JSON.parse(JSON.stringify(user));
+    newUser.displayName = displayName;
+    console.log(newUser)
+    setUser(newUser);
+    // localStorage.setItem("authUser", JSON.stringify(newUser));
+  };
+
   useEffect(() => {
     const listener = firebase.auth().onAuthStateChanged((authUser) => {
       if (authUser) {
@@ -34,6 +43,15 @@ export default function useAuthListener() {
 
     return () => listener();
   }, [firebase]);
+
+  useEffect(() => {
+    firebase.firestore().collection("users").doc(user?.uid)
+      .onSnapshot((doc) => {
+        if (doc.data() && doc.data().displayName) {
+          updateUserDisplayName(doc.data().displayName);
+        }
+    });
+  }, []);
 
   return { user };
 }
