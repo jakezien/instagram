@@ -60,6 +60,8 @@ export default function AddComment({
           .doc(docId)
           .update({
             comments: FieldValue.arrayUnion({ displayName:username, comment }),
+          }).then(() => {
+            toast("Comment posted!");
           });
       } else {
         console.log('no username')

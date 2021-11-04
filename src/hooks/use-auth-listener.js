@@ -16,10 +16,10 @@ export default function useAuthListener() {
         // Is this user an admin?
         let isAdmin = await firebase.auth().currentUser?.getIdTokenResult()
           .then((idTokenResult) => {
-            console.log("idTokenResult", idTokenResult);
+            // console.log("idTokenResult", idTokenResult);
             if (!!idTokenResult.claims.admin) {
               authUser.isAdmin = true;
-              console.log("isAdmin true", authUser.isAdmin);
+              // console.log("isAdmin true", authUser.isAdmin);
             }
           })
           .catch((error) => {
@@ -29,7 +29,7 @@ export default function useAuthListener() {
         // If the user has no docId, wait for one to be assigned
         let dbUser = await getUserByUserId(authUser.uid)
 
-        console.log("dbUser", dbUser);
+        // console.log("dbUser", dbUser);
         while (!dbUser[0]?.docId) {
           console.log('while')
           dbUser = await getUserByUserId(authUser.uid)
@@ -39,7 +39,7 @@ export default function useAuthListener() {
         authUser.docId = dbUser[0].docId;
         authUser.username = dbUser[0].username;
         localStorage.setItem("authUser", JSON.stringify(authUser));
-        console.log('localstorage set authUser:', authUser)
+        // console.log('localstorage set authUser:', authUser)
         setUser(authUser);
       } else {
         // console.log('no authUser :(', authUser)
@@ -59,7 +59,7 @@ export default function useAuthListener() {
       firebase.firestore().collection("users").doc(user.docId)
         // watch for changes to the user's username
         .onSnapshot((doc) => {
-          console.log('user changed', doc.data())
+          // console.log('user changed', doc.data())
           if (doc.data() && doc.data().username) {
             if (lastUsername !== doc.data().username) {
               lastUsername = doc.data().username
@@ -71,11 +71,11 @@ export default function useAuthListener() {
   }, [user]);
 
   const updateUserUserName = (username) => {
-    console.log("update username", user, username);
+    // console.log("update username", user, username);
     // setUser({...user, username: doc.data().username})
     const newUser = JSON.parse(JSON.stringify(user));
     newUser.username = username;
-    console.log('newUser', newUser)
+    // console.log('newUser', newUser)
     setUser(newUser);
     localStorage.setItem("authUser", JSON.stringify(newUser));
   };
