@@ -70,7 +70,7 @@ export default function Actions({
             tabIndex={0}
             className={`w-8 mr-4 select-none cursor-pointer focus:outline-none ${
               toggleLiked ? "fill-red-500 text-red-600" : "text-black-light"
-            }`}
+            } dark:text-gray-300`}
           >
             <path
               strokeLinecap="round"
@@ -86,7 +86,7 @@ export default function Actions({
                 handleFocus();
               }
             }}
-            className="w-8 text-black-light select-none cursor-pointer focus:outline-none"
+            className="w-8 text-black-light select-none cursor-pointer focus:outline-none dark:text-gray-300"
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"

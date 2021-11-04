@@ -1,5 +1,6 @@
 module.exports = {
   // mode: 'jit',
+  darkMode: 'media',
   future: {
     removeDeprecatedGapUtilities: true
   },
@@ -15,6 +16,7 @@ module.exports = {
           medium: '#005c98'
         },
         black: {
+          DEFAULT: '#000000',
           light: '#262626',
           faded: '#00000059'
         },
@@ -47,7 +49,8 @@ module.exports = {
     extend: {
       display: ['group-hover'],
       opacity: ['disabled'],
-      cursor: ['disabled']
+      cursor: ['disabled'],
+      backgroundColor: ['disabled']
     }
   }
 } 

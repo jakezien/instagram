@@ -46,7 +46,7 @@ export default function Comments({
             More comments
           </button>
         )}
-        <p className="text-gray-base text-xs mt-2 ">
+        <p className="text-gray-base text-xs mt-2 dark:text-gray-400">
           {formatDistance(posted, new Date())} ago
         </p>
       </div>
