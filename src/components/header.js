@@ -25,7 +25,7 @@ export default function Header() {
   }, [promptContext.showPrompt])
 
   useEffect(() => {
-    // console.log(user)
+    console.log(user)
   }, [user])
 
 
