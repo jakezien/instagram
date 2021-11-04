@@ -7,6 +7,9 @@
 - [x] user's liked photos not loading correctly
 - [x] update edit username popup
 - [x] username not updated after setting it on first login
+- [ ] confirm image uploaded
+- [ ] confirm comment posted
+- [ ] night mode
 - [ ] dopamine
 - [ ] screed
 - [ ] pagination
