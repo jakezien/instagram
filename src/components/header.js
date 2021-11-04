@@ -75,17 +75,15 @@ export default function Header() {
                     content={
                       <div className="bg-white px-4 py-4 shadow-lg rounded-md">
                         {isUpdateProfileOpen ? (
-
                             <UpdateProfile />
-                          
                           ) : (
                             <>
                               <div className="flex flex-row">
-                                {/* <p className="mr-4 py-2">{user.username}</p> */}
+                                
                                 <button
                                   id="show-edit-username-button"
                                   onClick={() => setIsUpdateProfileOpen(true)}
-                                  className="text-gray-500 px-2 py-2 rounded-md hover:bg-yellow-200"
+                                  className="px-2 py-2 rounded-md hover:bg-yellow-200"
                                 >
                                   Edit your username
                                 </button>

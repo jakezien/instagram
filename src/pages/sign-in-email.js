@@ -5,8 +5,6 @@ import * as ROUTES from "../constants/routes";
 import { toast } from 'react-toastify';
 import { createOrUpdateUser } from "../services/firebase";
 
-
-
 export default function SignInEmail() {
   const history = useHistory();
   const { firebase } = useContext(FirebaseContext);
@@ -47,8 +45,14 @@ export default function SignInEmail() {
             if (result.user) {
               history.push(ROUTES.FEED)
               if (result.additionalUserInfo.isNewUser) {
+                console.log('creating user', result.user.uid, email)
                 createOrUpdateUser(result.user.uid, email)
-                toast(`You're signed in — welcome to Jakestagram!`)
+                toast(
+                  <div className="text-center">
+                    <p><strong>You're signed in</strong></p>
+                    <p>Welcome to Jakestagram!</p>
+                  </div>
+                )
               } else {
                 toast(`Alright, you're signed in!`)
               }

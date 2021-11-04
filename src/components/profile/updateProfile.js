@@ -1,35 +1,34 @@
 import { useState, useContext } from "react"
 import UserContext from "../../context/user";
-import FirebaseContext from "../../context/firebase";
 import { updateUsername } from "../../services/firebase";
+import UsernameInput from "../usernameInput";
+import { toast } from "react-toastify";
 
 export default function UpdateProfile() {
-  const { user: loggedInUser } = useContext(UserContext);
-  const [displayName, setDisplayName] = useState(loggedInUser?.displayName)
-  const isInvalid = (!displayName || displayName === "");
-  const { firebase } = useContext(FirebaseContext);
+  const { user } = useContext(UserContext);
+  const [username, setUsername]  = useState()
+  const [isUsernameValid, setIsUsernameValid]  = useState()
+  const [isUsernameAvailable, setIsUsernameAvailable]  = useState()
+
+  function onUsernameInputChange(e) {
+    setUsername(e.username)
+    setIsUsernameValid(e.isUsernameValid)
+    setIsUsernameAvailable(e.isUsernameAvailable)
+  }
 
   function updateProfile() {
-    console.log('update Profile', displayName)
-    updateUsername(loggedInUser.uid, displayName)
+    updateUsername(user.uid, username)
   }
 
   return (
     <>
-      { loggedInUser && (
+      { user && (
         <div>
-          <input
-            aria-label="Username"
-            type="text"
-            placeholder="Username"
-            className="text-m text-gray-base w-full mr-3 py-5 px-4 h-2 border border-gray-primary rounded mb-2"
-            onChange={({ target }) => setDisplayName(target.value)}
-            value={displayName}
-          />
+          <UsernameInput callback={onUsernameInputChange}/>
           <button
-            disabled={isInvalid}
+            disabled={!isUsernameValid || !isUsernameAvailable}
             type="submit"
-            className={`bg-yellow-primary text-white w-full rounded h-10 font-bold ${isInvalid && "opacity-50"}`}
+            className={`bg-yellow-primary text-white w-full rounded h-10 font-bold disabled:cursor-pointer disabled:opacity-30`}
             onClick={updateProfile}
           >
             Save

@@ -40,13 +40,13 @@ export default function App() {
             </Switch>
             <ToastContainer
               position="top-center"
-              autoClose={5000}
+              autoClose={3500}
               hideProgressBar
               newestOnTop={false}
               closeOnClick
               rtl={false}
-              pauseOnFocusLoss
-              draggable
+              pauseOnFocusLoss={false}
+              draggable={false}
               pauseOnHover
             />
           </SignInPromptContextProvider>

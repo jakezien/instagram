@@ -2,10 +2,9 @@ import { useState, useContext, useEffect } from "react";
 import PropTypes from "prop-types";
 import FirebaseContext from "../../context/firebase";
 import UserContext from "../../context/user";
-import useUser from "../../hooks/use-user";
 import { toast } from "react-toastify";
-import PickDisplayNamePrompt from "../pickDisplaynamePrompt";
-import { updateUsername, doesUsernameExist } from "../../services/firebase";
+import { updateUsername } from "../../services/firebase";
+import UsernameInput from "../usernameInput";
 
 export default function AddComment({
   docId,
@@ -14,89 +13,66 @@ export default function AddComment({
   commentInput,
   onSubmitCallback,
 }) {
-  const { user: loggedInUser } = useContext(UserContext);
-  const [userUsername, setUserUsername] = useState(loggedInUser?.username)
-  const [comment, setComment] = useState("");
-  const { firebase, FieldValue } = useContext(FirebaseContext);
-  
-  const [displayName, setDisplayName] = useState(userUsername || "");
-  // console.log('userUsername', userUsername)
-  // console.log('displayname', displayName)
-  const [isDisplayNameAvailable, setIsDisplayNameAvailable] = useState();
-  const [isDisplayNameValid, setIsDisplayNameValid] = useState();
 
-  useEffect(() => {
-    if (loggedInUser?.username) {
-      setUserUsername(loggedInUser.username);
-      console.log(loggedInUser.username)
-    }
-  }, [loggedInUser]);
-  // DISPLAYNAME is for comment author only
+  const { firebase, FieldValue } = useContext(FirebaseContext);  
+  const { user } = useContext(UserContext);
+  const [comment, setComment] = useState("");
+  const [username, setUsername]  = useState(user?.username || null)
+  const [isUsernameValid, setIsUsernameValid]  = useState()
+  const [isUsernameAvailable, setIsUsernameAvailable]  = useState()
+  
+  // DISPLAYNAME is stored only on the comment for author label
   // USERNAME is stored on the user document
 
   const onUsernameInputChange = (e) => {
-    const value = e.target.value
-    if (value.length > 0) {
-      let regex = /^(?=[a-zA-Z0-9._@-]{3,20}$)(?!.*[_.]{2})[^_.].*[^_.]$/;
-      
-      if (value < 3 || !value.match(regex)) {
-        // invalid display name
-        setIsDisplayNameValid(false)
-        setDisplayName(value)
-      } else {
-        // valid display name
-        setIsDisplayNameValid(true)
-        setDisplayName(value)
-        doesUsernameExist(value).then((doesExist) => {
-          setIsDisplayNameAvailable(!doesExist);
-        });
-      }
-    } else {
-      // no display name
-      setDisplayName("");
-      setIsDisplayNameAvailable(null);
-      setIsDisplayNameValid(null);
-    }
-
+    // console.log(e)
+    setUsername(e.username)
+    setIsUsernameValid(e.isUsernameValid)
+    setIsUsernameAvailable(e.isUsernameAvailable)
   }
+
+  useEffect(() => {
+    console.log(user)
+    if (user?.username) {
+      console.log('set username', user.username)
+      setUsername(user.username)
+    }
+  }, [user])
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    // console.log("handleSubmit", loggedInUser, event.target.value);
-    if (loggedInUser?.uid) {
-      if (displayName) {
-        if (!userUsername) {
+    console.log("handleSubmit", username, comment, user );
+    if (user?.uid) {
+      if (username?.length) {
+        if (!user?.username?.length) {
           // set user username if they don't have one
-          updateUsername(loggedInUser.uid, displayName)
+          updateUsername(user.uid, username)
         }
-        setComments([...comments, { displayName, comment }]);
+        if (comments) {
+          console.log("comments", comments);
+          setComments([...comments, { displayName:username, comment }]);
+        }
         setComment("");
-        onSubmitCallback({ displayName, comment });
+        onSubmitCallback({ displayName:username, comment });
         return firebase
           .firestore()
           .collection("photos")
           .doc(docId)
           .update({
-            comments: FieldValue.arrayUnion({ displayName, comment }),
+            comments: FieldValue.arrayUnion({ displayName:username, comment }),
           });
       } else {
+        console.log('no username')
         // No username
-
       }
     } else {
       // No user logged in
-      toast(<div className="text-center">
-        <strong>Sign in to like and comment.</strong>
-        <p>Sign in with one click — no need to make an account :)</p>
-      </div>, {
-        position: "top-center",
-        autoClose: 3500,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
+      toast(
+        <div className="text-center">
+          <strong>Sign in to like and comment.</strong>
+          <p>Sign in with one click — no need to make an account :)</p>
+        </div>
+      );
     }
 
   };
@@ -104,27 +80,11 @@ export default function AddComment({
   return (
     <div className="border rounded-lg border-gray-primary mx-auto w-11/12 md:w-full">
 
-      {(comment.length > 0 && loggedInUser && !userUsername) && (
+      {(comment.length > 0 && user && !user?.username) && (
         <div className="px-4 py-2 bg-yellow-100 m-2 rounded-lg text-gray-500">
           <p className="text-gray-800"><strong>Before you comment, please pick a username:</strong></p>
-          <div className="flex py-2">
-            <input
-              type="text"
-              placeholder="username"
-              value={displayName}
-              onChange={onUsernameInputChange}
-              className="border-b border-gray-400 p-2"
-            />
-            <div className="text-right p-2">
-              {displayName.length > 0 && displayName.length < 3 && <p className="text-gray-500">It's gotta be at least 3 characters</p>}
-              {displayName.length > 2 && isDisplayNameValid === false && <p className="text-red-800">Looks like something's not formatted correctly</p>}
-              {(displayName?.length > 2) && isDisplayNameValid && (isDisplayNameAvailable ?
-                <span className="text-gray-500"><span className="text-green-600">{displayName}</span> is available</span>
-                : <span className="text-gray-500"><span className="text-red-800">{displayName}</span> isn't available :(</span>
-              )}
-            </div>
-          </div>
-        </div>
+          <UsernameInput callback={onUsernameInputChange}/>
+        </div>  
       )}
 
       <form
@@ -145,13 +105,13 @@ export default function AddComment({
           name="add-comment"
           placeholder="Add a comment..."
           value={comment}
-          onChange={({ target }) => { console.log(userUsername); setComment(target.value)}}
+          onChange={({ target }) => { console.log(username);setComment(target.value)}}
           ref={commentInput}
         />
         <button
           className={`text-sm font-bold text-blue-medium disabled:opacity-30 disabled:cursor-default `}
           type="button"
-          disabled={(comment.length < 1 || (!userUsername && !isDisplayNameValid) || (!userUsername && !isDisplayNameAvailable))}
+          disabled={(comment.length < 1 || (!user?.username && !isUsernameValid) || (!user?.username && !isUsernameAvailable))}
           onClick={handleSubmit}
         >
           Post

@@ -10,11 +10,13 @@ export default function Comments({
   posted,
   commentInput,
 }) {
-  const [comments, setComments] = useState(allComments);
+  const [comments, setComments] = useState(allComments || null);
   const [commentsSlice, setCommentsSlice] = useState(3);
 
   const showAllComments = () => {
-    setCommentsSlice(commentsSlice + comments.length-3);
+    if (comments) {
+      setCommentsSlice(comments.length+1);
+    }
   };
 
   const onCommentSubmit = (comment) => {
@@ -24,13 +26,13 @@ export default function Comments({
   return (
     <>
       <div className="p-4 pt-1 pb-4">
-        {comments.slice(0, commentsSlice).map((item) => (
+        {comments?.slice(0, commentsSlice).map((item) => (
           <p key={`${item.comment}-${item.displayName}`} className="mb-1">
             <span className="mr-1 font-bold">{item.displayName}</span>
             <span>{item.comment}</span>
           </p>
         ))}
-        {comments.length >= 3 && commentsSlice < comments.length && (
+        {comments?.length >= 3 && commentsSlice < comments.length && (
           <button
             className="text-sm text-gray-base mb-1 cursor-pointer focus:outline-none"
             type="button"

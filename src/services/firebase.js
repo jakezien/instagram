@@ -211,15 +211,17 @@ export async function toggleFollow(
 export async function updateUsername(uid, username) {
   const user = await getUserByUserId(uid);
   if (user.length) {
+    console.log(username, user)
     return firebase
       .firestore()
       .collection("users")
       .doc(user[0].docId)
       .update({
         username: username
+      }).then(() => {
+        toast(<p>Your username was set to <strong>{username}</strong>.</p>)
       });
   }
-  toast(<p>Your username was set to <strong>{displayName}</strong>.</p>)
 }
 
 export async function deletePhoto(photoId) {
@@ -242,12 +244,17 @@ export async function createOrUpdateUser(uid, email) {
     });
   } else {
     console.log('creating user', uid)
-    return firebase.firestore().collection('users').add({
+    const doc = await firebase.firestore().collection('users').add({
       userId: uid,
       emailAddress: email,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString()
-    });
+    })
+    if (doc) {
+      doc.update({
+        docId: doc.id
+      }).then(console.log('updated with docId', doc.id))
+    }
   }
 }
 
