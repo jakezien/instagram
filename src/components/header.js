@@ -86,7 +86,7 @@ export default function Header() {
                     isOpen={isPopoverOpen}
                     positions={['bottom']} 
                     content={
-                      <div className="bg-white px-4 py-4 shadow-lg rounded-md dark:bg-black">
+                      <div className="bg-white bg-opacity-70 px-4 py-4 shadow-lg rounded-md dark:bg-black-light backdrop-filter backdrop-blur-lg">
                         {isUpdateProfileOpen ? (
                             <UpdateProfile />
                           ) : (

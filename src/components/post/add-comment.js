@@ -83,7 +83,7 @@ export default function AddComment({
     <div className="border rounded-lg border-gray-primary mx-auto w-11/12 md:w-full dark:border-gray-600">
 
       {(comment.length > 0 && user && !user?.username) && (
-        <div className="px-4 py-2 bg-yellow-100 m-2 rounded-lg text-gray-500">
+        <div className="px-4 py-2 bg-yellow-100 m-2 rounded-lg text-gray-500 dark:bg-yellow-800 dark:text-gray-300">
           <p className="text-gray-800"><strong>Before you comment, please pick a username:</strong></p>
           <UsernameInput callback={onUsernameInputChange}/>
         </div>  
@@ -111,7 +111,7 @@ export default function AddComment({
           ref={commentInput}
         />
         <button
-          className={`text-sm font-bold px-6 my-2 mr-2 rounded-md bg-yellow-400 dark:bg-yellow-500 disabled:bg-gray-300 disabled:opacity-30 disabled:cursor-default hover:bg-yellow-300 dark:hover:bg-yellow-400`}
+          className={`text-sm font-bold px-4 md:px-6 my-2 mr-2 rounded-md bg-yellow-400 dark:bg-yellow-500 disabled:bg-gray-300 dark:disabled:bg-gray-600 disabled:opacity-30 disabled:cursor-default hover:bg-yellow-300 dark:hover:bg-yellow-400`}
           type="button"
           disabled={(comment.length < 1 || (!user?.username && !isUsernameValid) || (!user?.username && !isUsernameAvailable))}
           onClick={handleSubmit}

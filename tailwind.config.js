@@ -50,7 +50,8 @@ module.exports = {
       display: ['group-hover'],
       opacity: ['disabled'],
       cursor: ['disabled'],
-      backgroundColor: ['disabled']
+      backgroundColor: ['disabled'],
+      backgroundOpacity: ['dark']
     }
   }
 } 

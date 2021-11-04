@@ -66,15 +66,26 @@ export default function Edit({content}) {
           <Popover
             isOpen={isPopoverOpen}
             positions={['bottom']}
-            onClickOutside={(e) => { if (e.target.id != 'show-edit-post-button' || 'show-delete-post-button') setIsPopoverOpen(false) }}
+            onClickOutside={(e) => {
+              if (e.target.id != 'show-edit-post-button' || 'show-delete-post-button') {
+                setIsPopoverOpen(false)
+                setIsDeletePostOpen(false)
+              }
+            }}
             content={
-              <div className="bg-white px-4 py-4 shadow-lg rounded-md">
-                <input type="text" value={newCaption} onChange={onCaptionChange}/>
+              <div className="bg-white bg-opacity-70 px-4 py-4 shadow-lg rounded-md dark:bg-black-light backdrop-filter backdrop-blur-lg">
+                <input
+                  type="text"
+                  value={newCaption}
+                  onChange={onCaptionChange}
+                  className="bg-gray-500 dark:bg-black bg-opacity-30 px-2 py-3 rounded-md text-black-light dark:text-gray-300 text-lg w-full"
+                />
                 <button
                   type="button"
                   title="Edit post"
-                  onClick={() => {}}
-                  className="py-2 mt-2 bg-white w-full rounded-md hover:bg-yellow-200"
+                  onClick={() => { }}
+                  disabled={!newCaption?.length}
+                  className="py-2 mt-2 bg-transparent w-full rounded-md hover:bg-yellow-200 dark:text-gray-300 dark:hover:bg-opacity-20 dark:hover:bg-white disabled:opacity-30"
                   id="show-edit-post-button"
                 >
                   Update post
@@ -82,18 +93,18 @@ export default function Edit({content}) {
                 {isDeletePostOpen ? (
                   <button
                     type="button"
-                    title="Edit post"
+                    title="Confirm delete post"
                     onClick={deletePost}
-                    className="py-2 mt-2 w-full rounded-md bg-red-300 text-red-900 hover:bg-red-400"
+                    className="py-2 mt-2 w-full rounded-md bg-red-300 text-red-900 hover:bg-red-400 dark:text-gray-300 dark:bg-red-900 dark:bg-opacity-80 dark:hover:bg-red-800"
                   >
                     Delete post for real
                   </button>                  
                 ) : (
                   <button
                     type="button"
-                    title="Edit post"
+                    title="Delete post"
                     onClick={() => setIsDeletePostOpen(true)}
-                    className="py-2 mt-2 w-full rounded-md hover:bg-red-200"
+                    className="py-2 mt-2 w-full rounded-md hover:bg-red-200 dark:text-gray-300 dark:hover:bg-red-900 dark:hover:bg-opacity-30"
                     id="show-delete-post-button"
                   >
                     Delete post
@@ -105,9 +116,9 @@ export default function Edit({content}) {
           >
             <button
               onClick={() => setIsPopoverOpen(!isPopoverOpen)}
-              className={'h-8 px-3 rounded-md hover:bg-yellow-200'}
+              className={'h-10 px-2 rounded-md hover:bg-yellow-200 font-bold text-2xl dark:hover:bg-yellow-900'}
             >
-              …
+              ⋯
             </button>
           </Popover>
       )}
