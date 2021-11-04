@@ -56,7 +56,7 @@ export default function Actions({
     <>
       <div className="flex justify-between p-4">
         <div className="flex h-10">
-          <svg
+          {/* <svg
             onClick={handleToggleLiked}
             onKeyDown={(event) => {
               if (event.key === "Enter") {
@@ -78,7 +78,74 @@ export default function Actions({
               strokeWidth={2}
               d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
             />
-          </svg>
+          </svg> */}
+          <div className={`px-2 py-1 ${toggleLiked && 'bg-yellow-500'} text-center rounded-lg mr-4`}>
+            <svg
+              viewBox="0 0 44 24" 
+              xmlns="http://www.w3.org/2000/svg" 
+              style={{
+                fillRule: 'evenodd',
+                clipRule: 'evenodd',
+                strokeLinecap: 'round',
+                strokeLinejoin: 'round',
+                strokeMiterlimit: 1.5
+              }}
+              onClick={handleToggleLiked}
+              onKeyDown={(event) => {
+                if (event.key === "Enter") {
+                  handleToggleLiked();
+                }
+              }}
+              stroke="currentColor"
+              tabIndex={0}
+              className={`w-14 h-8 p-0 m-0 select-none cursor-pointer focus:outline-none ${
+                toggleLiked ? "bg-yellow-500 text-white" : "text-black-light"
+              } dark:text-gray-300`}
+            >
+              <g><g>
+                <path d="M17.767,3.23l7.506,4.333l0,8.668l-7.506,4.333l-7.506,-4.333l0,-8.668l7.506,-4.333Z" style={{
+                  fill:'none',
+                  strokeWidth:'2.25px'
+                }}/>
+                <path d="M21.629,14.304l0,-4.814" style={{
+                  fill:'none',
+                  strokeWidth:'2.25px'
+                }}/>
+                <path d="M13.599,9.73l4.168,-2.406" style={{
+                  fill:'none',
+                  strokeWidth:'2.25px'
+                }}/>
+                <path d="M13.817,14.304l4.168,2.406" style={{
+                  fill:'none',
+                  strokeWidth:'2.25px'
+                }}/>
+                <path d="M10.261,16.231l-4.558,2.675" style={{
+                  fill:'none',
+                  strokeWidth:'2.25px'
+                }}/>
+                <path d="M10.261,7.563l-4.558,-2.675" style={{
+                  fill:'none',
+                  strokeWidth:'2.25px'
+                }}/>
+                <path d="M25.273,16.231l0,-8.668l7.506,-4.333l7.506,4.333l0,6.423" style={{
+                  fill:'none',
+                  strokeWidth:'2.25px'
+                }}/>
+                <circle cx="40.285" cy="16.231" r="2.245" style={{
+                  fill:'none',
+                  strokeWidth:'2.25px'
+                }}/>
+                <circle cx="3.765" cy="20.04" r="2.245" style={{
+                  fill:'none',
+                  strokeWidth:'2.25px'
+                }}/>
+                <circle cx="3.765" cy="3.754" r="2.245" style={{
+                  fill:'none',
+                  strokeWidth:'2.25px'
+                }} />
+              </g></g>
+            </svg>
+          </div>
           <svg
             onClick={handleFocus}
             onKeyDown={(event) => {
