@@ -32,16 +32,16 @@ export default function AddComment({
   }
 
   useEffect(() => {
-    console.log(user)
+    // console.log(user)
     if (user?.username) {
-      console.log('set username', user.username)
+      // console.log('set username', user.username)
       setUsername(user.username)
     }
   }, [user])
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log("handleSubmit", username, comment, user );
+    // console.log("handleSubmit", username, comment, user );
     if (user?.uid) {
       if (username?.length) {
         if (!user?.username?.length) {
@@ -49,7 +49,7 @@ export default function AddComment({
           updateUsername(user.uid, username)
         }
         if (comments) {
-          console.log("comments", comments);
+          // console.log("comments", comments);
           setComments([...comments, { displayName:username, comment }]);
         }
         setComment("");
@@ -105,7 +105,7 @@ export default function AddComment({
           name="add-comment"
           placeholder="Add a comment..."
           value={comment}
-          onChange={({ target }) => { console.log(username);setComment(target.value)}}
+          onChange={({ target }) => {setComment(target.value)}}
           ref={commentInput}
         />
         <button
