@@ -9,8 +9,9 @@
 - [x] username not updated after setting it on first login
 - [x] confirm image uploaded
 - [x] confirm comment posted
-- [ ] night mode
-- [ ] dopamine
+- [x] night mode
+- [x] dopamine
+- [ ] double tap
 - [ ] screed
 - [ ] pagination
 - [ ] mobile check
