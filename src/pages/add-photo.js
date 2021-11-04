@@ -5,7 +5,7 @@ import UserContext from "../context/user";
 import FirebaseContext from "../context/firebase"
 import * as ROUTES from "../constants/routes";
 import { Link, useHistory } from "react-router-dom";
-
+import { toast } from "react-toastify";
 
 export default function AddPhoto() {
   
@@ -26,22 +26,24 @@ export default function AddPhoto() {
     setCaption(e.target.value)
   }
 
-  const uploadImage = () => {
+  const uploadImage = async () => {
     const storageRef = firebase.storage().ref();
     const newImagePath = `images/${images[0].file.name}`
     const newImageRef = storageRef.child(newImagePath);
     console.log('file to upload:', newImagePath, images?.[0])
-    newImageRef.put(images[0].file).then((snapshot) => {
+    return newImageRef.put(images[0].file).then((snapshot) => {
       console.log('Uploaded', images[0].file.name);
       newImageRef.getDownloadURL().then(url => {
-        console.log('url', url)
-        addImageToDb(url, caption) 
+        addImageToDb(url, caption).then(() => {
+          toast.success("Image posted!")
+          history.push(ROUTES.FEED);
+        })
       })
     }); 
   }
 
-  const addImageToDb = (imageUrl, caption) => {
-    firebase
+  const addImageToDb = async (imageUrl, caption) => {
+    return firebase
       .firestore()
       .collection("photos")
       .add({
@@ -80,51 +82,65 @@ export default function AddPhoto() {
     <div className="bg-gray-background">
       <Header />
       <div className="mx-auto max-w-screen-lg">
-        <ImageUploading
-          value={images}
-          onChange={onChange}
-          maxNumber={maxNumber}
-          dataURLKey="data_url"
-        >
-          {({
-            imageList,
-            onImageUpload,
-            onImageRemove,
-            isDragging,
-            dragProps,
-          }) => (
-            <div className="">
-              <button
-                style={isDragging ? { color: 'blue' } : undefined}
-                onClick={onImageUpload}
-                {...dragProps}
-              >
-                Click or Drop here
-              </button>
+        <div className="flex flex-col items-center mt-32">
+          <ImageUploading
+            value={images}
+            onChange={onChange}
+            maxNumber={maxNumber}
+            dataURLKey="data_url"
+          >
+            {({
+              imageList,
+              onImageUpload,
+              onImageRemove,
+              isDragging,
+              dragProps,
+            }) => (
               <div>
-                {imageList.map((image, index) => (
-                  <div key={index} className="image-item">
-                    <img src={image['data_url']} alt="" width="100" />
-                    <div className="image-item__btn-wrapper">
-                      <button onClick={() => onImageRemove(index)}>Remove</button>
-                    </div>
+                {imageList.length ? (
+                  <div>
+                    {imageList.map((image, index) => (
+                      <div key={index} className="image-item">
+                        <div className="relative">
+                          <img src={image['data_url']} alt="" />
+                          <button
+                            onClick={() => onImageRemove(index)}
+                            className="absolute top-0 right-0 m-4 bg-white text-gray-800 bg-opacity-20 py-2 pt-1 px-4 rounded-md text-4xl backdrop-filter backdrop-blur-lg"
+                          >✕</button>
+                        </div>
+                      </div>
+                    ))}
                   </div>
-                ))}
+                ) : (
+                  <button
+                    style={isDragging ? { color: 'blue' } : undefined}
+                    onClick={onImageUpload}
+                    className="bg-yellow-500 hover:bg-yellow-400 text-white font-bold py-2 px-4 rounded-xl"
+                    {...dragProps}
+                  >
+                    Click or Drop here
+                  </button>
+                )}
               </div>
-              <div>
-              </div>
-            </div>
-
-          )}
-        </ImageUploading>
-        <label>Caption</label>
-        <input type="text" value={caption} onChange={onCaptionChange}/>
-        <button
-          className="block"
-          disabled={!images[0]}
-          onClick={uploadImage}>
-          Upload image
-        </button>
+            )}
+          </ImageUploading>
+          <div className="mt-8 w-80">
+            {/* <label className="block text-gray-500">Caption</label> */}
+            <input
+              type="text"
+              value={caption}
+              onChange={onCaptionChange}
+              placeholder="Caption"
+              className="border-b border-gray-400 py-2 w-full bg-transparent"
+            />
+          </div>
+          <button
+            className="bg-yellow-500 hover:bg-yellow-400 text-white disabled:opacity-30 font-bold py-2 px-4 rounded-xl mt-8 mb-24"
+            disabled={!images[0]}
+            onClick={uploadImage}>
+            Upload image
+          </button>
+        </div>
       </div>
     </div>
   )
