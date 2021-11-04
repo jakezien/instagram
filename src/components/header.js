@@ -8,6 +8,7 @@ import useUser from "../hooks/use-user";
 import { SignInPromptContext } from "../context/sign-in-prompt";
 import { Popover } from "react-tiny-popover"
 import UpdateProfile from "./profile/updateProfile"
+import { toast } from "react-toastify";
 
 
 export default function Header() {
@@ -111,7 +112,7 @@ export default function Header() {
                                 onKeyDown={(event) => {
                                   if (event.key === "Enter") {
                                     firebase.auth().signOut();
-                                    history.push(ROUTES.LOGIN);
+                                    toast(`You've been signed out.`)
                                   }
                                 }}
                                 className="py-2 mt-2 w-full rounded-md hover:bg-yellow-200 dark:text-gray-300 dark:hover:bg-yellow-900"
