@@ -111,7 +111,7 @@ export default function AddComment({
           ref={commentInput}
         />
         <button
-          className={`text-sm font-bold px-4 md:px-6 my-2 mr-2 rounded-md bg-yellow-400 dark:bg-yellow-500 disabled:bg-gray-300 dark:disabled:bg-gray-600 disabled:opacity-30 disabled:cursor-default hover:bg-yellow-300 dark:hover:bg-yellow-400`}
+          className={`text-sm font-bold px-4 md:px-6 my-2 mr-2 rounded-md bg-yellow-400 dark:bg-yellow-500 disabled:opacity-0 disabled:cursor-default hover:bg-yellow-300 dark:hover:bg-yellow-400`}
           type="button"
           disabled={(comment.length < 1 || (!user?.username && !isUsernameValid) || (!user?.username && !isUsernameAvailable))}
           onClick={handleSubmit}
