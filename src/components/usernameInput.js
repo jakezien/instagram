@@ -62,6 +62,8 @@ export default function UsernameInput({callback}) {
       </div>
       <input
         type="text"
+        autoCapitalize={false}
+        autoCorrect={false}
         placeholder="username"
         value={username}
         onChange={onChange}

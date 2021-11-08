@@ -20,7 +20,7 @@ export default function Header() {
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const [isUpdateProfileOpen, setIsUpdateProfileOpen] = useState(false);
 
-  let styles = "sticky h-16 mb-8 p-2 w-screen bg-white bg-opacity-90 border-b border-gray-primary backdrop-filter backdrop-blur backdrop-saturate-150 dark:bg-black dark:border-gray-900 dark:text-gray-300"
+  let styles = "sticky h-16 mb-4 p-2 w-screen bg-white bg-opacity-90 border-b border-gray-primary backdrop-filter backdrop-blur backdrop-saturate-150 dark:bg-black dark:border-gray-900 dark:text-gray-300"
   useEffect(()=> {  
     styles += promptContext.showPrompt ? ' top-15' : ' top-0'
   }, [promptContext.showPrompt])
