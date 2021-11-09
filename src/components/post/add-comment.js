@@ -59,7 +59,7 @@ export default function AddComment({
           .collection("photos")
           .doc(docId)
           .update({
-            comments: FieldValue.arrayUnion({ displayName: username, comment, createdAt: FieldValue.serverTimestamp(), uid: user.uid }),
+            comments: FieldValue.arrayUnion({ displayName: username, comment, createdAt: firebase.firestore.Timestamp.now(), uid: user.uid }),
           }).then(() => {
             toast("Comment posted!");
           });
