@@ -54,13 +54,12 @@ export default function AddComment({
         }
         setComment("");
         onSubmitCallback({ displayName: username, comment });
-        let time = firebase.firestore().Timestamp.now();
         return firebase
           .firestore()
           .collection("photos")
           .doc(docId)
           .update({
-            comments: FieldValue.arrayUnion({ displayName: username, comment, createdAt:time, uid: user.uid }),
+            comments: FieldValue.arrayUnion({ displayName: username, comment, uid: user.uid }),
           }).then(() => {
             toast("Comment posted!");
           });
